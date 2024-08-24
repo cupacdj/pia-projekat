@@ -1,0 +1,6 @@
+back:
+npm install
+npm install argon2 @types/argon2
+
+
+front:
