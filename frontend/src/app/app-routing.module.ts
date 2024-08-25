@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { VlasnikComponent } from './vlasnik/vlasnik.component';
 import { DekoraterComponent } from './dekorater/dekorater.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'vlasnik', component: VlasnikComponent},
   {path: 'dekorater', component: DekoraterComponent},
+  {path: 'login/admin', component: AdminLoginComponent},
   {path: 'admin', component: AdminComponent}
 ];
 

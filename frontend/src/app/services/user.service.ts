@@ -19,4 +19,8 @@ export class UserService {
     return this.http.post<{message:  string, user: User}>(`${this.url}/login`, data)
   }
 
+  registerUser(formData: FormData) {
+    return this.http.post<{message: string}>(`${this.url}/register`, formData);
+}
+
 }

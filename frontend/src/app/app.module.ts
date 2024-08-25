@@ -11,6 +11,7 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
 import { VlasnikComponent } from './vlasnik/vlasnik.component';
 import { DekoraterComponent } from './dekorater/dekorater.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AdminComponent } from './admin/admin.component';
     FrontpageComponent,
     VlasnikComponent,
     DekoraterComponent,
-    AdminComponent
+    AdminComponent,
+    AdminLoginComponent
   ],
   imports: [
     BrowserModule,

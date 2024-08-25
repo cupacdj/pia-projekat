@@ -1,6 +1,8 @@
 back:
 npm install
 npm install argon2 @types/argon2
+npm install multer
+npm i --save-dev @types/multer
 
 
 front:

@@ -10,4 +10,5 @@ export default class User {
     creditCard: string= "";
     type: string= "";
     picture: string= "";
+    status: string= "";
 }

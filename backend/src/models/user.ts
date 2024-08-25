@@ -1,3 +1,4 @@
+import { stat } from 'fs';
 import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
@@ -35,7 +36,12 @@ let User = new Schema({
     },
     picture: {
         type: String
-    }
+    },
+    status: {
+        type: String,
+        default: 'pending'
+    },
+    
 })
 
 export default mongoose.model('User', User, 'users');
