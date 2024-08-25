@@ -1,1 +1,12 @@
-<p>admin-login works!</p>
+<div class="admin-login-container">
+  <h2>Prijava za administratore</h2>
+  <label for="username">Korisničko ime:</label>
+  <input type="text" id="username" [(ngModel)]="username" />
+  <br>
+  <label for="password">Lozinka:</label>
+  <input type="password" id="password" [(ngModel)]="password" />
+  <br>
+  <button (click)="login()">Prijavi se</button>
+  <br>
+  <p class="error">{{error}}</p>
+</div>
