@@ -21,6 +21,11 @@ export class UserService {
 
   registerUser(formData: FormData) {
     return this.http.post<{message: string}>(`${this.url}/register`, formData);
-}
+  }
+
+  changePassword(username: string, oldPassword: string, newPassword: string) {
+    const data = {username, oldPassword, newPassword };
+    return this.http.post<{ message: string }>(`${this.url}/change-password`, data);
+  }
 
 }

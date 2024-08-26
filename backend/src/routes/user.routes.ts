@@ -25,4 +25,8 @@ userRouter.route('/register').post(
     (req, res) => new UserController().registerUser(req, res)
 );
 
+userRouter.route('/change-password').post(
+     (req, res) => new UserController().changePassword(req, res)
+);
+
 export default userRouter;

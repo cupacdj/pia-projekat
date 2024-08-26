@@ -122,4 +122,40 @@ export class UserController {
             res.json({ message: 'Problem prilikom registracije(password)' });
         });
     }
+
+    changePassword = (req: express.Request, res: express.Response) => {
+        const { username, oldPassword, newPassword } = req.body;
+
+        User.findOne(username).then(user => {
+            if (!user) {
+                return res.json({ message: 'Korisnik nije pronađen.' });
+            }
+
+            argon2.verify(user.password!, oldPassword).then(isMatch => {
+                if (!isMatch) {
+                    return res.json({ message: 'Stara lozinka nije ispravna.' });
+                }
+
+                argon2.hash(newPassword).then(hashedPassword => {
+                    user.password = hashedPassword;
+                    user.save().then(() => {
+                        res.json({ message: 'Lozinka uspešno promenjena' });
+                    }).catch(err => {
+                        console.log(err);
+                        res.json({ message: 'Greška prilikom čuvanja nove lozinke.' });
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    res.json({ message: 'Greška prilikom obrade nove lozinke.' });
+                });
+            }).catch(err => {
+                console.log(err);
+                res.json({ message: 'Greška prilikom verifikacije stare lozinke.' });
+            });
+        }).catch(err => {
+            console.log(err);
+            res.json({ message: 'Greška prilikom pronalaženja korisnika.' });
+        });
+    };
+
 };

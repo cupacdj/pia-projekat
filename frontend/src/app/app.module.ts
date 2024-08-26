@@ -14,6 +14,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { PasswordChangeComponent } from './password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     AdminComponent,
     AdminLoginComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,
