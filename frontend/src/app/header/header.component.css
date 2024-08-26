@@ -1,0 +1,34 @@
+.navbar {
+  background-color: #007bff;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box
+}
+
+.navbar-brand {
+  color: #fff; /* Bela boja za naziv aplikacije */
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.navbar-brand:hover {
+  color: #dcdcdc; /* Svetlija nijansa bele boje pri prelasku mišem */
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #fff; /* Bela boja za linkove u meniju */
+  margin-right: 15px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #dcdcdc; /* Svetlija nijansa bele boje pri prelasku mišem */
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1); /* Svetla nijansa za border toggle dugmeta */
+}
+
+
+.collapse.navbar-collapse {
+  justify-content: flex-end; /* Linkovi su poravnati desno */
+}

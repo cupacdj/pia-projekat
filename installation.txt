@@ -6,3 +6,4 @@ npm i --save-dev @types/multer
 
 
 front:
+npm install bootstrap

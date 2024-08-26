@@ -12,6 +12,8 @@ import { VlasnikComponent } from './vlasnik/vlasnik.component';
 import { DekoraterComponent } from './dekorater/dekorater.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
     VlasnikComponent,
     DekoraterComponent,
     AdminComponent,
-    AdminLoginComponent
+    AdminLoginComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
