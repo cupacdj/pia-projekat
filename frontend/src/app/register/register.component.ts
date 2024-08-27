@@ -56,6 +56,7 @@ export class RegisterComponent {
           this.errorMessage = 'Format slike mora biti JPG ili PNG.';
         } else {
           this.selectedFile = file;
+          this.picture = window.URL.createObjectURL(file);
           this.errorMessage = '';
         }
       };
@@ -66,7 +67,7 @@ export class RegisterComponent {
     const cardNumber = this.creditCard.replace(/\D/g, '');
     this.cardTypeIcon = '';
 
-    if (/^3(?:00[0-3]\d{11}|[68]\d{13})$/.test(cardNumber)) {
+    if (/^3(?:0[0-3]\d{12}|[68]\d{13})$/.test(cardNumber)) {
       this.cardTypeIcon = 'assets/diners.png';
     } else if (/^5[1-5]\d{14}$/.test(cardNumber)) {
       this.cardTypeIcon = 'assets/mastercard.png';
@@ -108,7 +109,7 @@ export class RegisterComponent {
     }
 
     this.userServis.registerUser(formData).subscribe((response) => {
-      if (response.message == 'Zahtev za registraciju je uspesno odradjen ceka se odobrenje administratora!') {
+      if (response.message == 'Zahtev za registraciju je uspešno odrađen, čeka se odobrenje administratora!') {
         this.ruter.navigate(['/login']);
       } else {
         this.errorMessage = response.message;

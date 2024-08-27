@@ -25,13 +25,14 @@ export class AdminLoginComponent {
       this.userService.login(this.username, this.password).subscribe((response: {message: string, user: User}) => {
         if (response.user && response.user.type == 'admin') {
           if (response.message == 'Login uspešan') {
-            localStorage.setItem("ulogovan", response.user.username);
+            localStorage.setItem("admin", response.user.username);
             this.router.navigate(['/admin']);
           } else {
             this.error = response.message;
           }
         } else {
-          this.error = 'Niste autorizovani kao administrator.';
+          this.error = response.message;
+          //this.error = 'Niste autorizovani kao administrator.';
         }
       });
     }

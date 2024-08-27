@@ -10,5 +10,6 @@ export default class User {
     creditCard: string= "";
     type: string= "";
     picture: string= "";
-    status: string= "";
+    status: string= ""; //pending, approved, denied
+    profilePicture: string= "";
 }

@@ -16,7 +16,7 @@ export class UserController {
 
             if (user.status === 'pending') {
                 return res.json({ message: 'Vaša registracija još uvek nije odobrena.' });
-            } else if (user.status === 'rejected') {
+            } else if (user.status === 'denied') {
                 return res.json({ message: 'Vaša registracija je odbijena.' });
             }
 
@@ -38,7 +38,6 @@ export class UserController {
 
 
     registerUser = (req: express.Request, res: express.Response) => {
-        console.log(req.body);
         const { username, password, name, lastname, gender, address, number, email, creditCard } = req.body;
         const file = req.file;
 
@@ -51,9 +50,9 @@ export class UserController {
                     return res.json({ message: 'Nalog sa ovim email-om već postoji.' });
                 let picturePath = '';
                 if (req.body.gender == 'M')
-                    picturePath = 'uploads/defaultM.png';
+                    picturePath = '/defaultM.png';
                 else
-                    picturePath = 'uploads/defaultF.png';
+                    picturePath = '/defaultF.png';
                 if (file) {
                     sharp(file.buffer)
                         .metadata()
@@ -63,10 +62,10 @@ export class UserController {
                             }
 
                             const filename = Date.now() + path.extname(file.originalname);
-                            picturePath = `uploads/${filename}`;
+                            picturePath = `/${filename}`;
 
                             sharp(file.buffer)
-                                .toFile(picturePath)
+                                .toFile('uploads'+picturePath)
                                 .then(() => {
                                     this.saveUser(username, password, name, lastname, gender, address, number, email, creditCard, picturePath, res);
                                 })
@@ -95,7 +94,6 @@ export class UserController {
 
     private saveUser(username: string, password: string, name: string, lastname: string, gender: string, address: string, number: string, email: string, creditCard: string, picture: string, res: express.Response) {
         argon2.hash(password).then(hashedPassword => {
-            console.log(hashedPassword);
             const newUser = new User({
                 username,
                 password: hashedPassword,

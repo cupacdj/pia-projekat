@@ -15,6 +15,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
+import { DekoraterRegisterComponent } from './dekorater-register/dekorater-register.component';
+import { HeaderLoginComponent } from './header-login/header-login.component';
+import { OwnerMenuComponent } from './owner-menu/owner-menu.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { PasswordChangeComponent } from './password-change/password-change.compo
     AdminLoginComponent,
     HeaderComponent,
     FooterComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    DekoraterRegisterComponent,
+    HeaderLoginComponent,
+    OwnerMenuComponent
   ],
   imports: [
     BrowserModule,

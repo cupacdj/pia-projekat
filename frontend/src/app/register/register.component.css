@@ -107,3 +107,23 @@ button[type="submit"]:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.picture-icon{
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  left: 10px;
+}
+
+.picture-upload {
+  display: inline-flex;
+  align-items: center;
+}
+
+.picture-upload img.picture-icon {
+  margin-left: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: #333;
+}

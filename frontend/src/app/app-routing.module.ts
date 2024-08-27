@@ -8,6 +8,7 @@ import { DekoraterComponent } from './dekorater/dekorater.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
+import { DekoraterRegisterComponent } from './dekorater-register/dekorater-register.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'dekorater', component: DekoraterComponent},
   {path: 'login/admin', component: AdminLoginComponent},
   {path: 'admin', component: AdminComponent},
-  {path: 'password-change', component: PasswordChangeComponent}
+  {path: 'password-change', component: PasswordChangeComponent},
+  {path: 'dekorater-register', component: DekoraterRegisterComponent}
 ];
 
 @NgModule({

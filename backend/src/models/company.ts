@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 
-let User = new Schema({
+let Company = new Schema({
     username: {
         type: String
     },
@@ -43,4 +43,4 @@ let User = new Schema({
     
 })
 
-export default mongoose.model('User', User, 'users');
+export default mongoose.model('Company', Company, 'companies');

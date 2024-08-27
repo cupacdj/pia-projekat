@@ -31,8 +31,10 @@
     <label for="email" class="required">Email: </label>
     <input id="email" [(ngModel)]="email" name="email" required>
     <br>
-    <label for="picture">Profilna slika: </label>
-    <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
+    <span class="picture-upload">
+      <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
+      <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon">
+    </span>
     <br>
     <label for="creditCard" class="required">Broj kreditne kartice: </label>
     <div class="credit-card-container">

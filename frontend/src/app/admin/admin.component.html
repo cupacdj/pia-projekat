@@ -1,1 +1,154 @@
-<p>admin works!</p>
+<app-header-login></app-header-login>
+<div class="container mt-4">
+  <h2>Administracija</h2>
+
+<div class="btn-group" role="group">
+  <button class="btn btn-primary" (click)="showUserList()">Spisak korisnika</button>
+  <button class="btn btn-primary" (click)="showRegistrationRequests()">Zahtevi za registraciju</button>
+  <button class="btn btn-primary" (click)="addDecorater()">Dodaj novog dekoratera</button>
+</div>
+
+<div *ngIf="showUsers">
+  <ul class="nav nav-tabs mt-3">
+    <li class="nav-item">
+      <a class="nav-link active" (click)="loadUsers('vlasnik')">Vlasnici</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="loadUsers('dekorater')">Dekorateri</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="loadCompanies()">Firme</a>
+    </li>
+  </ul>
+
+  <table class="table table-striped mt-3" *ngIf="users.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Ime: </th>
+        <th scope="col">Prezime: </th>
+        <th scope="col">Kontakt telefon: </th>
+        <th scope="col">Email: </th>
+        <!-- <th scope="col">Slika: </th> -->
+        <th scope="col">Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastname }}</td>
+        <td>{{ user.number }}</td>
+        <td>{{ user.email }}</td>
+        <!-- <td>
+          <button  (click)="getProfilePicture(user.picture, user)">Prikazi profilnu sliku</button>
+          <img [src]="user.profilePicture" class="profile-picture">
+        </td> -->
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editUser(user)">Ažuriraj</button>
+          <button *ngIf="user.status == 'approved'" class="btn btn-danger btn-sm" (click)="deactivateUser(user)">Deaktiviraj</button>
+          <button *ngIf="user.status == 'denied'" class="btn btn-success btn-sm" (click)="activateUser(user)">Aktiviraj</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>{{message}}</div>
+</div>
+
+<div *ngIf="showRegReq">
+  <h3>Zahtevi za registraciju</h3>
+  <table class="table table-striped mt-3" *ngIf="usersReq.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Ime: </th>
+        <th scope="col">Prezime: </th>
+        <th scope="col">Kontakt telefon: </th>
+        <th scope="col">Email: </th>
+        <th scope="col">Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usersReq; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastname }}</td>
+        <td>{{ user.number }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <button class="btn btn-success btn-sm" (click)="approveUser(user)">Prihvati</button>
+          <button class="btn btn-danger btn-sm" (click)="denyUser(user)">Odbij</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>{{message2}}</div>
+</div>
+
+
+  <div class="modal" tabindex="-1" role="dialog" *ngIf="selectedUser">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ažuriraj podatke</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (submit)="updateUser()">
+            <label for="name" class="required">Ime: </label>
+            <input id="name" [(ngModel)]="selectedUser.name" name="name" required>
+            <br>
+            <label for="lastname" class="required">Prezime: </label>
+            <input id="lastname" [(ngModel)]="selectedUser.lastname" name="lastname" required>
+            <br>
+            <label class="required">Pol: </label>
+            <div class="radio-group">
+              <input type="radio" id="male" name="gender" [(ngModel)]="selectedUser.gender" value="M" required>
+              <label for="male">M</label>
+              <input type="radio" id="female" name="gender" [(ngModel)]="selectedUser.gender" value="Z" required>
+              <label for="female">Z</label>
+            </div>
+            <br>
+            <label for="address" class="required">Adresa: </label>
+            <input id="address" [(ngModel)]="selectedUser.address" name="address" required>
+            <br>
+            <label for="number" class="required">Kontakt telefon: </label>
+            <input id="number" [(ngModel)]="selectedUser.number" name="number" required>
+            <br>
+            <label for="email" class="required">Email: </label>
+            <input id="email" [(ngModel)]="selectedUser.email" name="email" required>
+            <br>
+            <label for="picture">Profilna slika: </label>
+            <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
+            <td>
+              <button  (click)="getProfilePicture(selectedUser.picture, selectedUser)">Prikazi profilnu sliku</button>
+              <img [src]="selectedUser.profilePicture" class="profile-picture">
+            </td>
+            <br>
+            <label for="creditCard" class="required">Broj kreditne kartice: </label>
+            <div class="credit-card-container">
+              <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
+              <input id="creditCard" [(ngModel)]="selectedUser.creditCard" name="creditCard" (input)="onCreditCardInput()" required>
+            </div>
+            <br>
+            <div *ngIf="errorCard" class="alert alert-danger">
+              {{ errorCard }}
+            </div>
+            <button type="submit">Azuriranje profila</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="errorMessage2" class="error">
+    {{ errorMessage2 }}
+  </div>
+
+</div>
+
+<app-footer></app-footer>

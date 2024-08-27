@@ -29,6 +29,12 @@ export class LoginComponent {
           console.log(response.message);
           this.error = response.message;
         }
+        else if(response.user.type == "admin") {
+          this.error = "Administrator ima posebnu stranicu za logovanje! "
+        }
+        else if(response.user.status == "pending" || response.user.status == "denied") {
+          this.error = "Vas zahtev za registraciju se obradjuje ili je odbijen!";
+        }
         else {
           if (response.user.type == "vlasnik") {
             localStorage.setItem("ulogovan", response.user.username);
