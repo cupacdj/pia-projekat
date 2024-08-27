@@ -18,6 +18,9 @@ import { PasswordChangeComponent } from './password-change/password-change.compo
 import { DekoraterRegisterComponent } from './dekorater-register/dekorater-register.component';
 import { HeaderLoginComponent } from './header-login/header-login.component';
 import { OwnerMenuComponent } from './owner-menu/owner-menu.component';
+import { OwnerProfileComponent } from './owner-profile/owner-profile.component';
+import { CompanyComponent } from './company/company.component';
+import { CompanyRegisterComponent } from './company-register/company-register.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { OwnerMenuComponent } from './owner-menu/owner-menu.component';
     PasswordChangeComponent,
     DekoraterRegisterComponent,
     HeaderLoginComponent,
-    OwnerMenuComponent
+    OwnerMenuComponent,
+    OwnerProfileComponent,
+    CompanyComponent,
+    CompanyRegisterComponent
   ],
   imports: [
     BrowserModule,

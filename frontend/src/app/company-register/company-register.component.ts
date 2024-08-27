@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-dekorater-register',
-  templateUrl: './dekorater-register.component.html',
-  styleUrls: ['./dekorater-register.component.css']
+  selector: 'app-company-register',
+  templateUrl: './company-register.component.html',
+  styleUrls: ['./company-register.component.css']
 })
-export class DekoraterRegisterComponent {
+export class CompanyRegisterComponent {
 
   constructor(private router: Router, private userService: UserService ) {}
 
@@ -122,11 +122,12 @@ export class DekoraterRegisterComponent {
 
     this.userService.registerUser(formData).subscribe((response) => {
       if (response.message == 'Zahtev za registraciju je uspešno odrađen, čeka se odobrenje administratora!') {
-        this.message = "Dodavanje dekoratera uspesno";
+        this.message = response.message;
       } else {
         this.errorMessage = response.message;
       }
     });
 
   }
+
 }

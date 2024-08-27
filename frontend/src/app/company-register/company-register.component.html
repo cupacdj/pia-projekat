@@ -11,13 +11,6 @@
         </div>
         <div class="modal-body">
           <form (submit)="addDecorator()">
-            <label for="username" class="required">Korisničko ime: </label>
-            <input id="username" [(ngModel)]="username" name="username" required>
-            <br>
-            <label for="password" class="required">Lozinka: </label>
-            <input id="password" type="password" [(ngModel)]="password" name="password" required
-              title="Lozinka mora imati između 6 i 10 karaktera, početi slovom, sadržati bar jedno veliko slovo, tri mala slova, jedan broj i jedan specijalni karakter.">
-            <br>
             <label for="name" class="required">Ime: </label>
             <input id="name" [(ngModel)]="name" name="name" required>
             <br>
@@ -54,7 +47,7 @@
             </div>
             <br>
             <label for="company">Firma: </label>
-            <input id="company" [(ngModel)]="company" name="company">
+            <input id="company" [(ngModel)]="company" name="company" >
             <br>
             <button type="submit">Dodaj dekoratera</button>
           </form>

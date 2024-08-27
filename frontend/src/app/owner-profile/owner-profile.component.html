@@ -1,0 +1,68 @@
+<app-header-login></app-header-login>
+<app-owner-menu></app-owner-menu>
+<br>
+
+<div class="modal" tabindex="-1" role="dialog" *ngIf="user">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Vas Profil</h5>
+      </div>
+      <div class="modal-body">
+        <form (submit)="updateUser()">
+          <label for="name" class="required">Ime: </label>
+          <input id="name" [(ngModel)]="user.name" name="name" required>
+          <br>
+          <label for="lastname" class="required">Prezime: </label>
+          <input id="lastname" [(ngModel)]="user.lastname" name="lastname" required>
+          <br>
+          <label class="required">Pol: </label>
+          <div class="radio-group">
+            <input type="radio" id="male" name="gender" [(ngModel)]="user.gender" value="M" required>
+            <label for="male">M</label>
+            <input type="radio" id="female" name="gender" [(ngModel)]="user.gender" value="Z" required>
+            <label for="female">Z</label>
+          </div>
+          <br>
+          <label for="address" class="required">Adresa: </label>
+          <input id="address" [(ngModel)]="user.address" name="address" required>
+          <br>
+          <label for="number" class="required">Kontakt telefon: </label>
+          <input id="number" [(ngModel)]="user.number" name="number" required>
+          <br>
+          <label for="email" class="required">Email: </label>
+          <input id="email" [(ngModel)]="user.email" name="email" required>
+          <br>
+          <label for="picture">Profilna slika: </label>
+          <span class="picture-upload">
+            <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
+            <img [src]="profilePicture" class="profile-picture">
+          </span>
+          <br>
+          <label for="creditCard" class="required">Broj kreditne kartice: </label>
+          <div class="credit-card-container">
+            <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
+            <input id="creditCard" [(ngModel)]="user.creditCard" name="creditCard" (input)="onCreditCardInput()"
+              required>
+          </div>
+          <br>
+          <div *ngIf="errorCard" class="alert alert-danger">
+            {{ errorCard }}
+          </div>
+          <button type="submit">Azuriranje profila</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div>{{message}}</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+<div *ngIf="errorMessage2" class="error">
+  {{ errorMessage2 }}
+</div>
+
+
+
+<app-footer> </app-footer>

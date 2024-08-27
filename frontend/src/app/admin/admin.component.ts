@@ -204,7 +204,6 @@ export class AdminComponent {
   profilePicture: string = null;
 
   getProfilePicture(picture: string, user: User){
-    console.log(picture);
     this.adminService.getProfilePicture(picture, user).subscribe((response) => {
       user.profilePicture = URL.createObjectURL(response);
     });
@@ -213,6 +212,10 @@ export class AdminComponent {
 
   addDecorater(){
     this.router.navigate(['/dekorater-register']);
+  }
+
+  addCompany(){
+    this.router.navigate(['/company-register']);
   }
 
 }

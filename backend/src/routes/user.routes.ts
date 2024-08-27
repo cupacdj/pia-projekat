@@ -29,4 +29,21 @@ userRouter.route('/change-password').post(
      (req, res) => new UserController().changePassword(req, res)
 );
 
+userRouter.route('/get-user').post(
+    (req, res) => new UserController().getUser(req, res)
+);
+
+userRouter.route('/profilePicture').post(
+    (req, res) => new UserController().getProfilePicture(req, res)
+)
+
+userRouter.route('/update-user').post( 
+    (req, res) => new UserController().userUpdate(req, res)
+)
+
+userRouter.route('/update-user-picture').post(
+    upload.single('picture'),  
+    (req, res) => new UserController().updateUserPicture(req, res)
+)
+
 export default userRouter;

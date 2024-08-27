@@ -38,7 +38,6 @@ let Company = new Schema({
     },
     status: {
         type: String,
-        default: 'pending'
     },
     
 })

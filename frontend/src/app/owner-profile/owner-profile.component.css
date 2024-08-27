@@ -1,0 +1,43 @@
+.credit-card-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.card-icon {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+  position: absolute;
+  left: 10px;
+}
+
+.credit-card-container input {
+  padding-left: 50px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.picture-icon{
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  left: 10px;
+}
+
+.picture-upload {
+  display: inline-flex;
+  align-items: center;
+}
+
+.picture-upload img.picture-icon {
+  margin-left: 10px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border: #333;
+}

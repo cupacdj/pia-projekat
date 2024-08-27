@@ -102,6 +102,8 @@ export class RegisterComponent {
     formData.append('number', this.number);
     formData.append('email', this.email);
     formData.append('creditCard', this.creditCard);
+    formData.append('type', 'vlasnik');
+    formData.append('company', '');
 
     // Dodavanje fajla ako je odabran
     if (this.selectedFile) {

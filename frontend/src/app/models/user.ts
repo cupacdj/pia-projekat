@@ -12,4 +12,5 @@ export default class User {
     picture: string= "";
     status: string= ""; //pending, approved, denied
     profilePicture: string= "";
+    company: string= "";
 }

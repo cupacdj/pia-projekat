@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import company from './company';
 
 const Schema = mongoose.Schema;
 
@@ -37,10 +38,11 @@ let User = new Schema({
         type: String
     },
     status: {
-        type: String,
-        default: 'pending'
+        type: String
     },
-    
+    company: {
+        type: String
+    }
 })
 
 export default mongoose.model('User', User, 'users');

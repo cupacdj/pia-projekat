@@ -3,6 +3,7 @@ import User from '../models/user';
 import * as argon2 from "argon2";
 import sharp from 'sharp';
 import path from 'path';
+import * as fs from 'fs';
 export class UserController {
 
     login = (req: express.Request, res: express.Response) => {
@@ -38,7 +39,7 @@ export class UserController {
 
 
     registerUser = (req: express.Request, res: express.Response) => {
-        const { username, password, name, lastname, gender, address, number, email, creditCard } = req.body;
+        const { username, password, name, lastname, gender, address, number, email, creditCard, type, company } = req.body;
         const file = req.file;
 
         User.findOne({ 'username': username }).then(existingUser => {
@@ -58,16 +59,16 @@ export class UserController {
                         .metadata()
                         .then(metadata => {
                             if (metadata && metadata.width && metadata.height && (metadata.width < 100 || metadata.height < 100 || metadata.width > 300 || metadata.height > 300)) {
-                                return res.status(400).json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
+                                return res.json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
                             }
 
                             const filename = Date.now() + path.extname(file.originalname);
                             picturePath = `/${filename}`;
 
                             sharp(file.buffer)
-                                .toFile('uploads'+picturePath)
+                                .toFile('uploads' + picturePath)
                                 .then(() => {
-                                    this.saveUser(username, password, name, lastname, gender, address, number, email, creditCard, picturePath, res);
+                                    this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -80,7 +81,7 @@ export class UserController {
                         });
                 } else {
                     // Ako nema slike, koristimo podrazumevanu i nastavljamo sa čuvanjem korisnika
-                    this.saveUser(username, password, name, lastname, gender, address, number, email, creditCard, picturePath, res);
+                    this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
                 }
             }).catch(err => {
                 console.log(err);
@@ -92,7 +93,7 @@ export class UserController {
         });
     };
 
-    private saveUser(username: string, password: string, name: string, lastname: string, gender: string, address: string, number: string, email: string, creditCard: string, picture: string, res: express.Response) {
+    private saveUser(username: string, password: string, name: string, lastname: string, gender: string, address: string, number: string, email: string, type: string, creditCard: string, company: string, picture: string, res: express.Response) {
         argon2.hash(password).then(hashedPassword => {
             const newUser = new User({
                 username,
@@ -105,9 +106,14 @@ export class UserController {
                 email,
                 creditCard,
                 picture,
-                type: 'vlasnik',
-                status: 'pending'
+                type,
+                company
             });
+            if(type == 'vlasnik'){
+                newUser.status = 'pending';
+            } else if(type == 'dekorater'){
+                newUser.status = 'approved';
+            }
 
             newUser.save().then(() => {
                 res.json({ message: 'Zahtev za registraciju je uspešno odrađen, čeka se odobrenje administratora!' });
@@ -156,4 +162,107 @@ export class UserController {
         });
     };
 
-};
+
+    getUser = (req: express.Request, res: express.Response) => {
+        let username = req.body.username;
+        User.findOne({ 'username': username }).then(user => {
+            res.json({ message: 'Korisnik pronadjen', user });
+        }).catch(err => {
+            console.log(err);
+            res.json({ message: 'Problem prilikom pretrage korisnika!' });
+        });
+    }
+
+    getProfilePicture = (req: express.Request, res: express.Response) => {
+        let picture = req.body.picture;
+        const filePath = `./uploads${picture}`;
+        res.sendFile(filePath, { root: path.join(__dirname, '../..') });
+    }
+
+    userUpdate = (req: express.Request, res: express.Response) => {
+        const updatedUser = req.body;
+
+        User.findOne({ 'username': updatedUser.username }).then(existingUser => {
+            if (!existingUser) {
+                return res.json({ message: 'Korisnik ne postoji!' });
+            }
+
+            User.deleteOne({ 'username': updatedUser.username }).then(() => {
+                let newUser = new User(updatedUser);
+
+                newUser.status = 'approved';
+                newUser.type = 'vlasnik';
+
+                newUser.save().then(() => {
+                    res.json({ message: 'Azuriranje uspesno' });
+                }).catch(err => {
+                    console.log(err);
+                    res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
+                });
+
+            }).catch(err => {
+                console.log(err);
+                res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
+            });
+
+        }).catch(err => {
+            console.log(err);
+            res.json({ message: 'Problem prilikom pretrage korisnika!' });
+        });
+    }
+
+    updateUserPicture = (req: express.Request, res: express.Response) => {
+        const updatedUser = req.body;
+        const file = req.file;
+        if (file) {
+            let picturePath = '';
+            User.findOne({ 'username': updatedUser.username }).then(existingUser => {
+                if (!existingUser) {
+                    return res.json({ message: 'Korisnik ne postoji!' });
+                }
+
+                sharp(file.buffer).metadata().then(metadata => {
+                    if (metadata && metadata.width && metadata.height && (metadata.width < 100 || metadata.height < 100 || metadata.width > 300 || metadata.height > 300)) {
+                        return res.json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
+                    }
+                    const filename = Date.now() + path.extname(file.originalname);
+                    picturePath = `/${filename}`;
+
+
+                    sharp(file.buffer).toFile('uploads' + picturePath).catch(err => {
+                        console.log(err);
+                        res.json({ message: 'Problem prilikom čuvanja slike.' });
+
+                    });
+                    User.deleteOne({ 'username': updatedUser.username }).then(() => {
+                        let newUser = new User(updatedUser);
+
+                        newUser.picture = picturePath;
+                        newUser.status = 'approved';
+                        newUser.type = 'vlasnik';
+
+                        newUser.save().then(() => {
+                            res.json({ message: 'Azuriranje uspesno' });
+                        }).catch(err => {
+                            console.log(err);
+                            res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
+                        });
+
+                    }).catch(err => {
+                        console.log(err);
+                        res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    res.json({ message: 'Problem prilikom obrade slike.' });
+                });
+            }).catch(err => {
+                console.log(err);
+                res.json({ message: 'Problem prilikom pretrage korisnika!' });
+            });
+        }
+    }
+
+}
+
+
