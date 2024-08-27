@@ -21,6 +21,8 @@ import { OwnerMenuComponent } from './owner-menu/owner-menu.component';
 import { OwnerProfileComponent } from './owner-profile/owner-profile.component';
 import { CompanyComponent } from './company/company.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
+import { DekoraterMenuComponent } from './dekorater-menu/dekorater-menu.component';
+import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
     OwnerMenuComponent,
     OwnerProfileComponent,
     CompanyComponent,
-    CompanyRegisterComponent
+    CompanyRegisterComponent,
+    DekoraterMenuComponent,
+    DekoraterProfileComponent
   ],
   imports: [
     BrowserModule,

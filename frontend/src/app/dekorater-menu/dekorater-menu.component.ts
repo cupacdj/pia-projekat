@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dekorater',
-  templateUrl: './dekorater.component.html',
-  styleUrls: ['./dekorater.component.css']
+  selector: 'app-dekorater-menu',
+  templateUrl: './dekorater-menu.component.html',
+  styleUrls: ['./dekorater-menu.component.css']
 })
-export class DekoraterComponent {
+export class DekoraterMenuComponent {
 
   constructor(private router: Router) {}
 
@@ -15,8 +15,10 @@ export class DekoraterComponent {
       alert('Niste ulogovani!');
       this.router.navigate(['/login']);
     }
-    this.router.navigate(['/dekorater-profil']);
   }
 
+  dekoraterProfile(){
+    this.router.navigate(['/dekorater-profile']);
+  }
 
 }

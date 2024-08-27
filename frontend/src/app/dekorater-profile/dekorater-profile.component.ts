@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import User from '../models/user';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-owner-profile',
-  templateUrl: './owner-profile.component.html',
-  styleUrls: ['./owner-profile.component.css']
+  selector: 'app-dekorater-profile',
+  templateUrl: './dekorater-profile.component.html',
+  styleUrls: ['./dekorater-profile.component.css']
 })
-export class OwnerProfileComponent implements OnInit {
+export class DekoraterProfileComponent {
 
   constructor(private router: Router, private userService: UserService ) { }
 
@@ -130,6 +130,5 @@ export class OwnerProfileComponent implements OnInit {
       });
     }
   }
-
 
 }

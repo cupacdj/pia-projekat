@@ -12,6 +12,7 @@ import { DekoraterRegisterComponent } from './dekorater-register/dekorater-regis
 import { OwnerProfileComponent } from './owner-profile/owner-profile.component';
 import { CompanyComponent } from './company/company.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
+import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'dekorater-register', component: DekoraterRegisterComponent},
   {path: 'vlasnik/profile', component: OwnerProfileComponent},
   {path: 'company', component: CompanyComponent},
-  {path: 'company-register', component: CompanyRegisterComponent}
+  {path: 'company-register', component: CompanyRegisterComponent},
+  {path: 'dekorater-profile', component: DekoraterProfileComponent}
 ];
 
 @NgModule({

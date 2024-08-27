@@ -3,5 +3,6 @@ import User from "./user";
 export default class Company {
     name: string = "";
     address: string = "";
-    dekoratior: User[] = [];
+    dekorateri: User[] = [];
+
 }

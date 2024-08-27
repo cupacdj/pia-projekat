@@ -191,7 +191,6 @@ export class UserController {
                 let newUser = new User(updatedUser);
 
                 newUser.status = 'approved';
-                newUser.type = 'vlasnik';
 
                 newUser.save().then(() => {
                     res.json({ message: 'Azuriranje uspesno' });
@@ -239,7 +238,6 @@ export class UserController {
 
                         newUser.picture = picturePath;
                         newUser.status = 'approved';
-                        newUser.type = 'vlasnik';
 
                         newUser.save().then(() => {
                             res.json({ message: 'Azuriranje uspesno' });
