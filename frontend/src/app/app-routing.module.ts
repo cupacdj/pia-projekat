@@ -10,9 +10,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
 import { DekoraterRegisterComponent } from './dekorater-register/dekorater-register.component';
 import { OwnerProfileComponent } from './owner-profile/owner-profile.component';
-import { CompanyComponent } from './company/company.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
 import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile.component';
+import { OwnerCompanyComponent } from './owner-company/owner-company.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: 'password-change', component: PasswordChangeComponent},
   {path: 'dekorater-register', component: DekoraterRegisterComponent},
   {path: 'vlasnik/profile', component: OwnerProfileComponent},
-  {path: 'company', component: CompanyComponent},
+  {path: 'owner-company', component: OwnerCompanyComponent},
   {path: 'company-register', component: CompanyRegisterComponent},
   {path: 'dekorater-profile', component: DekoraterProfileComponent}
 ];

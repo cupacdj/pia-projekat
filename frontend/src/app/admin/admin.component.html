@@ -2,89 +2,116 @@
 <div class="container mt-4">
   <h2>Administracija</h2>
 
-<div class="btn-group" role="group">
-  <button class="btn btn-primary" (click)="showUserList()">Spisak korisnika</button>
-  <button class="btn btn-primary" (click)="showRegistrationRequests()">Zahtevi za registraciju</button>
-  <button class="btn btn-primary" (click)="addDecorater()">Dodaj dekoratera</button>
-  <button class="btn btn-primary" (click)="addCompany()">Dodaj firmu</button>
-</div>
+  <div class="btn-group" role="group">
+    <button class="btn btn-primary" (click)="showUserList()">Spiskovi</button>
+    <button class="btn btn-primary" (click)="showRegistrationRequests()">Zahtevi za registraciju</button>
+    <button class="btn btn-primary" (click)="addDecorater()">Dodaj dekoratera</button>
+    <button class="btn btn-primary" (click)="addCompany()">Dodaj firmu</button>
+  </div>
 
-<div *ngIf="showUsers">
-  <ul class="nav nav-tabs mt-3">
-    <li class="nav-item">
-      <a class="nav-link active" (click)="loadUsers('vlasnik')">Vlasnici</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="loadUsers('dekorater')">Dekorateri</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="loadCompanies()">Firme</a>
-    </li>
-  </ul>
+  <div *ngIf="show">
+    <ul class="nav nav-tabs mt-3">
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="loadUsers('vlasnik')">Vlasnici</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="loadUsers('dekorater')">Dekorateri</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="loadCompanies()">Firme</button>
+      </li>
+    </ul>
 
-  <table class="table table-striped mt-3" *ngIf="users.length > 0">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Ime: </th>
-        <th scope="col">Prezime: </th>
-        <th scope="col">Kontakt telefon: </th>
-        <th scope="col">Email: </th>
-        <!-- <th scope="col">Slika: </th> -->
-        <th scope="col">Akcije</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ user.name }}</td>
-        <td>{{ user.lastname }}</td>
-        <td>{{ user.number }}</td>
-        <td>{{ user.email }}</td>
-        <!-- <td>
+    <div *ngIf="showCompanies">
+      <h3>Firme</h3>
+      <table class="table table-striped mt-3" *ngIf="companies.length > 0">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Naziv firme</th>
+            <th scope="col">Adresa</th>
+            <th scope="col">Kontakt osoba</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ company.name }}</td>
+            <td>{{ company.address }}</td>
+            <td>{{ company.contact }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>{{message3}}</div>
+    </div>
+
+    <div *ngIf="showUsers">
+      <table class="table table-striped mt-3" *ngIf="users.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ime: </th>
+            <th scope="col">Prezime: </th>
+            <th scope="col">Kontakt telefon: </th>
+            <th scope="col">Email: </th>
+            <!-- <th scope="col">Slika: </th> -->
+            <th scope="col">Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.number }}</td>
+            <td>{{ user.email }}</td>
+            <!-- <td>
           <button  (click)="getProfilePicture(user.picture, user)">Prikazi profilnu sliku</button>
           <img [src]="user.profilePicture" class="profile-picture">
         </td> -->
-        <td>
-          <button class="btn btn-warning btn-sm" (click)="editUser(user)">Ažuriraj</button>
-          <button *ngIf="user.status == 'approved'" class="btn btn-danger btn-sm" (click)="deactivateUser(user)">Deaktiviraj</button>
-          <button *ngIf="user.status == 'denied'" class="btn btn-success btn-sm" (click)="activateUser(user)">Aktiviraj</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div>{{message}}</div>
-</div>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editUser(user)">Ažuriraj</button>
+              <button *ngIf="user.status == 'approved'" class="btn btn-danger btn-sm"
+                (click)="deactivateUser(user)">Deaktiviraj</button>
+              <button *ngIf="user.status == 'denied'" class="btn btn-success btn-sm"
+                (click)="activateUser(user)">Aktiviraj</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>{{message}}</div>
+    </div>
+  </div>
 
-<div *ngIf="showRegReq">
-  <h3>Zahtevi za registraciju</h3>
-  <table class="table table-striped mt-3" *ngIf="usersReq.length > 0">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Ime: </th>
-        <th scope="col">Prezime: </th>
-        <th scope="col">Kontakt telefon: </th>
-        <th scope="col">Email: </th>
-        <th scope="col">Akcije</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of usersReq; let i = index">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ user.name }}</td>
-        <td>{{ user.lastname }}</td>
-        <td>{{ user.number }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <button class="btn btn-success btn-sm" (click)="approveUser(user)">Prihvati</button>
-          <button class="btn btn-danger btn-sm" (click)="denyUser(user)">Odbij</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div>{{message2}}</div>
-</div>
+  <div *ngIf="showRegReq">
+    <h3>Zahtevi za registraciju</h3>
+    <table class="table table-striped mt-3" *ngIf="usersReq.length > 0">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ime: </th>
+          <th scope="col">Prezime: </th>
+          <th scope="col">Kontakt telefon: </th>
+          <th scope="col">Email: </th>
+          <th scope="col">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usersReq; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ user.name }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.number }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <button class="btn btn-success btn-sm" (click)="approveUser(user)">Prihvati</button>
+            <button class="btn btn-danger btn-sm" (click)="denyUser(user)">Odbij</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>{{message2}}</div>
+  </div>
 
 
   <div class="modal" tabindex="-1" role="dialog" *ngIf="selectedUser">
@@ -124,14 +151,15 @@
             <label for="picture">Profilna slika: </label>
             <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
             <td>
-              <button  (click)="getProfilePicture(selectedUser.picture, selectedUser)">Prikazi profilnu sliku</button>
+              <button (click)="getProfilePicture(selectedUser.picture, selectedUser)">Prikazi profilnu sliku</button>
               <img [src]="selectedUser.profilePicture" class="profile-picture">
             </td>
             <br>
             <label for="creditCard" class="required">Broj kreditne kartice: </label>
             <div class="credit-card-container">
               <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
-              <input id="creditCard" [(ngModel)]="selectedUser.creditCard" name="creditCard" (input)="onCreditCardInput()" required>
+              <input id="creditCard" [(ngModel)]="selectedUser.creditCard" name="creditCard"
+                (input)="onCreditCardInput()" required>
             </div>
             <br>
             <div *ngIf="errorCard" class="alert alert-danger">
@@ -151,5 +179,4 @@
   </div>
 
 </div>
-
 <app-footer></app-footer>

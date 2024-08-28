@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-company',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.css']
+  selector: 'app-owner-company',
+  templateUrl: './owner-company.component.html',
+  styleUrls: ['./owner-company.component.css']
 })
-export class CompanyComponent {
+export class OwnerCompanyComponent {
 
   constructor(private router: Router) {}
 
@@ -16,6 +16,5 @@ export class CompanyComponent {
       this.router.navigate(['/login']);
     }
   }
-
 
 }

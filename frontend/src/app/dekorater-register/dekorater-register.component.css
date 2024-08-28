@@ -1,0 +1,81 @@
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="date"] {
+  padding: 10px;
+}
+
+button[type="button"], button[type="submit"] {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button[type="button"].btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+button[type="button"].btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+}
+
+button[type="button"]:hover, button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+}
+
+.form-row .col {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-row .col:last-child {
+  margin-right: 0;
+}
+
+.form-row .col-auto {
+  margin-left: auto;
+}
+
+.mt-2 {
+  margin-top: 20px;
+}

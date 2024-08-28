@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
+import User from '../models/user';
+import Company from '../models/company';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-company-register',
@@ -9,125 +11,123 @@ import { UserService } from '../services/user.service';
 })
 export class CompanyRegisterComponent {
 
-  constructor(private router: Router, private userService: UserService ) {}
+  constructor(private router: Router, private adminService: AdminService ) {}
 
   ngOnInit(): void {
     if (!localStorage.getItem('admin')) {
       alert('Niste autorizovani kao administrator!');
       this.router.navigate(['/login/admin']);
     }
-  }
+    this.adminService.getUsers().subscribe(
+      (user) => {
+        if(!user) {
+          this.errorMessage = "Neuspesno ucitavanje korisnika!";
+          return;
+        }
+        this.availableDecorators = user.filter((user) => user.type == 'dekorater' && (user.company == '' || user.company == 'undefined'));
+      });
 
-  username: string;
-  password: string;
-  name: string;
-  lastname: string;
-  gender: string;
-  address: string;
-  number: string;
-  email: string;
-  creditCard: string;
-  picture: string;
-  company: string;
+  }
 
   back(){
     this.router.navigate(['/admin']);
   }
 
+  company: Company;
+  name: string;
+  address: string;
+  contact: string;
+  availableDecorators: User[] = [];
+  decorators: User[] = [];
+  decoratorsNames: string[] = [];
+  services: {name: string, price: number}[] = [];
+  vacationPeriod: { from: Date | null, to: Date | null } = { from: null, to: null }
+
+  newServiceName: string;
+  newServicePrice: number;
   errorMessage: string;
-
-  selectedFile: File = null;
-
-  cardTypeIcon: string;
-
-  validatePassword(password: string): boolean {
-    const regex = /^(?=.*[A-Za-z])(?=.*[A-Z])(?=.*[a-z]{3,})(?=.*\d)(?=.*[\W_]).{6,10}$/;
-    return regex.test(password);
-  }
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-
-    if (file) {
-      const img = new Image();
-      img.src = window.URL.createObjectURL(file);
-
-      img.onload = () => {
-        const width = img.naturalWidth;
-        const height = img.naturalHeight;
-
-        window.URL.revokeObjectURL(img.src);
-
-        if (width < 100 || height < 100 || width > 300 || height > 300) {
-          this.errorMessage = 'Slika mora biti između 100x100 i 300x300 piksela.';
-        } else if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
-          this.errorMessage = 'Format slike mora biti JPG ili PNG.';
-        } else {
-          this.selectedFile = file;
-          this.picture = window.URL.createObjectURL(file);
-          this.errorMessage = '';
-        }
-      };
-    }
-  }
-
-  onCreditCardInput() {
-    const cardNumber = this.creditCard.replace(/\D/g, '');
-    this.cardTypeIcon = '';
-
-    if (/^3(?:0[0-3]\d{12}|[68]\d{13})$/.test(cardNumber)) {
-      this.cardTypeIcon = 'assets/diners.png';
-    } else if (/^5[1-5]\d{14}$/.test(cardNumber)) {
-      this.cardTypeIcon = 'assets/mastercard.png';
-    } else if (/^4(?:53(?:2|9)|4556|4916|4929|4485|4716)\d{12}$/.test(cardNumber)) {
-      this.cardTypeIcon = 'assets/visa.png';
-    } else {
-      this.errorMessage = 'Broj kreditne kartice nije validan ili nije podržan.';
-      return;
-    }
-    this.errorMessage = '';
-  }
-
   message: string;
 
-  addDecorator() {
+  addService() {
+    if (this.newServiceName && this.newServicePrice > 0) {
+      this.services.push({ name: this.newServiceName, price: this.newServicePrice });
 
-    if (!this.username || !this.password || !this.name || !this.lastname || !this.gender || !this.address || !this.number || !this.email || !this.creditCard) {
-      this.errorMessage = 'Morate popuniti sva polja označena zvezdicom (osim slike).';
+      this.newServiceName = '';
+      this.newServicePrice = 0;
+    } else {
+      this.errorMessage = 'Molimo unesite validne vrednosti za naziv usluge i cenu.';
+      this.newServiceName = '';
+      this.newServicePrice = 0;
+    }
+  }
+
+  addDecorator(decorator: User) {
+    this.decorators.push(decorator);
+    this.decoratorsNames.push(decorator.username);
+  }
+
+  isDecoratorSelected(decorator: User): boolean {
+    return this.decorators.includes(decorator);
+  }
+
+  removeDecorator(index: number) {
+    this.decorators.splice(index, 1);
+    this.decoratorsNames.splice(index, 1);
+  }
+
+  removeService(index: number) {
+    this.services.splice(index, 1);
+  }
+
+  addCompany() {
+    if (this.decorators.length < 2) {
+      this.errorMessage = 'Morate dodati dva ili vise dekoratora.';
+      return;
+    }
+    if(this.name == '' || this.address == '' || this.contact == '' || this.services.length == 0 || this.vacationPeriod.from == null || this.vacationPeriod.to == null) {
+      this.errorMessage = 'Morate popuniti sva polja.';
       return;
     }
 
-    if (!this.validatePassword(this.password)) {
-      this.errorMessage = 'Lozinka nije u dobrom formatu!';
-      return;
-    }
+    this.company = new Company();
+    this.company.name = this.name;
+    this.company.address = this.address;
+    this.company.contact = this.contact;
+    this.company.decorators = this.decoratorsNames;
+    this.company.services = this.services;
+    this.company.vacationPeriod = this.vacationPeriod;
 
-    const formData = new FormData();
-    formData.append('username', this.username);
-    formData.append('password', this.password);
-    formData.append('name', this.name);
-    formData.append('lastname', this.lastname);
-    formData.append('gender', this.gender);
-    formData.append('address', this.address);
-    formData.append('number', this.number);
-    formData.append('email', this.email);
-    formData.append('creditCard', this.creditCard);
-    formData.append('type', 'dekorater');
-    formData.append('company', this.company);
-
-    // Dodavanje fajla ako je odabran
-    if (this.selectedFile) {
-      formData.append('picture', this.selectedFile, this.selectedFile.name);
-    }
-
-    this.userService.registerUser(formData).subscribe((response) => {
-      if (response.message == 'Zahtev za registraciju je uspešno odrađen, čeka se odobrenje administratora!') {
+    this.adminService.addCompany(this.company).subscribe((response) => {
+      if (response.message == 'Firma je uspesno dodata!') {
         this.message = response.message;
+        for(let decorator of this.decorators) {
+          decorator.company = this.name;
+          this.adminService.updateUser(decorator).subscribe((response) => {
+          })
+        }
       } else {
         this.errorMessage = response.message;
       }
     });
+  }
 
+  clearForm() {
+    this.name = '';
+    this.address = '';
+    this.contact = '';
+    this.services = [];
+    this.vacationPeriod = { from: null, to: null };
+    this.newServiceName = '';
+    this.newServicePrice = 0;
+    this.decoratorsNames = [];
+    this.adminService.getUsers().subscribe(
+      (user) => {
+        if(!user) {
+          this.errorMessage = "Neuspesno ucitavanje korisnika!";
+          return;
+        }
+        this.availableDecorators = user.filter((user) => user.type == 'dekorater' && (user.company == '' || user.company == 'undefined'));
+      });
   }
 
 }

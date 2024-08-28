@@ -35,4 +35,8 @@ adminRouter.route('/profilePicture').post(
     (req, res) => new AdminController().getProfilePicture(req, res)
 )
 
+adminRouter.route('/addCompany').post(
+    (req, res) => new AdminController().addCompany(req, res)
+)
+
 export default adminRouter;

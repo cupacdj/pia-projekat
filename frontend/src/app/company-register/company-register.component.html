@@ -1,65 +1,108 @@
-<app-header-login></app-header-login>
-<div class="container mt-4">
-  <h2>Administracija</h2>
-  <button class="btn btn-primary" (click)="back()">Nazad</button>
-  <br>
-  <div class="modal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Dodavanje dekoratera</h5>
-        </div>
-        <div class="modal-body">
-          <form (submit)="addDecorator()">
-            <label for="name" class="required">Ime: </label>
-            <input id="name" [(ngModel)]="name" name="name" required>
-            <br>
-            <label for="lastname" class="required">Prezime: </label>
-            <input id="lastname" [(ngModel)]="lastname" name="lastname" required>
-            <br>
-            <label class="required">Pol: </label>
-            <div class="radio-group">
-              <input type="radio" id="male" name="gender" [(ngModel)]="gender" value="M" required>
-              <label for="male">M</label>
-              <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" required>
-              <label for="female">Z</label>
-            </div>
-            <br>
-            <label for="address" class="required">Adresa: </label>
-            <input id="address" [(ngModel)]="address" name="address" required>
-            <br>
-            <label for="number" class="required">Kontakt telefon: </label>
-            <input id="number" [(ngModel)]="number" name="number" required>
-            <br>
-            <label for="email" class="required">Email: </label>
-            <input id="email" [(ngModel)]="email" name="email" required>
-            <br>
-            <label for="picture">Profilna slika: </label>
-            <span class="picture-upload">
-              <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
-              <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon">
-            </span>
-            <br>
-            <label for="creditCard" class="required">Broj kreditne kartice: </label>
-            <div class="credit-card-container">
-              <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
-              <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()" required>
-            </div>
-            <br>
-            <label for="company">Firma: </label>
-            <input id="company" [(ngModel)]="company" name="company" >
-            <br>
-            <button type="submit">Dodaj dekoratera</button>
-          </form>
+  <app-header-login></app-header-login>
+  <div class="container mt-4">
+    <h2>Administracija</h2>
+    <button class="btn btn-primary" (click)="back()">Nazad</button>
+    <br>
+    <div class="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Dodavanje firme</h5>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="addCompany()">
+              <div class="form-group">
+                <label for="name">Naziv firme:</label>
+                <input id="name" [(ngModel)]="name" name="name" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Adresa:</label>
+                <input id="address" [(ngModel)]="address" name="address" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contact">Kontakt osoba:</label>
+                <input id="contact" [(ngModel)]="contact" name="contact" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="decorators">Slobodni Dekorateri:</label>
+
+                <div *ngFor="let decorator of availableDecorators; let i = index" class="form-row mb-2">
+                  <div class="col">
+                    <span>{{ decorator.name }}</span>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-primary" (click)="addDecorator(decorator)" [disabled]="isDecoratorSelected(decorator)">Dodaj</button>
+                  </div>
+                </div>
+                <label for="selectedDecorators" class="mt-3">Izabrani Dekorateri:</label>
+                <ul class="list-group">
+                  <li *ngFor="let decorator of decorators; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ decorator.name }}
+                    <button type="button" class="btn btn-danger btn-sm" (click)="removeDecorator(i)">Ukloni</button>
+                  </li>
+                </ul>
+
+                <small *ngIf="decorators.length < 2" class="text-danger mt-2 d-block">Morate izabrati dva ili vise dekoratera.</small>
+              </div>
+
+              <div class="form-group">
+                <label>Usluge:</label>
+                <div class="form-row mb-3">
+                  <div class="col">
+                    <input [(ngModel)]="newServiceName" name="newServiceName" class="form-control" placeholder="Naziv usluge" required>
+                  </div>
+                  <div class="col">
+                    <input [(ngModel)]="newServicePrice" name="newServicePrice" class="form-control" placeholder="Cena usluge" type="number" required>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-secondary" (click)="addService()">Dodaj uslugu</button>
+                  </div>
+                </div>
+
+
+                <div *ngFor="let service of services; let i = index" class="form-row mb-2">
+                  <div class="col">
+                    <input [(ngModel)]="service.name" name="serviceName{{i}}" class="form-control" placeholder="Naziv usluge" readonly>
+                  </div>
+                  <div class="col">
+                    <input [(ngModel)]="service.price" name="servicePrice{{i}}" class="form-control" placeholder="Cena" type="number" readonly>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-danger" (click)="removeService(i)">Ukloni</button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label for="vacationFrom">Period godišnjeg odmora (od - do):</label>
+                <div class="form-row">
+                  <div class="col">
+                    <input id="vacationFrom" [(ngModel)]="vacationPeriod.from" name="vacationFrom" class="form-control" type="date" required>
+                  </div>
+                  <div class="col">
+                    <input id="vacationTo" [(ngModel)]="vacationPeriod.to" name="vacationTo" class="form-control" type="date" required>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Sačuvaj</button>
+              <button class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
+            </form>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div>{{message}}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
-  </div>
+    <div>{{message}}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
 
 
-</div>
-<app-footer></app-footer>
+
+  </div>
+  <app-footer></app-footer>

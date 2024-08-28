@@ -22,7 +22,7 @@ export class OwnerMenuComponent {
   }
 
   companies(){
-    this.router.navigate(['/company']);
+    this.router.navigate(['/owner-company']);
   }
 
 }

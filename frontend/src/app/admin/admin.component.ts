@@ -29,11 +29,13 @@ export class AdminComponent {
 
   showUsers = false;
   showRegReq = false;
+  showCompanies = false;
+  show = false;
 
   usersReq: User[] = [];
 
   showUserList() {
-    this.showUsers = true;
+    this.show = true;
     this.showRegReq = false;
     this.loadUsers('vlasnik');
   }
@@ -41,11 +43,15 @@ export class AdminComponent {
   showRegistrationRequests() {
     this.showUsers = false;
     this.showRegReq = true;
+    this.showCompanies = false;
+    this.show = false;
     this.loadRegistrationRequests();
     this.message2 = '';
   }
 
   loadUsers(type: string) {
+    this.showCompanies = false;
+    this.showUsers = true;
     this.adminService.getUsers().subscribe(
       (user) => {
         if(!user) {
@@ -62,11 +68,16 @@ export class AdminComponent {
     });
   }
 
+  message3: string;
+
   loadCompanies(){
+    this.showUsers = false;
+    this.showRegReq = false;
+    this.showCompanies = true;
     this.adminService.getCompanies().subscribe(
       (data) => {
         if(!data) {
-          this.errorMessage = "Neuspesno ucitavanje firmi!";
+          this.message3 = "Neuspesno ucitavanje firmi!";
           return;
         }
         this.companies = data;

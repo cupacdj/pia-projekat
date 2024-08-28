@@ -41,4 +41,8 @@ export class AdminService {
     return this.http.post<Blob>(`${this.url}/profilePicture`, data, {responseType: 'blob' as 'json'});
   }
 
+  addCompany(company: Company){
+    return this.http.post<{message: string}>(`${this.url}/addCompany`, company);
+  }
+
 }

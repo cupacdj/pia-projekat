@@ -57,6 +57,7 @@
             <input id="company" [(ngModel)]="company" name="company">
             <br>
             <button type="submit">Dodaj dekoratera</button>
+            <button class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
           </form>
         </div>
       </div>
@@ -66,7 +67,5 @@
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
-
-
 </div>
 <app-footer></app-footer>

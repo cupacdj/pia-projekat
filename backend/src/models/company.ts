@@ -3,43 +3,29 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 let Company = new Schema({
-    username: {
+    name: { 
         type: String
     },
-    password: {
+    address: { 
+        type: String 
+    },
+    decorators: [{
         type: String
-    },
-    name: {
+    }],
+    contact: { 
         type: String
+
     },
-    lastname: {
-        type: String
-    },
-    gender: {
-        type: String
-    },
-    address: {
-        type: String
-    },
-    number: {
-        type: String
-    },
-    email: {
-        type: String
-    },
-    creditCard: {
-        type: String
-    },
-    type: {
-        type: String
-    },
-    picture: {
-        type: String
-    },
-    status: {
-        type: String,
-    },
-    
-})
+    services: [
+      {
+        name: { type: String },
+        price: { type: Number }
+      }
+    ],
+    vacationPeriod: {
+      from: { type: Date, default: null },
+      to: { type: Date, default: null }
+    }
+  });
 
 export default mongoose.model('Company', Company, 'companies');

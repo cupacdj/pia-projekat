@@ -129,4 +129,17 @@ export class DekoraterRegisterComponent {
     });
 
   }
+
+  clearForm() {
+    this.username = '';
+    this.password = '';
+    this.name = '';
+    this.lastname = '';
+    this.gender = '';
+    this.address = '';
+    this.number = '';
+    this.email = '';
+    this.creditCard = '';
+    this.company = '';
+  }
 }

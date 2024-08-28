@@ -96,4 +96,14 @@ export class AdminController {
         res.sendFile(filePath, { root: path.join(__dirname, '../..') });
     }
 
+    addCompany = (req: express.Request, res: express.Response) => {
+        let company = new Company(req.body);
+        company.save().then(() => {
+            res.json({ message: 'Firma je uspesno dodata!' });
+        }).catch(err => {
+            console.log(err);
+            res.json({ message: 'Problem prilikom dodavanja firme!' });
+        });
+    }
+
 }

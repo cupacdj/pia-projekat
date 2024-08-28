@@ -19,10 +19,10 @@ import { DekoraterRegisterComponent } from './dekorater-register/dekorater-regis
 import { HeaderLoginComponent } from './header-login/header-login.component';
 import { OwnerMenuComponent } from './owner-menu/owner-menu.component';
 import { OwnerProfileComponent } from './owner-profile/owner-profile.component';
-import { CompanyComponent } from './company/company.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
 import { DekoraterMenuComponent } from './dekorater-menu/dekorater-menu.component';
 import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile.component';
+import { OwnerCompanyComponent } from './owner-company/owner-company.component';
 
 @NgModule({
   declarations: [
@@ -41,10 +41,10 @@ import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile
     HeaderLoginComponent,
     OwnerMenuComponent,
     OwnerProfileComponent,
-    CompanyComponent,
     CompanyRegisterComponent,
     DekoraterMenuComponent,
-    DekoraterProfileComponent
+    DekoraterProfileComponent,
+    OwnerCompanyComponent
   ],
   imports: [
     BrowserModule,
