@@ -1,108 +1,95 @@
-  <app-header-login></app-header-login>
-  <div class="container mt-4">
-    <h2>Administracija</h2>
-    <button class="btn btn-primary" (click)="back()">Nazad</button>
-    <br>
-    <div class="modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Dodavanje firme</h5>
+<app-header-login></app-header-login>
+<div class="container mt-4">
+  <h2>Administracija</h2>
+  <button class="btn btn-primary" (click)="back()">Nazad</button>
+
+  <div class="mt-4">
+    <h5>Dodavanje firme</h5>
+    <form (ngSubmit)="addCompany()">
+      <div class="form-group">
+        <label for="name">Naziv firme:</label>
+        <input id="name" [(ngModel)]="name" name="name" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Adresa:</label>
+        <input id="address" [(ngModel)]="address" name="address" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Kontakt osoba:</label>
+        <input id="contact" [(ngModel)]="contact" name="contact" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="decorators">Slobodni Dekorateri:</label>
+
+        <div *ngFor="let decorator of availableDecorators; let i = index" class="form-row mb-2">
+          <div class="col">
+            <span>{{ decorator.name }}</span>
           </div>
-          <div class="modal-body">
-            <form (ngSubmit)="addCompany()">
-              <div class="form-group">
-                <label for="name">Naziv firme:</label>
-                <input id="name" [(ngModel)]="name" name="name" class="form-control" required>
-              </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary" (click)="addDecorator(decorator)" [disabled]="isDecoratorSelected(decorator)">Dodaj</button>
+          </div>
+        </div>
+        <label for="selectedDecorators" class="mt-3">Izabrani Dekorateri:</label>
+        <ul class="list-group">
+          <li *ngFor="let decorator of decorators; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ decorator.name }}
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeDecorator(i)">Ukloni</button>
+          </li>
+        </ul>
 
-              <div class="form-group">
-                <label for="address">Adresa:</label>
-                <input id="address" [(ngModel)]="address" name="address" class="form-control" required>
-              </div>
+        <small *ngIf="decorators.length < 2" class="text-danger mt-2 d-block">Morate izabrati dva ili više dekoratera.</small>
+      </div>
 
-              <div class="form-group">
-                <label for="contact">Kontakt osoba:</label>
-                <input id="contact" [(ngModel)]="contact" name="contact" class="form-control" required>
-              </div>
+      <div class="form-group">
+        <label>Usluge:</label>
+        <div class="form-row mb-3">
+          <div class="col">
+            <input [(ngModel)]="newServiceName" name="newServiceName" class="form-control" placeholder="Naziv usluge" required>
+          </div>
+          <div class="col">
+            <input [(ngModel)]="newServicePrice" name="newServicePrice" class="form-control" placeholder="Cena usluge" type="number" required>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-secondary" (click)="addService()">Dodaj uslugu</button>
+          </div>
+        </div>
 
-              <div class="form-group">
-                <label for="decorators">Slobodni Dekorateri:</label>
-
-                <div *ngFor="let decorator of availableDecorators; let i = index" class="form-row mb-2">
-                  <div class="col">
-                    <span>{{ decorator.name }}</span>
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="btn btn-primary" (click)="addDecorator(decorator)" [disabled]="isDecoratorSelected(decorator)">Dodaj</button>
-                  </div>
-                </div>
-                <label for="selectedDecorators" class="mt-3">Izabrani Dekorateri:</label>
-                <ul class="list-group">
-                  <li *ngFor="let decorator of decorators; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ decorator.name }}
-                    <button type="button" class="btn btn-danger btn-sm" (click)="removeDecorator(i)">Ukloni</button>
-                  </li>
-                </ul>
-
-                <small *ngIf="decorators.length < 2" class="text-danger mt-2 d-block">Morate izabrati dva ili vise dekoratera.</small>
-              </div>
-
-              <div class="form-group">
-                <label>Usluge:</label>
-                <div class="form-row mb-3">
-                  <div class="col">
-                    <input [(ngModel)]="newServiceName" name="newServiceName" class="form-control" placeholder="Naziv usluge" required>
-                  </div>
-                  <div class="col">
-                    <input [(ngModel)]="newServicePrice" name="newServicePrice" class="form-control" placeholder="Cena usluge" type="number" required>
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="btn btn-secondary" (click)="addService()">Dodaj uslugu</button>
-                  </div>
-                </div>
-
-
-                <div *ngFor="let service of services; let i = index" class="form-row mb-2">
-                  <div class="col">
-                    <input [(ngModel)]="service.name" name="serviceName{{i}}" class="form-control" placeholder="Naziv usluge" readonly>
-                  </div>
-                  <div class="col">
-                    <input [(ngModel)]="service.price" name="servicePrice{{i}}" class="form-control" placeholder="Cena" type="number" readonly>
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="btn btn-danger" (click)="removeService(i)">Ukloni</button>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="form-group">
-                <label for="vacationFrom">Period godišnjeg odmora (od - do):</label>
-                <div class="form-row">
-                  <div class="col">
-                    <input id="vacationFrom" [(ngModel)]="vacationPeriod.from" name="vacationFrom" class="form-control" type="date" required>
-                  </div>
-                  <div class="col">
-                    <input id="vacationTo" [(ngModel)]="vacationPeriod.to" name="vacationTo" class="form-control" type="date" required>
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Sačuvaj</button>
-              <button class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
-            </form>
-
+        <div *ngFor="let service of services; let i = index" class="form-row mb-2">
+          <div class="col">
+            <input [(ngModel)]="service.name" name="serviceName{{i}}" class="form-control" placeholder="Naziv usluge" readonly>
+          </div>
+          <div class="col">
+            <input [(ngModel)]="service.price" name="servicePrice{{i}}" class="form-control" placeholder="Cena" type="number" readonly>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-danger" (click)="removeService(i)">Ukloni</button>
           </div>
         </div>
       </div>
-    </div>
-    <div>{{message}}</div>
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
 
+      <div class="form-group">
+        <label for="vacationFrom">Period godišnjeg odmora (od - do):</label>
+        <div class="form-row">
+          <div class="col">
+            <input id="vacationFrom" [(ngModel)]="vacationPeriod.from" name="vacationFrom" class="form-control" type="date" required>
+          </div>
+          <div class="col">
+            <input id="vacationTo" [(ngModel)]="vacationPeriod.to" name="vacationTo" class="form-control" type="date" required>
+          </div>
+        </div>
+      </div>
 
-
+      <button type="submit" class="btn btn-primary">Sačuvaj</button>
+      <button type="button" class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
+    </form>
   </div>
-  <app-footer></app-footer>
+
+  <div>{{message}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+</div>
+<app-footer></app-footer>

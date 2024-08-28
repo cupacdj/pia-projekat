@@ -128,6 +128,9 @@ export class CompanyRegisterComponent {
         }
         this.availableDecorators = user.filter((user) => user.type == 'dekorater' && (user.company == '' || user.company == 'undefined'));
       });
+
+    this.message = '';
+    this.errorMessage = '';
   }
 
 }

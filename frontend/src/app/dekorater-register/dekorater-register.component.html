@@ -2,67 +2,82 @@
 <div class="container mt-4">
   <h2>Administracija</h2>
   <button class="btn btn-primary" (click)="back()">Nazad</button>
-  <br>
-  <div class="modal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Dodavanje dekoratera</h5>
-        </div>
-        <div class="modal-body">
-          <form (submit)="addDecorator()">
-            <label for="username" class="required">Korisničko ime: </label>
-            <input id="username" [(ngModel)]="username" name="username" required>
-            <br>
-            <label for="password" class="required">Lozinka: </label>
-            <input id="password" type="password" [(ngModel)]="password" name="password" required
-              title="Lozinka mora imati između 6 i 10 karaktera, početi slovom, sadržati bar jedno veliko slovo, tri mala slova, jedan broj i jedan specijalni karakter.">
-            <br>
-            <label for="name" class="required">Ime: </label>
-            <input id="name" [(ngModel)]="name" name="name" required>
-            <br>
-            <label for="lastname" class="required">Prezime: </label>
-            <input id="lastname" [(ngModel)]="lastname" name="lastname" required>
-            <br>
-            <label class="required">Pol: </label>
-            <div class="radio-group">
-              <input type="radio" id="male" name="gender" [(ngModel)]="gender" value="M" required>
-              <label for="male">M</label>
-              <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" required>
-              <label for="female">Z</label>
-            </div>
-            <br>
-            <label for="address" class="required">Adresa: </label>
-            <input id="address" [(ngModel)]="address" name="address" required>
-            <br>
-            <label for="number" class="required">Kontakt telefon: </label>
-            <input id="number" [(ngModel)]="number" name="number" required>
-            <br>
-            <label for="email" class="required">Email: </label>
-            <input id="email" [(ngModel)]="email" name="email" required>
-            <br>
-            <label for="picture">Profilna slika: </label>
-            <span class="picture-upload">
-              <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
-              <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon">
-            </span>
-            <br>
-            <label for="creditCard" class="required">Broj kreditne kartice: </label>
-            <div class="credit-card-container">
-              <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
-              <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()" required>
-            </div>
-            <br>
-            <label for="company">Firma: </label>
-            <input id="company" [(ngModel)]="company" name="company">
-            <br>
-            <button type="submit">Dodaj dekoratera</button>
-            <button class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
-          </form>
+
+
+  <div  class="mt-4">
+    <h5>Dodavanje dekoratera</h5>
+    <form (submit)="addDecorator()">
+      <div class="form-group">
+        <label for="username" class="required">Korisničko ime:</label>
+        <input id="username" [(ngModel)]="username" name="username" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="required">Lozinka:</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password" class="form-control" required
+          title="Lozinka mora imati između 6 i 10 karaktera, početi slovom, sadržati bar jedno veliko slovo, tri mala slova, jedan broj i jedan specijalni karakter.">
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="required">Ime:</label>
+        <input id="name" [(ngModel)]="name" name="name" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lastname" class="required">Prezime:</label>
+        <input id="lastname" [(ngModel)]="lastname" name="lastname" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Pol:</label>
+        <div class="radio-group">
+          <div class="form-check form-check-inline">
+            <input type="radio" id="male" name="gender" [(ngModel)]="gender" value="M" class="form-check-input" required>
+            <label for="male" class="form-check-label">M</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" class="form-check-input" required>
+            <label for="female" class="form-check-label">Z</label>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div class="form-group">
+        <label for="address" class="required">Adresa:</label>
+        <input id="address" [(ngModel)]="address" name="address" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="number" class="required">Kontakt telefon:</label>
+        <input id="number" [(ngModel)]="number" name="number" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="required">Email:</label>
+        <input id="email" [(ngModel)]="email" name="email" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="picture">Profilna slika:</label>
+        <span class="picture-upload">
+          <input id="picture" name="picture" type="file" (change)="onFileSelected($event)" class="form-control">
+          <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon mt-2">
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="creditCard" class="required">Broj kreditne kartice:</label>
+        <div class="credit-card-container">
+          <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
+          <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()" class="form-control" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success">Dodaj dekoratera</button>
+      <button type="button" class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
+    </form>
   </div>
+
   <div>{{message}}</div>
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}

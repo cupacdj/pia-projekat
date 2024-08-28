@@ -22,3 +22,19 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.dropdown-item {
+  padding: 5px 10px;
+  margin: 0;
+  background-color: white;
+  color: black;
+  font-size: 14px;
+}

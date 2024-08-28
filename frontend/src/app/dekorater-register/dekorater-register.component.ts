@@ -16,6 +16,7 @@ export class DekoraterRegisterComponent {
       alert('Niste autorizovani kao administrator!');
       this.router.navigate(['/login/admin']);
     }
+
   }
 
   username: string;
@@ -123,6 +124,7 @@ export class DekoraterRegisterComponent {
     this.userService.registerUser(formData).subscribe((response) => {
       if (response.message == 'Zahtev za registraciju je uspešno odrađen, čeka se odobrenje administratora!') {
         this.message = "Dodavanje dekoratera uspesno";
+        this.errorMessage = '';
       } else {
         this.errorMessage = response.message;
       }
@@ -141,5 +143,7 @@ export class DekoraterRegisterComponent {
     this.email = '';
     this.creditCard = '';
     this.company = '';
+    this.message = '';
+    this.errorMessage = '';
   }
 }

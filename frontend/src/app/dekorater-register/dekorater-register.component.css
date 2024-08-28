@@ -79,3 +79,50 @@ button[type="button"]:hover, button[type="submit"]:hover {
 .mt-2 {
   margin-top: 20px;
 }
+
+
+
+.credit-card-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.card-icon {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+  position: absolute;
+  left: 10px;
+}
+
+.credit-card-container input {
+  padding-left: 50px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.picture-icon{
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  left: 10px;
+}
+
+.picture-upload {
+  display: inline-flex;
+  align-items: center;
+}
+
+.picture-upload img.picture-icon {
+  margin-left: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: #333;
+}
