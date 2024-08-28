@@ -50,7 +50,7 @@ export class FrontpageComponent {
         company.name.toLowerCase().includes(this.searchName.toLowerCase()));
     } else {
       this.filteredCompanyNames = [];
-      this.filteredCompanies = this.companies;  // Prikaz svih kompanija ako nema pretrage
+      this.filteredCompanies = this.companies;
     }
   }
 
