@@ -2,7 +2,7 @@ import * as express from 'express';
 import User from '../models/user';
 import Company from '../models/company';
 import path from 'path';
-    
+
 
 export class AdminController {
 
@@ -36,7 +36,7 @@ export class AdminController {
             res.json({ message: 'Problem prilikom deaktivacije korisnika!(updateOne)' });
         });
     }
-    
+
 
     activateUser = (req: express.Request, res: express.Response) => {
         let username = req.body.username;
@@ -53,33 +53,42 @@ export class AdminController {
 
     userUpdate = (req: express.Request, res: express.Response) => {
         let updatedUser = req.body;
-    
+
         User.findOne({ 'username': updatedUser.username }).then(existingUser => {
             if (!existingUser) {
                 return res.json({ message: 'Korisnik ne postoji!' });
             }
-    
+
             User.deleteOne({ 'username': updatedUser.username }).then(() => {
                 let newUser = new User(updatedUser);
-    
+
+                newUser.status = 'approved';
+                if (updatedUser.type == 'dekorater') {
+                    if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+                        newUser.scheduler = [];
+                    } else {
+                        newUser.scheduler = updatedUser.scheduler;
+                    }
+                }
+
                 newUser.save().then(() => {
                     res.json({ message: 'Azuriranje uspesno' });
                 }).catch(err => {
                     console.log(err);
                     res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
                 });
-    
+
             }).catch(err => {
                 console.log(err);
                 res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
             });
-    
+
         }).catch(err => {
             console.log(err);
             res.json({ message: 'Problem prilikom pretrage korisnika!' });
         });
     }
-    
+
     getPendingUsers = (req: express.Request, res: express.Response) => {
         User.find({ 'status': 'pending' }).then(users => {
             res.json(users);
@@ -92,7 +101,7 @@ export class AdminController {
     getProfilePicture = (req: express.Request, res: express.Response) => {
         let picture = req.body.picture;
         console.log(picture);
-        const filePath =  `./uploads${picture}`;
+        const filePath = `./uploads${picture}`;
         res.sendFile(filePath, { root: path.join(__dirname, '../..') });
     }
 

@@ -10,9 +10,11 @@ import { UserService } from '../services/user.service';
 })
 export class OwnerProfileComponent implements OnInit {
 
+  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '',scheduler: [] };
+
+
   constructor(private router: Router, private userService: UserService ) { }
 
-  user: User;
   usernameFind: string;
   messageGet: string;
   profilePicture: string;

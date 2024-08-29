@@ -26,7 +26,6 @@ export class LoginComponent {
       this.error = "";
       this.userService.login(this.username, this.password).subscribe((response: {message: string, user: User}) => {
         if (response.user == null) {
-          console.log(response.message);
           this.error = response.message;
         }
         else if(response.user.type == "admin") {

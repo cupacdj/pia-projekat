@@ -8,7 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FrontpageComponent } from './frontpage/frontpage.component';
-import { VlasnikComponent } from './vlasnik/vlasnik.component';
+import { OwnerComponent } from './owner/owner.component';
 import { DekoraterComponent } from './dekorater/dekorater.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
@@ -23,6 +23,7 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
 import { DekoraterMenuComponent } from './dekorater-menu/dekorater-menu.component';
 import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile.component';
 import { OwnerCompanyComponent } from './owner-company/owner-company.component';
+import { DekoraterSchedulingComponent } from './dekorater-scheduling/dekorater-scheduling.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { OwnerCompanyComponent } from './owner-company/owner-company.component';
     LoginComponent,
     RegisterComponent,
     FrontpageComponent,
-    VlasnikComponent,
+    OwnerComponent,
     DekoraterComponent,
     AdminComponent,
     AdminLoginComponent,
@@ -44,7 +45,8 @@ import { OwnerCompanyComponent } from './owner-company/owner-company.component';
     CompanyRegisterComponent,
     DekoraterMenuComponent,
     DekoraterProfileComponent,
-    OwnerCompanyComponent
+    OwnerCompanyComponent,
+    DekoraterSchedulingComponent
   ],
   imports: [
     BrowserModule,

@@ -109,10 +109,11 @@ export class UserController {
                 type,
                 company
             });
-            if(type == 'vlasnik'){
+            if (type == 'vlasnik') {
                 newUser.status = 'pending';
-            } else if(type == 'dekorater'){
+            } else if (type == 'dekorater') {
                 newUser.status = 'approved';
+                newUser.scheduler = [];
             }
 
             newUser.save().then(() => {
@@ -130,7 +131,7 @@ export class UserController {
     changePassword = (req: express.Request, res: express.Response) => {
         const { username, oldPassword, newPassword } = req.body;
 
-        User.findOne(username).then(user => {
+        User.findOne({ 'username': username }).then(user => {
             if (!user) {
                 return res.json({ message: 'Korisnik nije pronađen.' });
             }
@@ -191,6 +192,14 @@ export class UserController {
                 let newUser = new User(updatedUser);
 
                 newUser.status = 'approved';
+                if (updatedUser.type == 'dekorater') {
+                    if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+                        newUser.scheduler = [];
+                    } else {
+                        newUser.scheduler = updatedUser.scheduler;
+                    }
+                }
+
 
                 newUser.save().then(() => {
                     res.json({ message: 'Azuriranje uspesno' });
@@ -238,6 +247,13 @@ export class UserController {
 
                         newUser.picture = picturePath;
                         newUser.status = 'approved';
+                        if (updatedUser.type == 'dekorater') {
+                            if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+                                newUser.scheduler = [];
+                            } else {
+                                newUser.scheduler = updatedUser.scheduler;
+                            }
+                        }
 
                         newUser.save().then(() => {
                             res.json({ message: 'Azuriranje uspesno' });

@@ -42,6 +42,9 @@ let User = new Schema({
     },
     company: {
         type: String
+    }, 
+    scheduler: {
+        type: [Date]
     }
 })
 

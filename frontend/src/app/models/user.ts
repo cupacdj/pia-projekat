@@ -13,4 +13,5 @@ export default class User {
     status: string= ""; //pending, approved, denied
     profilePicture: string= "";
     company: string= "";
+    scheduler: Date[] = [];
 }
