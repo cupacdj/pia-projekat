@@ -6,20 +6,8 @@ import { AdminService } from '../services/admin.service';
 import { CompanyService } from '../services/company.service';
 import Job from '../models/job';
 import { Time } from "@angular/common";
+import { LayoutObject } from '../models/layout-data';
 
-interface LayoutObject {
-  type: 'rectangle' | 'circle';
-  x: number;
-  y: number;
-  width?: number;
-  height?: number;
-  radius?: number;
-  color: string;
-};
-
-interface LayoutData {
-  objects: LayoutObject[];
-};
 
 @Component({
   selector: 'app-owner-company',
@@ -33,20 +21,20 @@ export class OwnerCompanyComponent {
   constructor(private router: Router, private adminService: AdminService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('ulogovan')) {
-      alert('Niste ulogovani!');
-      this.router.navigate(['/login']);
-    }
-    this.adminService.getUsers().subscribe((users) => {
-      this.users = users;
-      this.decorators = this.users.filter(user => user.type === 'dekorater');
-    });
-    this.adminService.getCompanies().subscribe((companies) => {
-      this.companies = companies;
-    });
-    this.filtered = false;
-    this.showDetails = false;
-    this.currentStep = 0;
+      if (!localStorage.getItem('ulogovan')) {
+        alert('Niste ulogovani!');
+        this.router.navigate(['/login']);
+      }
+      this.adminService.getUsers().subscribe((users) => {
+        this.users = users;
+        this.decorators = this.users.filter(user => user.type === 'dekorater');
+      });
+      this.adminService.getCompanies().subscribe((companies) => {
+        this.companies = companies;
+      });
+      this.filtered = false;
+      this.showDetails = false;
+      this.currentStep = 0;
   }
 
   users: User[] = [];
@@ -60,46 +48,59 @@ export class OwnerCompanyComponent {
   filtered: boolean = false;
   showDetails: boolean = false;
 
-  filterCompaniesByName() {
-    if (this.searchName) {
-      this.filteredCompanyNames = this.companies
-        .map(company => company.name)
-        .filter(name => name.toLowerCase().includes(this.searchName.toLowerCase()));
-
-      this.filteredCompanies = this.companies.filter(company =>
-        company.name.toLowerCase().includes(this.searchName.toLowerCase()));
-    } else {
-      this.filteredCompanyNames = [];
-      this.filteredCompanies = this.companies;
-    }
-  }
-
-  filterCompaniesByAddress() {
-    if (this.searchAddress) {
-      this.filteredCompanyAddresses = this.companies
-        .map(company => company.address)
-        .filter(address => address.toLowerCase().includes(this.searchAddress.toLowerCase()));
-
-      this.filteredCompanies = this.companies.filter(company =>
-        company.address.toLowerCase().includes(this.searchAddress.toLowerCase()));
-    } else {
-      this.filteredCompanyAddresses = [];
-      this.filteredCompanies = this.companies;
-    }
-    this.filtered = true;
-  }
+  showNameDropdown: boolean = false;
+  showAddressDropdown: boolean = false;
 
   selectCompanyByName(name: string) {
     this.searchName = name;
-    this.filterCompaniesByName();
+    this.filterCompanies();
+    this.showNameDropdown = false;
     this.filtered = true;
   }
 
   selectCompanyByAddress(address: string) {
     this.searchAddress = address;
-    this.filterCompaniesByAddress();
+    this.filterCompanies();
+    this.showNameDropdown = false;
     this.filtered = true;
   }
+
+  onInputFocus(type: string) {
+    if (type === 'name') {
+      this.showNameDropdown = true;
+      this.showAddressDropdown = false;
+    } else if (type === 'address') {
+      this.showAddressDropdown = true;
+      this.showNameDropdown = false;
+    }
+  }
+
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.form-group')) {
+      this.showNameDropdown = false;
+      this.showAddressDropdown = false;
+    }
+  }
+
+  filterCompanies() {
+    this.filteredCompanies = this.companies.filter(company =>
+      company.name.toLowerCase().includes(this.searchName.toLowerCase()) &&
+      company.address.toLowerCase().includes(this.searchAddress.toLowerCase())
+    );
+
+    this.filteredCompanyNames = this.companies
+      .filter(company => company.name.toLowerCase().includes(this.searchName.toLowerCase()))
+      .map(company => company.name);
+
+    this.filteredCompanyAddresses = this.companies
+      .filter(company => company.address.toLowerCase().includes(this.searchAddress.toLowerCase()))
+      .map(company => company.address);
+
+    this.showNameDropdown = !!this.searchName && this.filteredCompanyNames.length > 0;
+    this.showAddressDropdown = !!this.searchAddress && this.filteredCompanyAddresses.length > 0;
+  }
+
 
   sortByName() {
     this.filteredCompanies = this.companies.sort((a, b) => a.name.localeCompare(b.name));
@@ -124,6 +125,24 @@ export class OwnerCompanyComponent {
     this.selectedCompany = company;
     this.showDetails = true;
     this.currentStep = 1;
+    this.step1Data = {
+      date: null as Date,
+      time: null as Time,
+      area: 0,
+      gardenType: ''
+    };
+
+    this.step2Data = {
+      poolArea: 0,
+      greenArea: 0,
+      furnitureArea: 0,
+      fountainArea: 0,
+      tables: 0,
+      chairs: 0,
+      additionalRequests: '',
+      selectedServices: [] as string[],
+      layoutData: [] as LayoutObject[]
+    };
   }
 
   back() {
@@ -139,6 +158,9 @@ export class OwnerCompanyComponent {
   errorForm: string = '';
 
   nextStep() {
+    if(!this.step1Data.date || !this.step1Data.time || !this.step1Data.area || !this.step1Data.gardenType) {
+      this.errorForm = 'Molimo popunite sva polja.';
+    } else
     if (this.isDateInVacationPeriod(new Date(this.step1Data.date))) {
       this.errorForm = 'Izabrani datum pada u period godišnjeg odmora firme. Molimo izaberite drugi datum.';
     } else if (this.step1Data.area < 0) {
@@ -176,7 +198,7 @@ export class OwnerCompanyComponent {
     chairs: 0,
     additionalRequests: '',
     selectedServices: [] as string[],
-    layoutData: {} as LayoutData
+    layoutData: [] as LayoutObject[]
   };
 
   previousStep() {
@@ -208,12 +230,12 @@ export class OwnerCompanyComponent {
     return this.step2Data.selectedServices.includes(serviceName);
   }
 
-  job: Job;
+  job: Job = new Job();
 
   submit() {
     const filteredDecorators = this.decorators.filter(decorator => decorator.company === this.selectedCompany.name);
-    const DecoratorAvailable = filteredDecorators.filter(decorator => decorator.scheduler.some(date => date.toDateString() === this.step1Data.date.toDateString()));
-    if (DecoratorAvailable.length === 0) {
+    const DecoratorAvailable = filteredDecorators.filter(decorator => decorator.scheduler.some(date => date.toDateString() == this.step1Data.date.toDateString()));
+    if (DecoratorAvailable.length == filteredDecorators.length) {
       this.errorForm = 'Nema slobodnih dekoratera za izabrani datum.';
       return;
     }
@@ -226,10 +248,12 @@ export class OwnerCompanyComponent {
       return;
     }
     this.job = {
+      owner: localStorage.getItem('ulogovan'),
+      decorator: '',
       company: this.selectedCompany.name,
       appointmentDate: this.step1Data.date,
       appointmentTime: this.step1Data.time,
-      productionData: null,
+      productionDate: null,
       finishedDate: null,
       area: this.step1Data.area,
       gardenType: this.step1Data.gardenType,
@@ -242,16 +266,17 @@ export class OwnerCompanyComponent {
       additionalRequests: this.step2Data.additionalRequests,
       selectedServices: this.step2Data.selectedServices,
       layoutData: this.step2Data.layoutData,
-      //decorators: filteredDecorators.map(decorator => decorator.username),
       status: 'cekanje',
       grade: 0,
       comment: '',
       rejectionComment: ''
     }
+    console.log(this.step1Data.gardenType)
     this.companyService.createJob(this.job).subscribe((response) => {
-      if (response.message == 'Posao je uspesno zakazan.') {
+      if (response.message == "Posao je uspesno zakazan.") {
         this.errorForm = null;
         this.currentStep++;
+
       } else {
         this.errorForm = 'Došlo je do greške prilikom kreiranja posla.';
       }

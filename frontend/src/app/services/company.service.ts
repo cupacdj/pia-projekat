@@ -15,4 +15,16 @@ export class CompanyService {
     return this.http.post<{message: string}>(`${this.url}/create-job`, job);
   }
 
+  getJobs(){
+    return this.http.get<Job[]>(`${this.url}/jobs`);
+  }
+
+  updateJob(job: Job) {
+    return this.http.post<{message: string}>(`${this.url}/update-job`, job);
+  }
+
+  cancelJob(job: Job) {
+    return this.http.post<{message: string}>(`${this.url}/cancel-job`, job);
+  }
+
 }

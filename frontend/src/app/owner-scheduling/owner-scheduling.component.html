@@ -1,0 +1,128 @@
+<app-header-login></app-header-login>
+<app-owner-menu></app-owner-menu>
+<div class="container mt-4">
+  <h2 class="text-center">Tabela poslova</h2>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Trenutni</h3>
+      <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center">Datum zakazivanja</th>
+            <th class="text-center">Datum izrade</th>
+            <th class="text-center">Naziv firme</th>
+            <th class="text-center">Trazene usluge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of pendingJobs">
+            <td>{{ job.appointmentDate | date }}</td>
+            <td>{{ job.productionDate ? (job.productionDate | date) : 'Ceka se potvrda majstora.' }}</td>
+            <td>{{ job.company }}</td>
+            <td>
+              <ul >
+                <li *ngFor="let service of job.selectedServices">{{ service }}</li>
+              </ul>
+            </td>
+            <td>
+              <button *ngIf="canCancle(job.productionDate)" class="btn btn-danger" (click)="cancelJob(job)">
+                Otkaži
+              </button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Zavrseni poslovi</h3>
+      <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center">Datum izrade</th>
+            <th class="text-center">Naziv firme</th>
+            <th class="text-center">Komentar</th>
+            <th class="text-center">Ocena</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of completedJobs">
+            <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
+            <td>{{ job.company }}</td>
+            <td>{{ job.comment || 'Bez komentara' }}</td>
+            <td>{{ job.grade || 'Bez ocene' }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" *ngIf="(!job.comment ||  job.grade === 0) && job.status === 'zavrsen' "
+                (click)="openCommentForm(job)">Ostavi komentar</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Odbijeni poslovi</h3>
+      <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center">Datum izrade</th>
+            <th class="text-center">Naziv firme</th>
+            <th class="text-center">Komentar</th>
+            <th class="text-center">Ocena</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of canceledJobs">
+            <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
+            <td>{{ job.company }}</td>
+            <td>{{ job.comment || 'Bez komentara' }}</td>
+            <td>{{ job.grade || 'Bez ocene' }}</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="showCommentForm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ostavite svoj komentar i ocenu</h5>
+        <button type="button" class="close" (click)="closeCommentForm()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitComment()">
+          <div class="form-group">
+            <label for="commentTextArea">Komentar</label>
+            <textarea id="commentTextArea" [(ngModel)]="newComment" name="comment" rows="4" class="form-control"
+              placeholder="Unesite vaš komentar..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Ocena</label>
+            <div class="rating">
+              <i class="fa fa-star" [class.checked]="newRating >= 1" (click)="setRating(1)"></i>
+              <i class="fa fa-star" [class.checked]="newRating >= 2" (click)="setRating(2)"></i>
+              <i class="fa fa-star" [class.checked]="newRating >= 3" (click)="setRating(3)"></i>
+              <i class="fa fa-star" [class.checked]="newRating >= 4" (click)="setRating(4)"></i>
+              <i class="fa fa-star" [class.checked]="newRating >= 5" (click)="setRating(5)"></i>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">Pošalji ocenu</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+
+</div>
+
+
+<app-footer></app-footer>

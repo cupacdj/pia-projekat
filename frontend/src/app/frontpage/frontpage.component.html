@@ -1,13 +1,13 @@
 <app-header></app-header>
 
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Опште информације</h2>
+  <h2 class="text-center mb-4">Opste informacije</h2>
 
   <div class="row text-center">
     <div class="col-md-6 mb-4">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">Укупно власника</h5>
+          <h5 class="card-title">Ukupno vlasnika</h5>
           <p class="card-text display-4">{{ totalOwners }}</p>
         </div>
       </div>
@@ -15,7 +15,7 @@
     <div class="col-md-6 mb-4">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">Укупно декоратера</h5>
+          <h5 class="card-title">Ukupno dekoratera</h5>
           <p class="card-text display-4">{{ totalDecorators }}</p>
         </div>
       </div>
@@ -23,9 +23,9 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group position-relative">
-        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme" (input)="filterCompaniesByName()">
-        <div *ngIf="filteredCompanyNames.length > 0" class="dropdown-menu show" style="width: 100%;">
+      <div class="form-group position-relative" (click)="onInputFocus('name')" (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme" (input)="filterCompanies()" (focus)="onInputFocus('name')">
+        <div *ngIf="showNameDropdown && filteredCompanyNames.length > 0" class="dropdown-menu show" style="width: 100%;">
           <button *ngFor="let name of filteredCompanyNames" class="dropdown-item" (click)="selectCompanyByName(name)">
             {{ name }}
           </button>
@@ -33,9 +33,9 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group position-relative">
-        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme" (input)="filterCompaniesByAddress()">
-        <div *ngIf="filteredCompanyAddresses.length > 0" class="dropdown-menu show" style="width: 100%;">
+      <div class="form-group position-relative" (click)="onInputFocus('address')" (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme" (input)="filterCompanies()" (focus)="onInputFocus('address')">
+        <div *ngIf="showAddressDropdown && filteredCompanyAddresses.length > 0" class="dropdown-menu show" style="width: 100%;">
           <button *ngFor="let address of filteredCompanyAddresses" class="dropdown-item" (click)="selectCompanyByAddress(address)">
             {{ address }}
           </button>
@@ -43,14 +43,16 @@
       </div>
     </div>
   </div>
+
+
   <div class="row mt-4">
     <div class="col-12">
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th (click)="sortByName()" class="text-center">Назив фирме <i class="fas fa-sort"></i></th>
-            <th (click)="sortByAddress()" class="text-center">Адреса <i class="fas fa-sort"></i></th>
-            <th class="text-center">Ангажовани декоратери</th>
+            <th (click)="sortByName()" class="text-center">Naziv firme <i class="fas fa-sort"></i></th>
+            <th (click)="sortByAddress()" class="text-center">Adresa <i class="fas fa-sort"></i></th>
+            <th class="text-center">Angazovani dekorateri</th>
           </tr>
         </thead>
         <tbody *ngIf="filtered == false">

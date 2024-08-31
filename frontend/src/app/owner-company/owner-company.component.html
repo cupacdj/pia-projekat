@@ -4,10 +4,9 @@
 <div class="container mt-5" *ngIf="!showDetails">
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group position-relative">
-        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme"
-          (input)="filterCompaniesByName()">
-        <div *ngIf="filteredCompanyNames.length > 0" class="dropdown-menu show" style="width: 100%;">
+      <div class="form-group position-relative" (click)="onInputFocus('name')" (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme" (input)="filterCompanies()" (focus)="onInputFocus('name')">
+        <div *ngIf="showNameDropdown && filteredCompanyNames.length > 0" class="dropdown-menu show" style="width: 100%;">
           <button *ngFor="let name of filteredCompanyNames" class="dropdown-item" (click)="selectCompanyByName(name)">
             {{ name }}
           </button>
@@ -15,12 +14,10 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group position-relative">
-        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme"
-          (input)="filterCompaniesByAddress()">
-        <div *ngIf="filteredCompanyAddresses.length > 0" class="dropdown-menu show" style="width: 100%;">
-          <button *ngFor="let address of filteredCompanyAddresses" class="dropdown-item"
-            (click)="selectCompanyByAddress(address)">
+      <div class="form-group position-relative" (click)="onInputFocus('address')" (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme" (input)="filterCompanies()" (focus)="onInputFocus('address')">
+        <div *ngIf="showAddressDropdown && filteredCompanyAddresses.length > 0" class="dropdown-menu show" style="width: 100%;">
+          <button *ngFor="let address of filteredCompanyAddresses" class="dropdown-item" (click)="selectCompanyByAddress(address)">
             {{ address }}
           </button>
         </div>
@@ -32,9 +29,9 @@
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th (click)="sortByName()" class="text-center">Назив фирме <i class="fas fa-sort"></i></th>
-            <th (click)="sortByAddress()" class="text-center">Адреса <i class="fas fa-sort"></i></th>
-            <th class="text-center">Ангажовани декоратери</th>
+            <th (click)="sortByName()" class="text-center">Naziv firme <i class="fas fa-sort"></i></th>
+            <th (click)="sortByAddress()" class="text-center">Adresa <i class="fas fa-sort"></i></th>
+            <th class="text-center">Angazovani dekorateri</th>
           </tr>
         </thead>
         <tbody *ngIf="filtered == false">
@@ -119,12 +116,12 @@
       <label>Tip bašte:</label>
       <div class="form-check">
         <input id="private" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio" class="form-check-input"
-          value="private" required>
+          value="privatno" required>
         <label for="private" class="form-check-label">Privatna</label>
       </div>
       <div class="form-check">
         <input id="restaurant" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio"
-          class="form-check-input" value="restaurant" required>
+          class="form-check-input" value="restoran" required>
         <label for="restaurant" class="form-check-label">Bašta restorana</label>
       </div>
     </div>
@@ -141,7 +138,7 @@
   <h3 class="mb-4 text-center">Zakazivanje Uređivanja Bašte</h3>
   <h3>Korak 2: Detalji Uređenja Bašte</h3>
 
-  <div *ngIf="step1Data.gardenType === 'private'">
+  <div *ngIf="step1Data.gardenType === 'privatno'">
     <h4>Privatna Bašta</h4>
 
     <div class="form-group">
@@ -160,7 +157,7 @@
     </div>
   </div>
 
-  <div *ngIf="step1Data.gardenType === 'restaurant'">
+  <div *ngIf="step1Data.gardenType === 'restoran'">
     <h4>Bašta Restorana</h4>
 
     <div class="form-group">

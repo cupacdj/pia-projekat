@@ -28,4 +28,8 @@ export class OwnerMenuComponent {
     this.router.navigate(['/owner-company']);
   }
 
+  schedulingJobs(){
+    this.router.navigate(['/owner-scheduling']);
+  }
+
 }

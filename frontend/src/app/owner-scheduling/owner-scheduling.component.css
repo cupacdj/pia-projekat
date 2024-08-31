@@ -1,0 +1,29 @@
+.modal-content {
+  border-radius: 10px;
+}
+
+.rating {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rating i {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #ddd;
+}
+
+.rating i.checked {
+  color: #ffcc00;
+
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+.btn-success {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+}
