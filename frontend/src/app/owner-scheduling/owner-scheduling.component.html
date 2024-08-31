@@ -1,10 +1,10 @@
 <app-header-login></app-header-login>
 <app-owner-menu></app-owner-menu>
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <h2 class="text-center">Tabela poslova</h2>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-lg-6 col-md-12 mb-4">
       <h3>Trenutni</h3>
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
@@ -13,6 +13,7 @@
             <th class="text-center">Datum izrade</th>
             <th class="text-center">Naziv firme</th>
             <th class="text-center">Trazene usluge</th>
+            <th class="text-center">Akcije</th>
           </tr>
         </thead>
         <tbody>
@@ -21,7 +22,7 @@
             <td>{{ job.productionDate ? (job.productionDate | date) : 'Ceka se potvrda majstora.' }}</td>
             <td>{{ job.company }}</td>
             <td>
-              <ul >
+              <ul>
                 <li *ngFor="let service of job.selectedServices">{{ service }}</li>
               </ul>
             </td>
@@ -29,13 +30,14 @@
               <button *ngIf="canCancle(job.productionDate)" class="btn btn-danger" (click)="cancelJob(job)">
                 Otkaži
               </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="col-md-6">
-      <h3>Zavrseni poslovi</h3>
+    <div class="col-lg-6 col-md-12 mb-4">
+      <h3>Završeni poslovi</h3>
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
           <tr>
@@ -43,6 +45,7 @@
             <th class="text-center">Naziv firme</th>
             <th class="text-center">Komentar</th>
             <th class="text-center">Ocena</th>
+            <th class="text-center"></th>
           </tr>
         </thead>
         <tbody>
@@ -52,16 +55,15 @@
             <td>{{ job.comment || 'Bez komentara' }}</td>
             <td>{{ job.grade || 'Bez ocene' }}</td>
             <td>
-              <button class="btn btn-primary btn-sm" *ngIf="(!job.comment ||  job.grade === 0) && job.status === 'zavrsen' "
+              <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
                 (click)="openCommentForm(job)">Ostavi komentar</button>
             </td>
           </tr>
-
         </tbody>
       </table>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-lg-6 col-md-12 mb-5">
       <h3>Odbijeni poslovi</h3>
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
@@ -70,6 +72,7 @@
             <th class="text-center">Naziv firme</th>
             <th class="text-center">Komentar</th>
             <th class="text-center">Ocena</th>
+            <th class="text-center"></th>
           </tr>
         </thead>
         <tbody>
@@ -78,15 +81,16 @@
             <td>{{ job.company }}</td>
             <td>{{ job.comment || 'Bez komentara' }}</td>
             <td>{{ job.grade || 'Bez ocene' }}</td>
-
+            <td>
+              <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
+                (click)="openCommentForm(job)">Ostavi komentar</button>
+            </td>
           </tr>
-
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
 
 <div *ngIf="showCommentForm">
   <div class="modal-dialog" role="document">
@@ -120,9 +124,5 @@
     </div>
   </div>
 </div>
-<div>
-
-</div>
-
 
 <app-footer></app-footer>

@@ -39,6 +39,9 @@ export class OwnerSchedulingComponent {
   }
 
   canCancle(productionDate: Date): boolean {
+    if(!productionDate) {
+      return true;
+    }
     const currentDate = new Date();
     const date = new Date(productionDate);
     date.setDate(date.getDate() - 1);
