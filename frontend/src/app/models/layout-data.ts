@@ -6,5 +6,8 @@ export interface LayoutObject {
   height?: number;
   radius?: number;
   color: string;
-};
+}
 
+export interface LayoutData {
+  objects: LayoutObject[];
+}

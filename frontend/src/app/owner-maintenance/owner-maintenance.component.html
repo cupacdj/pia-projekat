@@ -1,0 +1,75 @@
+<app-header-login></app-header-login>
+<app-owner-menu></app-owner-menu>
+<div class="container mt-4">
+  <h2 class="text-center">Završeni Poslovi</h2>
+
+  <table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center">Datum zavrsetka</th>
+        <th class="text-center">Naziv firme</th>
+        <th class="text-center">
+          Broj fontana
+        </th>
+        <th class="text-center">
+          Broj bazena
+        </th>
+        <th class="text-center">Zakazi servisiranje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of completedJobs">
+        <td>{{ job.finishedDate | date }}</td>
+        <td>{{ job.company }}</td>
+        <td class="text-center">
+          <p>
+            {{ job.fountainCount }}
+          <p>
+        </td>
+        <td>
+          <p>
+            {{ job.poolCount }}
+          <p>
+        </td>
+        <td class="text-center">
+          <button *ngIf="canScheduleServicing(job)" class="btn btn-primary" (click)="scheduleServicing(job)">
+            Zakazi
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="maintenance" class="form-group">
+  <label for="maintenanceDate">Datum zakazivanja odrzavanja: </label>
+  <input id="maintenanceDate" [(ngModel)]="date" type="date" class="form-control">
+  <button class="btn btn-primary mt-3" (click)="submitMaintenanceDate()">Posalji</button>
+  <br>
+  <br>
+</div>
+
+
+<div class="container mt-4">
+  <h2 class="text-center">Vodene Površine u Procesu Održavanja</h2>
+
+  <table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th class="text-center">Datum početka održavanja</th>
+        <th class="text-center">Naziv firme</th>
+        <th class="text-center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of maintenanceJobs">
+        <td>{{ job.maintenanceDate | date }}</td>
+        <td>{{ job.company }}</td>
+        <td class="text-center">{{ job.maintenance }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<app-footer></app-footer>

@@ -5,6 +5,7 @@ export class CompanyController {
 
     createJob(req: express.Request, res: express.Response) {
         let job = new Job(req.body);
+        console.log(job.layoutData)
         job.save().then(() => {
             res.json({ message: 'Posao je uspesno zakazan.' });
         }).catch(err => {
@@ -15,6 +16,7 @@ export class CompanyController {
     }
 
     getJobs(req: express.Request, res: express.Response) {
+        
         Job.find().then(jobs => {
             res.json(jobs);
         }).catch(err => {

@@ -1,0 +1,64 @@
+<app-header-login></app-header-login>
+<app-dekorater-menu></app-dekorater-menu>
+<br>
+<div class="container mt-4">
+  <h2 class="text-center">Zahtevi za održavanje vodene površine</h2>
+
+  <div *ngIf="maintenanceRequests.length > 0; else noRequests">
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center">Naziv firme</th>
+          <th class="text-center">Datum zahteva</th>
+          <th class="text-center">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of maintenanceRequests">
+          <td>{{ request.company }}</td>
+          <td>{{ request.maintenanceDate | date }}</td>
+          <td class="text-center">
+            <button class="btn btn-success btn-sm" (click)="openConfirmModal(request)">Potvrdi</button>
+            <button class="btn btn-danger btn-sm" (click)="rejectRequest(request)">Odbij</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noRequests>
+    <p class="text-center">Nema trenutnih zahteva za održavanje.</p>
+  </ng-template>
+</div>
+
+
+<div *ngIf="selectedRequest" class="modal fade show d-block">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Potvrda održavanja</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="completionDate">Procenjeni datum završetka:</label>
+          <input id="completionDate" [(ngModel)]="completionDate" type="date" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="completionTime">Procenjeno vreme završetka:</label>
+          <input id="completionTime" [(ngModel)]="completionTime" type="time" class="form-control" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Zatvori</button>
+        <button type="button" class="btn btn-primary" (click)="confirmRequest(selectedRequest)">Potvrdi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="error" style="text-align: center; color: green;">{{ message }}</p>
+
+<app-footer></app-footer>

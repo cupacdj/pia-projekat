@@ -25,4 +25,7 @@ export class DekoraterMenuComponent {
     this.router.navigate(['/dekorater-scheduling']);
   }
 
+  dekoraterMaintenance(){
+    this.router.navigate(['/dekorater-maintenance']);
+  }
 }

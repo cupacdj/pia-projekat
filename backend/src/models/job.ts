@@ -54,17 +54,19 @@ let Job = new Schema({
     selectedServices: [{
         type: String
     }],
-    layoutData: [
-        {
-          type: { type: String },
-          x: { type: Number },
-          y: { type: Number },
-          width: { type: Number },  
-          height: { type: Number }, 
-          radius: { type: Number }, 
-          color: { type: String  }
-        }
-      ],
+    layoutData:{
+        objects: [
+            {
+              type: { type: String },
+              x: { type: Number },
+              y: { type: Number },
+              width: { type: Number },  
+              height: { type: Number }, 
+              radius: { type: Number }, 
+              color: { type: String  }
+            }
+          ]
+    },
     status: {
         type: String
     },
@@ -75,6 +77,24 @@ let Job = new Schema({
         type: String
     },
     rejectionComment: {
+        type: String
+    },
+    poolCount: {
+        type: Number
+    },
+    fountainCount: {
+        type: Number
+    },
+    maintenance: {
+        type: String
+    },
+    maintenanceDate: {
+        type: Date
+    },
+    maintenanceCompletitionDate: {
+        type: Date
+    },
+    maintenanceCompletitionTime: {
         type: String
     }
   });

@@ -41,7 +41,13 @@ export class DekoraterSchedulingComponent {
     this.cancelReason = '';
   }
 
+  message: string = '';s
+
   submit(job: Job): void {
+    if(job.productionDate == null){
+      this.message = 'Morate uneti datum pocetka rada!';
+      return
+    }
     this.selectedJob = job;
     const acceptedJob = {
       ...this.selectedJob,
@@ -57,6 +63,25 @@ export class DekoraterSchedulingComponent {
         this.ngOnInit();
       })
       this.close();
+    });
+  }
+
+  finish(job: Job): void {
+    if(job.finishedDate == null){
+      this.message = 'Morate uneti datum zavrsetka rada!';
+      return
+    }
+    this.selectedJob = job;
+    const finishedJob = {
+      ...this.selectedJob,
+      status: 'zavrsen',
+      decorator: this.loggedUser.username
+    };
+
+    this.companyService.updateJob(finishedJob).subscribe((response) => {
+      this.inProgressJobs = this.inProgressJobs.filter(thisJob => thisJob !== this.selectedJob);
+      this.close();
+      this.ngOnInit();
     });
   }
 

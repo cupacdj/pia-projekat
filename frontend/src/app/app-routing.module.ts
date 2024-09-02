@@ -15,6 +15,8 @@ import { OwnerCompanyComponent } from './owner-company/owner-company.component';
 import { OwnerComponent } from './owner/owner.component';
 import { DekoraterSchedulingComponent } from './dekorater-scheduling/dekorater-scheduling.component';
 import { OwnerSchedulingComponent } from './owner-scheduling/owner-scheduling.component';
+import { OwnerMaintenanceComponent } from './owner-maintenance/owner-maintenance.component';
+import { DekoraterMaintenanceComponent } from './dekorater-maintenance/dekorater-maintenance.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -31,7 +33,9 @@ const routes: Routes = [
   {path: 'company-register', component: CompanyRegisterComponent},
   {path: 'dekorater-profile', component: DekoraterProfileComponent},
   {path: 'dekorater-scheduling', component: DekoraterSchedulingComponent},
-  {path: 'owner-scheduling', component: OwnerSchedulingComponent}
+  {path: 'owner-scheduling', component: OwnerSchedulingComponent},
+  {path: 'owner-maintenance', component: OwnerMaintenanceComponent},
+  {path: 'dekorater-maintenance', component: DekoraterMaintenanceComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,153 @@
+{
+  "objects": [
+    {
+      "type": "rectangle",
+      "x": 20,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 100,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 180,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 260,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 340,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 420,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 500,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 580,
+      "y": 20,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 580,
+      "y": 100,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 580,
+      "y": 180,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 580,
+      "y": 260,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 20,
+      "y": 100,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 20,
+      "y": 180,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "rectangle",
+      "x": 20,
+      "y": 260,
+      "width": 60,
+      "height": 60,
+      "color": "lime"
+    },
+    {
+      "type": "circle",
+      "x": 300,
+      "y": 300,
+      "radius": 50,
+      "color": "blue"
+    },
+    {
+      "type": "rectangle",
+      "x": 250,
+      "y": 150,
+      "width": 30,
+      "height": 80,
+      "color": "gray"
+    },
+    {
+      "type": "rectangle",
+      "x": 330,
+      "y": 150,
+      "width": 30,
+      "height": 80,
+      "color": "gray"
+    },
+    {
+      "type": "circle",
+      "x": 295,
+      "y": 190,
+      "radius": 15,
+      "color": "brown"
+    },
+    {
+      "type": "circle",
+      "x": 375,
+      "y": 190,
+      "radius": 15,
+      "color": "brown"
+    }
+  ]
+}

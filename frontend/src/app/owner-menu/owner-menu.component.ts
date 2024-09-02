@@ -32,4 +32,8 @@ export class OwnerMenuComponent {
     this.router.navigate(['/owner-scheduling']);
   }
 
+  maintenance(){
+    this.router.navigate(['/owner-maintenance']);
+  }
+
 }

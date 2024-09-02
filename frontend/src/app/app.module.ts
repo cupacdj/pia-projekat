@@ -25,6 +25,8 @@ import { DekoraterProfileComponent } from './dekorater-profile/dekorater-profile
 import { OwnerCompanyComponent } from './owner-company/owner-company.component';
 import { DekoraterSchedulingComponent } from './dekorater-scheduling/dekorater-scheduling.component';
 import { OwnerSchedulingComponent } from './owner-scheduling/owner-scheduling.component';
+import { OwnerMaintenanceComponent } from './owner-maintenance/owner-maintenance.component';
+import { DekoraterMaintenanceComponent } from './dekorater-maintenance/dekorater-maintenance.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { OwnerSchedulingComponent } from './owner-scheduling/owner-scheduling.co
     DekoraterProfileComponent,
     OwnerCompanyComponent,
     DekoraterSchedulingComponent,
-    OwnerSchedulingComponent
+    OwnerSchedulingComponent,
+    OwnerMaintenanceComponent,
+    DekoraterMaintenanceComponent
   ],
   imports: [
     BrowserModule,

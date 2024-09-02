@@ -1,5 +1,5 @@
 import { Time } from "@angular/common";
-import { LayoutObject } from '../models/layout-data';
+import { LayoutData } from "./layout-data";
 export default class Job {
   owner: string = "";
   decorator: string = "";
@@ -18,26 +18,15 @@ export default class Job {
   chairs: number = 0;
   additionalRequests: string = "";
   selectedServices: string[] = [];
-  layoutData: {
-    type: 'rectangle' | 'circle',
-    x: number,
-    y: number,
-    width?: number,
-    height?: number,
-    radius?: number,
-    color: string,
-  }[] = [
-      {
-        type: 'rectangle',
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        color: ''
-      }
-    ];
+  layoutData: LayoutData = null;
   status: string = ""; //cekanje, prihvacen, zavrsen, odbijen
   grade: number = 0;
   comment: string = "";
   rejectionComment: string = "";
+  poolCount: number = 0;
+  fountainCount: number = 0;
+  maintenance: string = ""; //cekanje, u procesu, nije potrebno, odbijen
+  maintenanceDate: Date;
+  maintenanceCompletitionDate: Date;
+  maintenanceCompletitionTime: Time;
 }

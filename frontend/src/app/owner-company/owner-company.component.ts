@@ -6,7 +6,7 @@ import { AdminService } from '../services/admin.service';
 import { CompanyService } from '../services/company.service';
 import Job from '../models/job';
 import { Time } from "@angular/common";
-import { LayoutObject } from '../models/layout-data';
+import { LayoutData } from '../models/layout-data';
 
 
 @Component({
@@ -21,20 +21,20 @@ export class OwnerCompanyComponent {
   constructor(private router: Router, private adminService: AdminService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
-      if (!localStorage.getItem('ulogovan')) {
-        alert('Niste ulogovani!');
-        this.router.navigate(['/login']);
-      }
-      this.adminService.getUsers().subscribe((users) => {
-        this.users = users;
-        this.decorators = this.users.filter(user => user.type === 'dekorater');
-      });
-      this.adminService.getCompanies().subscribe((companies) => {
-        this.companies = companies;
-      });
-      this.filtered = false;
-      this.showDetails = false;
-      this.currentStep = 0;
+    if (!localStorage.getItem('ulogovan')) {
+      alert('Niste ulogovani!');
+      this.router.navigate(['/login']);
+    }
+    this.adminService.getUsers().subscribe((users) => {
+      this.users = users;
+      this.decorators = this.users.filter(user => user.type === 'dekorater');
+    });
+    this.adminService.getCompanies().subscribe((companies) => {
+      this.companies = companies;
+    });
+    this.filtered = false;
+    this.showDetails = false;
+    this.currentStep = 0;
   }
 
   users: User[] = [];
@@ -141,7 +141,7 @@ export class OwnerCompanyComponent {
       chairs: 0,
       additionalRequests: '',
       selectedServices: [] as string[],
-      layoutData: [] as LayoutObject[]
+      layoutData: null as LayoutData
     };
   }
 
@@ -158,19 +158,19 @@ export class OwnerCompanyComponent {
   errorForm: string = '';
 
   nextStep() {
-    if(!this.step1Data.date || !this.step1Data.time || !this.step1Data.area || !this.step1Data.gardenType) {
+    if (!this.step1Data.date || !this.step1Data.time || !this.step1Data.area || !this.step1Data.gardenType) {
       this.errorForm = 'Molimo popunite sva polja.';
     } else
-    if (this.isDateInVacationPeriod(new Date(this.step1Data.date))) {
-      this.errorForm = 'Izabrani datum pada u period godišnjeg odmora firme. Molimo izaberite drugi datum.';
-    } else if (this.step1Data.area < 0) {
-      this.errorForm = 'Površina baste ne može biti negativna.';
-    } else if (this.step1Data.date && this.step1Data.time && this.step1Data.area && this.step1Data.gardenType) {
-      this.errorForm = null;
-      this.currentStep++;
-    } else {
-      this.errorForm = 'Molimo popunite sva polja.';
-    }
+      if (this.isDateInVacationPeriod(new Date(this.step1Data.date))) {
+        this.errorForm = 'Izabrani datum pada u period godišnjeg odmora firme. Molimo izaberite drugi datum.';
+      } else if (this.step1Data.area < 0) {
+        this.errorForm = 'Površina baste ne može biti negativna.';
+      } else if (this.step1Data.date && this.step1Data.time && this.step1Data.area && this.step1Data.gardenType) {
+        this.errorForm = null;
+        this.currentStep++;
+      } else {
+        this.errorForm = 'Molimo popunite sva polja.';
+      }
   }
 
   isDateInVacationPeriod(selectedDate: Date): boolean {
@@ -198,7 +198,7 @@ export class OwnerCompanyComponent {
     chairs: 0,
     additionalRequests: '',
     selectedServices: [] as string[],
-    layoutData: [] as LayoutObject[]
+    layoutData: null as LayoutData
   };
 
   previousStep() {
@@ -209,9 +209,9 @@ export class OwnerCompanyComponent {
 
   isAreaValid(): boolean {
     let totalArea = 0;
-    if (this.step1Data.gardenType === 'private') {
+    if (this.step1Data.gardenType === 'privatno') {
       totalArea = this.step2Data.poolArea + this.step2Data.greenArea + this.step2Data.furnitureArea;
-    } else if (this.step1Data.gardenType === 'restaurant') {
+    } else if (this.step1Data.gardenType === 'restoran') {
       totalArea = this.step2Data.fountainArea + this.step2Data.greenArea;
     }
     return totalArea === this.step1Data.area;
@@ -269,9 +269,15 @@ export class OwnerCompanyComponent {
       status: 'cekanje',
       grade: 0,
       comment: '',
-      rejectionComment: ''
+      rejectionComment: '',
+      poolCount: 0,
+      fountainCount: 0,
+      maintenance: 'nije potrebno',
+      maintenanceDate: null,
+      maintenanceCompletitionDate: null,
+      maintenanceCompletitionTime: null
     }
-    console.log(this.step1Data.gardenType)
+    console.log(this.job);
     this.companyService.createJob(this.job).subscribe((response) => {
       if (response.message == "Posao je uspesno zakazan.") {
         this.errorForm = null;
@@ -321,6 +327,14 @@ export class OwnerCompanyComponent {
         }
       });
     }
+  }
+
+  jobs: Job[] = [];
+
+  getJobs(): void {
+    this.companyService.getJobs().subscribe((jobs: Job[]) => {
+      this.jobs = jobs.filter(job => job.status === 'zavrsen' && job.company == this.selectedCompany.name).sort((a, b) => new Date(b.appointmentDate).getTime() - new Date(a.appointmentDate).getTime());
+    });
   }
 
 }
