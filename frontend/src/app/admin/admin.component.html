@@ -65,10 +65,6 @@
             <td>{{ user.lastname }}</td>
             <td>{{ user.number }}</td>
             <td>{{ user.email }}</td>
-            <!-- <td>
-          <button  (click)="getProfilePicture(user.picture, user)">Prikazi profilnu sliku</button>
-          <img [src]="user.profilePicture" class="profile-picture">
-        </td> -->
             <td>
               <button class="btn btn-warning btn-sm" (click)="editUser(user)">Ažuriraj</button>
               <button *ngIf="user.status == 'approved'" class="btn btn-danger btn-sm"

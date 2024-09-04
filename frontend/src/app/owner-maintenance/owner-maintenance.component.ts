@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import Job from '../models/job';
 import { CompanyService } from '../services/company.service';
 import { LayoutObject } from '../models/layout-data';
+import Company from '../models/company';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-owner-maintenance',
@@ -10,24 +13,20 @@ import { LayoutObject } from '../models/layout-data';
 })
 export class OwnerMaintenanceComponent {
 
-  constructor(private companyService: CompanyService) { }
+  constructor(private companyService: CompanyService, private userService: UserService, private router: Router) { }
 
   completedJobs: Job[] = [];
   loggedUser: string = localStorage.getItem('ulogovan');
   pool: boolean = false;
   maintenanceJobs: Job[] = [];
   updateJobs: Job[] = [];
+  company: Company = new Company();
 
   ngOnInit() {
-    this.fetchJobs();
-    this.completedJobs.filter(job => job.maintenance === 'u procesu').forEach(job => {
-      if (new Date(job.maintenanceCompletitionDate).getTime() < new Date().getTime()) {
-        job.maintenance = 'nije potrebno';
-        this.companyService.updateJob(job).subscribe((res) => {
-          console.log(res);
-        });
-      }
-    })
+    if (!localStorage.getItem('ulogovan')) {
+      alert('Niste ulogovani!');
+      this.router.navigate(['/login']);
+    }
     this.fetchJobs();
   }
 
@@ -36,20 +35,27 @@ export class OwnerMaintenanceComponent {
       this.completedJobs = jobs.filter(job => job.status === 'zavrsen' && job.owner === this.loggedUser);
       this.maintenanceJobs = jobs.filter(job => (job.maintenance === 'cekanje' || job.maintenance === 'u procesu') && job.owner === this.loggedUser);
       this.completedJobs.forEach(job => {
-        console.log(job.layoutData);
         job.poolCount = this.countPools(job.layoutData.objects);
         job.fountainCount = this.countFountains(job.layoutData.objects);
         this.companyService.updateJob(job).subscribe((res) => {
-          console.log(res);
         });
       });
     });
+
   }
 
 
   countPools(layoutData: LayoutObject[]): number {
     let count = layoutData.filter(obj => obj.type === 'rectangle' && obj.color === 'blue').length;
-
+    this.completedJobs.filter(job => job.maintenance === 'u procesu').forEach(job => {
+      console.log(new Date(job.maintenanceCompletionDate).getTime());
+      console.log(new Date().getTime())
+      if (new Date(job.maintenanceCompletionDate).getTime() < new Date().getTime()) {
+        job.maintenance = 'nije potrebno';
+        this.companyService.updateJob(job).subscribe((res) => {
+        });
+      }
+    })
     return count
   }
 
@@ -58,10 +64,22 @@ export class OwnerMaintenanceComponent {
     return count
   }
 
+  isDateInVacationPeriod(selectedDate: Date): boolean {
+    if (!this.company) return false;
+    //const selectedDate = new Date();
+
+    const vacationFrom = new Date(this.company.vacationPeriod.from);
+    const vacationTo = new Date(this.company.vacationPeriod.to);
+
+    return selectedDate >= vacationFrom && selectedDate <= vacationTo;
+  }
+
   canScheduleServicing(job: Job): boolean {
+
     const finishedDate = new Date(job.finishedDate);
-    const lastMaintenanceDate = job.maintenanceCompletitionDate ? new Date(job.maintenanceCompletitionDate) : null;
+    const lastMaintenanceDate = job.maintenanceCompletionDate ? new Date(job.maintenanceCompletionDate) : null;
     const currentDate = new Date();
+
 
     const sixMonthsInMilliseconds = 6 * 30 * 24 * 60 * 60 * 1000;
 
@@ -76,21 +94,41 @@ export class OwnerMaintenanceComponent {
   date: Date;
   selectedJob: Job;
 
-  scheduleServicing(job: any) {
+  scheduleServicing(job: Job) {
+
     this.maintenance = true;
     this.selectedJob = job;
 
   }
 
-  submitMaintenanceDate(){
+  errorMessage: string = '';
+
+  submitMaintenanceDate() {
+    this.companyService.getCompany(this.selectedJob.company).subscribe((response) => {
+      if (response.message === 'Firma uspesno nadjena') {
+        this.company = response.company
+      } else {
+        console.log(response.message);
+      }
+    })
+    const currentDate = new Date();
+    if (this.isDateInVacationPeriod(currentDate)) {
+      this.errorMessage = 'Firma je tad u periodu godisnjeg odmora';
+      return;
+    }
     this.selectedJob.maintenanceDate = this.date;
     this.selectedJob.maintenance = 'cekanje';
     this.companyService.updateJob(this.selectedJob).subscribe((res) => {
-      console.log(res);
       this.maintenance = false;
       this.ngOnInit();
-  })
-}
+    })
+  }
+
+  close(): void {
+    this.maintenance = false;
+    this.date = null;
+    this.errorMessage = '';
+  }
 
 }
 

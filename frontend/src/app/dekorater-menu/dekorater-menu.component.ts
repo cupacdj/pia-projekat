@@ -28,4 +28,8 @@ export class DekoraterMenuComponent {
   dekoraterMaintenance(){
     this.router.navigate(['/dekorater-maintenance']);
   }
+
+  statistics(){
+    this.router.navigate(['/statistics']);
+  }
 }

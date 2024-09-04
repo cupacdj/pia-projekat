@@ -12,7 +12,8 @@ export class DekoraterProfileComponent {
 
   constructor(private router: Router, private userService: UserService ) { }
 
-  user: User;
+  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '',scheduler: [] };
+
   usernameFind: string;
   messageGet: string;
   profilePicture: string;
@@ -112,7 +113,7 @@ export class DekoraterProfileComponent {
       formData.append('type', this.user.type);
 
       this.userService.updateUserPicture(formData).subscribe((response) => {
-        if (response.message == 'Azuriranje uspesno') {
+        if (response.message == 'Korisnik je uspesno azuriran') {
           this.message = 'Azuriranje uspesno';
           this.errorMessage = '';
         } else {
@@ -121,7 +122,7 @@ export class DekoraterProfileComponent {
       });
     } else {
       this.userService.updateUser(this.user).subscribe((response) => {
-        if (response.message == 'Azuriranje uspesno') {
+        if (response.message == 'Korisnik je uspesno azuriran') {
           this.message = 'Azuriranje uspesno';
           this.errorMessage = '';
         } else {

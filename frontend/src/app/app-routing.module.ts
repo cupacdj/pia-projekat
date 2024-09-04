@@ -17,6 +17,7 @@ import { DekoraterSchedulingComponent } from './dekorater-scheduling/dekorater-s
 import { OwnerSchedulingComponent } from './owner-scheduling/owner-scheduling.component';
 import { OwnerMaintenanceComponent } from './owner-maintenance/owner-maintenance.component';
 import { DekoraterMaintenanceComponent } from './dekorater-maintenance/dekorater-maintenance.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   {path: '', component: FrontpageComponent},
@@ -35,7 +36,8 @@ const routes: Routes = [
   {path: 'dekorater-scheduling', component: DekoraterSchedulingComponent},
   {path: 'owner-scheduling', component: OwnerSchedulingComponent},
   {path: 'owner-maintenance', component: OwnerMaintenanceComponent},
-  {path: 'dekorater-maintenance', component: DekoraterMaintenanceComponent}
+  {path: 'dekorater-maintenance', component: DekoraterMaintenanceComponent},
+  {path: 'statistics', component: StatisticsComponent}
 ];
 
 @NgModule({

@@ -1,13 +1,14 @@
 import { Time } from "@angular/common";
 import { LayoutData } from "./layout-data";
 export default class Job {
+  _id: string = ""; //mongoDB id
   owner: string = "";
   decorator: string = "";
   company: string = "";
-  appointmentDate: Date;
-  appointmentTime: Time;
-  productionDate: Date;
-  finishedDate: Date
+  appointmentDate: Date = null;
+  appointmentTime: Time = null;
+  productionDate: Date = null;
+  finishedDate: Date = null;
   area: number = 0;
   gardenType: string = ""; //privatna, restoran
   poolArea: number = 0;
@@ -26,7 +27,9 @@ export default class Job {
   poolCount: number = 0;
   fountainCount: number = 0;
   maintenance: string = ""; //cekanje, u procesu, nije potrebno, odbijen
-  maintenanceDate: Date;
-  maintenanceCompletitionDate: Date;
-  maintenanceCompletitionTime: Time;
+  maintenanceDate: Date = null;
+  maintenanceCompletionDate: Date = null;
+  maintenanceCompletionTime: Time = null;
+  photo: string = "";
+  photoDate: Date = null;
 }

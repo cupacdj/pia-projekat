@@ -1,50 +1,49 @@
 import mongoose from 'mongoose'
-import company from './company';
 
 const Schema = mongoose.Schema;
 
 let User = new Schema({
     username: {
-        type: String
+        type: String, default: ''
     },
     password: {
-        type: String
+        type: String, default: ''
     },
     name: {
-        type: String
+        type: String, default: ''
     },
     lastname: {
-        type: String
+        type: String, default: ''
     },
     gender: {
-        type: String
+        type: String, default: ''
     },
     address: {
-        type: String
+        type: String, default: ''
     },
     number: {
-        type: String
+        type: String, default: ''
     },
     email: {
-        type: String
+        type: String, default: ''
     },
     creditCard: {
-        type: String
+        type: String, default: ''
     },
     type: {
-        type: String
+        type: String, default: ''
     },
     picture: {
-        type: String
+        type: String, default: ''
     },
     status: {
-        type: String
+        type: String, default: ''
     },
     company: {
-        type: String
+        type: String, default: ''
     }, 
     scheduler: {
-        type: [Date]
+        type: [Date], default: []
     }
 })
 

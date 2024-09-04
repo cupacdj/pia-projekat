@@ -1,101 +1,111 @@
 import mongoose from 'mongoose'
+import { pathToFileURL } from 'url';
 
 const Schema = mongoose.Schema;
 
 let Job = new Schema({
+    _id: {
+        type: Object, default: new mongoose.Types.ObjectId()
+    },
     owner: {
-        type: String
+        type: String, default: ''
     },
     decorator: {   
-        type: String
+        type: String, default: ''
     },
     company: {
-        type: String
+        type: String, default: ''
     },
     appointmentDate: {
-        type: Date
+        type: Date, default: null
     },
     appointmentTime: {
-        type: String
+        type: String, default: ''
     },
     productionDate: {
-        type: Date
+        type: Date, default: null
     },
     finishedDate: {
-        type: Date
+        type: Date, default: null
     },
     area: {
-        type: Number
+        type: Number, default: 0
     },
     gardenType: {
-        type: String
+        type: String, default: ''
     },
     poolArea: {
-        type: Number
+        type: Number, default: 0
     },
     greenArea: {
-        type: Number
+        type: Number, default: 0
     },
     furnitureArea: {
-        type: Number
+        type: Number, default: 0
     },
     fountainArea: {
-        type: Number
+        type: Number, default: 0
     },
     tables: {
-        type: Number
+        type: Number, default: 0
     },
     chairs: {
-        type: Number
+        type: Number, default: 0
     },
     additionalRequests: {
-        type: String
+        type: String, default: ''
     },
     selectedServices: [{
-        type: String
+        type: String, default: ''
     }],
     layoutData:{
         objects: [
             {
-              type: { type: String },
-              x: { type: Number },
-              y: { type: Number },
-              width: { type: Number },  
-              height: { type: Number }, 
-              radius: { type: Number }, 
-              color: { type: String  }
+              type: { type: String, default: '' },
+              x: { type: Number, default: 0 },
+              y: { type: Number, default: 0 },
+              width: { type: Number, default: 0 },  
+              height: { type: Number, default: 0 }, 
+              radius: { type: Number, default: 0 }, 
+              color: { type: String, default: ''  }
             }
-          ]
-    },
+          ], default: []
+    } ,
     status: {
-        type: String
+        type: String, default: ''
     },
     grade: {
-        type: Number
+        type: Number, default: 0
     },
     comment: {
-        type: String
+        type: String, default: ''
     },
     rejectionComment: {
-        type: String
+        type: String, default: ''
     },
     poolCount: {
-        type: Number
+        type: Number, default: 0
     },
     fountainCount: {
-        type: Number
+        type: Number, default: 0
     },
     maintenance: {
-        type: String
+        type: String, default: ''
     },
     maintenanceDate: {
-        type: Date
+        type: Date, default: null
     },
-    maintenanceCompletitionDate: {
-        type: Date
+    maintenanceCompletionDate: {
+        type: Date, default: null
     },
-    maintenanceCompletitionTime: {
-        type: String
+    maintenanceCompletionTime: {
+        type: String, default: ''
+    },
+    photo: {
+        type: String, default: ''
+    },
+    photoDate: {
+        type: Date, default: null
     }
   });
 

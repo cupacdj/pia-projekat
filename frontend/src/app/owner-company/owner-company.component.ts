@@ -35,6 +35,9 @@ export class OwnerCompanyComponent {
     this.filtered = false;
     this.showDetails = false;
     this.currentStep = 0;
+    this.companyService.getJobs().subscribe((jobs: Job[]) => {
+      this.completedJobs = jobs.filter(job => job.status === 'zavrsen');
+    });
   }
 
   users: User[] = [];
@@ -47,9 +50,34 @@ export class OwnerCompanyComponent {
   filteredCompanyAddresses: string[] = [];
   filtered: boolean = false;
   showDetails: boolean = false;
+  completedJobs: Job[] = [];
 
   showNameDropdown: boolean = false;
   showAddressDropdown: boolean = false;
+
+  averageGradeForCompany(company: Company): number {
+    let sum = 0;
+    let count = 0;
+    this.completedJobs.forEach(job => {
+      if (job.company === company.name) {
+        sum += job.grade;
+        count++;
+      }
+    });
+    return count > 0 ? sum / count : 0;
+  }
+
+  getStars(averageGrade: number): number[] {
+    const fullStars = Math.floor(averageGrade);
+    const halfStar = averageGrade % 1 >= 0.5 ? 0.5 : 0;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    return [
+      ...Array(fullStars).fill(1),
+      ...Array(halfStar ? 1 : 0).fill(0.5),
+      ...Array(emptyStars).fill(0)
+    ];
+  }
 
   selectCompanyByName(name: string) {
     this.searchName = name;
@@ -248,6 +276,7 @@ export class OwnerCompanyComponent {
       return;
     }
     this.job = {
+      _id: '',
       owner: localStorage.getItem('ulogovan'),
       decorator: '',
       company: this.selectedCompany.name,
@@ -274,8 +303,10 @@ export class OwnerCompanyComponent {
       fountainCount: 0,
       maintenance: 'nije potrebno',
       maintenanceDate: null,
-      maintenanceCompletitionDate: null,
-      maintenanceCompletitionTime: null
+      maintenanceCompletionDate: null,
+      maintenanceCompletionTime: null,
+      photo: '',
+      photoDate: null
     }
     console.log(this.job);
     this.companyService.createJob(this.job).subscribe((response) => {

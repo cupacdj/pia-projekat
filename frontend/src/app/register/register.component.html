@@ -1,52 +1,61 @@
 <app-header></app-header>
-<div class="registration-container">
-  <form (submit)="register()">
-    <label for="username" class="required">Korisničko ime: </label>
-    <input id="username" [(ngModel)]="username" name="username" required>
-    <br>
-    <label for="password" class="required">Lozinka: </label>
-    <input id="password" type="password" [(ngModel)]="password" name="password" required
-      title="Lozinka mora imati između 6 i 10 karaktera, početi slovom, sadržati bar jedno veliko slovo, tri mala slova, jedan broj i jedan specijalni karakter.">
-    <br>
-    <label for="name" class="required">Ime: </label>
-    <input id="name" [(ngModel)]="name" name="name" required>
-    <br>
-    <label for="lastname" class="required">Prezime: </label>
-    <input id="lastname" [(ngModel)]="lastname" name="lastname" required>
-    <br>
-    <label class="required">Pol: </label>
-    <div class="radio-group">
-      <input type="radio" id="male" name="gender" [(ngModel)]="gender" value="M" required>
-      <label for="male">M</label>
-      <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" required>
-      <label for="female">Z</label>
-    </div>
-    <br>
-    <label for="address" class="required">Adresa: </label>
-    <input id="address" [(ngModel)]="address" name="address" required>
-    <br>
-    <label for="number" class="required">Kontakt telefon: </label>
-    <input id="number" [(ngModel)]="number" name="number" required>
-    <br>
-    <label for="email" class="required">Email: </label>
-    <input id="email" [(ngModel)]="email" name="email" required>
-    <br>
-    <span class="picture-upload">
-      <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
-      <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon">
-    </span>
-    <br>
-    <label for="creditCard" class="required">Broj kreditne kartice: </label>
-    <div class="credit-card-container">
-      <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
-      <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()" required>
-    </div>
-    <br>
-    <button type="submit">Registracija</button>
-  </form>
+<br>
+<div class="container d-flex justify-content-center align-items-center ">
+  <div class="registration-container" style="width: 100%; max-width: 600px;">
+    <form (submit)="register()">
+      <label for="username" class="required">Korisničko ime: </label>
+      <input id="username" [(ngModel)]="username" name="username" class="form-control" required>
+      <br>
+      <label for="password" class="required">Lozinka: </label>
+      <input id="password" type="password" [(ngModel)]="password" name="password" class="form-control" required
+        title="Lozinka mora imati između 6 i 10 karaktera, početi slovom, sadržati bar jedno veliko slovo, tri mala slova, jedan broj i jedan specijalni karakter.">
+      <br>
+      <label for="name" class="required">Ime: </label>
+      <input id="name" [(ngModel)]="name" name="name" class="form-control" required>
+      <br>
+      <label for="lastname" class="required">Prezime: </label>
+      <input id="lastname" [(ngModel)]="lastname" name="lastname" class="form-control" required>
+      <br>
+      <label class="required">Pol: </label>
+      <div class="radio-group">
+        <div class="form-check form-check-inline">
+          <input type="radio" id="male" name="gender" [(ngModel)]="gender" value="M" class="form-check-input" required>
+          <label for="male" class="form-check-label">M</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" class="form-check-input" required>
+          <label for="female" class="form-check-label">Z</label>
+        </div>
+      </div>
+      <br>
+      <label for="address" class="required">Adresa: </label>
+      <input id="address" [(ngModel)]="address" name="address" class="form-control" required>
+      <br>
+      <label for="number" class="required">Kontakt telefon: </label>
+      <input id="number" [(ngModel)]="number" name="number" class="form-control" required>
+      <br>
+      <label for="email" class="required">Email: </label>
+      <input id="email" [(ngModel)]="email" name="email" class="form-control" required>
+      <br>
+      <span class="picture-upload">
+        <input id="picture" name="picture" type="file" (change)="onFileSelected($event)" class="form-control-file">
+        <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon img-fluid mt-2">
+      </span>
+      <br>
+      <label for="creditCard" class="required">Broj kreditne kartice: </label>
+      <div class="credit-card-container">
+        <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
+        <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()"
+          class="form-control" required>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary btn-block">Registracija</button>
+    </form>
 
-  <div *ngIf="errorMessage" class="error">
-    {{ errorMessage }}
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
   </div>
 </div>
+<br>
 <app-footer></app-footer>

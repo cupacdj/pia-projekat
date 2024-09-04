@@ -46,6 +46,14 @@
                 </li>
               </ul>
             </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <span class="mr-2">{{ averageGradeForCompany(company) }}</span>
+                <ng-container *ngFor="let star of getStars(averageGradeForCompany(company))">
+                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5" [class.fa-star-o]="star === 0"></i>
+                </ng-container>
+              </div>
+            </td>
           </tr>
         </tbody>
         <tbody *ngIf="filtered == true">
@@ -59,11 +67,20 @@
                 </li>
               </ul>
             </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <span class="mr-2">{{ averageGradeForCompany(company) }}</span>
+                <ng-container *ngFor="let star of getStars(averageGradeForCompany(company))">
+                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5" [class.fa-star-o]="star === 0"></i>
+                </ng-container>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
 </div>
 
 <div class="container mt-5" *ngIf="showDetails">

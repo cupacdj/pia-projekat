@@ -4,22 +4,22 @@ const Schema = mongoose.Schema;
 
 let Company = new Schema({
     name: { 
-        type: String
+        type: String, default: ''
     },
     address: { 
-        type: String 
+        type: String, default: ''
     },
     decorators: [{
-        type: String
+        type: String, default: ''
     }],
     contact: { 
-        type: String
+        type: String, default: ''
 
     },
     services: [
       {
-        name: { type: String },
-        price: { type: Number }
+        name: { type: String, default: '' },
+        price: { type: Number, default: 0 }
       }
     ],
     vacationPeriod: {

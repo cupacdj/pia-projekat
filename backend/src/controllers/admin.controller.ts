@@ -3,7 +3,6 @@ import User from '../models/user';
 import Company from '../models/company';
 import path from 'path';
 
-
 export class AdminController {
 
     getAllUsers = (req: express.Request, res: express.Response) => {
@@ -52,41 +51,57 @@ export class AdminController {
     }
 
     userUpdate = (req: express.Request, res: express.Response) => {
-        let updatedUser = req.body;
-
-        User.findOne({ 'username': updatedUser.username }).then(existingUser => {
-            if (!existingUser) {
-                return res.json({ message: 'Korisnik ne postoji!' });
+        const updatedUser = req.body;
+        updatedUser.status = 'approved';
+        if (updatedUser.type == 'dekorater') {
+            if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+                updatedUser.scheduler = [];
+            } else {
+                updatedUser.scheduler = updatedUser.scheduler;
             }
-
-            User.deleteOne({ 'username': updatedUser.username }).then(() => {
-                let newUser = new User(updatedUser);
-
-                newUser.status = 'approved';
-                if (updatedUser.type == 'dekorater') {
-                    if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
-                        newUser.scheduler = [];
-                    } else {
-                        newUser.scheduler = updatedUser.scheduler;
-                    }
-                }
-
-                newUser.save().then(() => {
-                    res.json({ message: 'Azuriranje uspesno' });
-                }).catch(err => {
-                    console.log(err);
-                    res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
-                });
-
-            }).catch(err => {
-                console.log(err);
-                res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
-            });
-
+        }
+        User.replaceOne({ 'username': updatedUser.username }, updatedUser).then(result => {
+            if (result.modifiedCount === 0) {
+                return res.json({ message: 'Doslo je do greske prilikom azuriranja korisnika' });
+            }
+            res.json({ message: 'Korisnik je uspesno azuriran' });
         }).catch(err => {
             console.log(err);
-            res.json({ message: 'Problem prilikom pretrage korisnika!' });
+            res.json({ message: 'Problem prilikom azuriranja korisnika!' });
         });
+        // User.findOne({ 'username': updatedUser.username }).then(existingUser => {
+        //     if (!existingUser) {
+        //         return res.json({ message: 'Korisnik ne postoji!' });
+        //     }
+
+        //     User.deleteOne({ 'username': updatedUser.username }).then(() => {
+        //         let newUser = new User(updatedUser);
+
+        //         newUser.status = 'approved';
+        //         if (updatedUser.type == 'dekorater') {
+        //             if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+        //                 newUser.scheduler = [];
+        //             } else {
+        //                 newUser.scheduler = updatedUser.scheduler;
+        //             }
+        //         }
+
+        //         newUser.save().then(() => {
+        //             res.json({ message: 'Azuriranje uspesno' });
+        //         }).catch(err => {
+        //             console.log(err);
+        //             res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
+        //         });
+
+        //     }).catch(err => {
+        //         console.log(err);
+        //         res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
+        //     });
+
+        // }).catch(err => {
+        //     console.log(err);
+        //     res.json({ message: 'Problem prilikom pretrage korisnika!' });
+        // });
     }
 
     getPendingUsers = (req: express.Request, res: express.Response) => {

@@ -30,3 +30,11 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.modal.fade.show.d-block {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  margin: 1.75rem auto;
+}

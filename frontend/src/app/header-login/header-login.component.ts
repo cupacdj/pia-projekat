@@ -12,7 +12,7 @@ export class HeaderLoginComponent {
   constructor(private router: Router) {}
 
   logoff() {
-    localStorage.removeItem('ulogovan');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 

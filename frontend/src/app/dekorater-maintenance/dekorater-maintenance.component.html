@@ -58,6 +58,9 @@
     </div>
   </div>
 </div>
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
 
 <p class="error" style="text-align: center; color: green;">{{ message }}</p>
 

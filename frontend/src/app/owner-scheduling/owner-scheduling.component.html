@@ -1,98 +1,101 @@
 <app-header-login></app-header-login>
 <app-owner-menu></app-owner-menu>
+
 <div class="container-fluid mt-4">
-  <h2 class="text-center">Tabela poslova</h2>
+  <h2 class="text-center">Tabela Poslova</h2>
 
-  <div class="row">
-    <div class="col-lg-6 col-md-12 mb-4">
-      <h3>Trenutni</h3>
-      <table class="table table-hover table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-center">Datum zakazivanja</th>
-            <th class="text-center">Datum izrade</th>
-            <th class="text-center">Naziv firme</th>
-            <th class="text-center">Trazene usluge</th>
-            <th class="text-center">Akcije</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let job of pendingJobs">
-            <td>{{ job.appointmentDate | date }}</td>
-            <td>{{ job.productionDate ? (job.productionDate | date) : 'Ceka se potvrda majstora.' }}</td>
-            <td>{{ job.company }}</td>
-            <td>
-              <ul>
-                <li *ngFor="let service of job.selectedServices">{{ service }}</li>
-              </ul>
-            </td>
-            <td>
-              <button *ngIf="canCancle(job.productionDate)" class="btn btn-danger" (click)="cancelJob(job)">
-                Otkaži
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- Trenutni poslovi -->
+  <div class="mb-4">
+    <h3>Trenutni poslovi</h3>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center">Datum zakazivanja</th>
+          <th class="text-center">Datum izrade</th>
+          <th class="text-center">Naziv firme</th>
+          <th class="text-center">Trazene usluge</th>
+          <th class="text-center">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of pendingJobs">
+          <td>{{ job.appointmentDate | date }}</td>
+          <td>{{ job.productionDate ? (job.productionDate | date) : 'Ceka se potvrda majstora.' }}</td>
+          <td>{{ job.company }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let service of job.selectedServices">{{ service }}</li>
+            </ul>
+          </td>
+          <td>
+            <button *ngIf="canCancle(job.productionDate)" class="btn btn-danger" (click)="cancelJob(job)">
+              Otkaži
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <div class="col-lg-6 col-md-12 mb-4">
-      <h3>Završeni poslovi</h3>
-      <table class="table table-hover table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-center">Datum izrade</th>
-            <th class="text-center">Naziv firme</th>
-            <th class="text-center">Komentar</th>
-            <th class="text-center">Ocena</th>
-            <th class="text-center"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let job of completedJobs">
-            <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
-            <td>{{ job.company }}</td>
-            <td>{{ job.comment || 'Bez komentara' }}</td>
-            <td>{{ job.grade || 'Bez ocene' }}</td>
-            <td>
-              <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
-                (click)="openCommentForm(job)">Ostavi komentar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- Završeni poslovi -->
+  <div class="mb-4">
+    <h3>Završeni poslovi</h3>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center">Datum izrade</th>
+          <th class="text-center">Naziv firme</th>
+          <th class="text-center">Komentar</th>
+          <th class="text-center">Ocena</th>
+          <th class="text-center">Akcija</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of completedJobs">
+          <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
+          <td>{{ job.company }}</td>
+          <td>{{ job.comment || 'Bez komentara' }}</td>
+          <td>{{ job.grade || 'Bez ocene' }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
+              (click)="openCommentForm(job)">Ostavi komentar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <div class="col-lg-6 col-md-12 mb-5">
-      <h3>Odbijeni poslovi</h3>
-      <table class="table table-hover table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-center">Datum izrade</th>
-            <th class="text-center">Naziv firme</th>
-            <th class="text-center">Komentar</th>
-            <th class="text-center">Ocena</th>
-            <th class="text-center"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let job of canceledJobs">
-            <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
-            <td>{{ job.company }}</td>
-            <td>{{ job.comment || 'Bez komentara' }}</td>
-            <td>{{ job.grade || 'Bez ocene' }}</td>
-            <td>
-              <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
-                (click)="openCommentForm(job)">Ostavi komentar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- Odbijeni poslovi -->
+  <div class="mb-4">
+    <h3>Odbijeni poslovi</h3>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center">Datum izrade</th>
+          <th class="text-center">Naziv firme</th>
+          <th class="text-center">Komentar</th>
+          <th class="text-center">Ocena</th>
+          <th class="text-center">Akcija</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of canceledJobs">
+          <td>{{ job.finishedDate ? (job.finishedDate | date) : '...' }}</td>
+          <td>{{ job.company }}</td>
+          <td>{{ job.comment || 'Bez komentara' }}</td>
+          <td>{{ job.grade || 'Bez ocene' }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" *ngIf="!job.comment && job.status === 'zavrsen'"
+              (click)="openCommentForm(job)">Ostavi komentar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
-<div *ngIf="showCommentForm">
+<!-- Comment Modal -->
+<div *ngIf="showCommentForm" class="modal fade show d-block" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -22,6 +22,10 @@ export class OwnerSchedulingComponent {
   constructor(private companyService: CompanyService, private router: Router) { }
 
   ngOnInit(): void {
+    if (!localStorage.getItem('ulogovan')) {
+      alert('Niste ulogovani!');
+      this.router.navigate(['/login']);
+    }
     this.loggedUser = localStorage.getItem('ulogovan') || '';
     this.getJobs();
   }

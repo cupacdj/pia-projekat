@@ -41,13 +41,31 @@
   </table>
 </div>
 
-<div *ngIf="maintenance" class="form-group">
-  <label for="maintenanceDate">Datum zakazivanja odrzavanja: </label>
-  <input id="maintenanceDate" [(ngModel)]="date" type="date" class="form-control">
-  <button class="btn btn-primary mt-3" (click)="submitMaintenanceDate()">Posalji</button>
-  <br>
-  <br>
+<div *ngIf="maintenance" class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Zakazivanje Održavanja</h5>
+        <button type="button" class="close" (click)="close()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="maintenanceDate">Datum zakazivanja održavanja: </label>
+          <input id="maintenanceDate" [(ngModel)]="date" type="date" class="form-control">
+        </div>
+        <button class="btn btn-primary mt-3" (click)="submitMaintenanceDate()">Pošalji</button>
+        <br>
+        <br>
+        <div *ngIf="errorMessage" class="error">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 
 <div class="container mt-4">
