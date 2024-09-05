@@ -1,5 +1,29 @@
 <app-header-login></app-header-login>
 <app-dekorater-menu></app-dekorater-menu>
-<br>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Statistika poslova</h2>
+  <br>
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <h4 class="text-center">Broj poslova po mesecima</h4>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <h4 class="text-center">Raspored poslova po mesecima</h4>
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <h4 class="text-center">Prosecan broj poslova po danima u nedelji</h4>
+      <canvas id="histogramChart"></canvas>
+    </div>
+  </div>
+</div>
 
 <app-footer></app-footer>

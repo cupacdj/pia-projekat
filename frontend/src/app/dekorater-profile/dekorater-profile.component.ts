@@ -96,7 +96,27 @@ export class DekoraterProfileComponent {
 
   errorMessage2: string;
 
+  emailRegex(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+  }
+
+  phoneRegex(phone: string): boolean {
+    const regex = /^\+?[0-9]{1,3}?[-. ]?\(?\d{2,4}\)?[-. ]?\d{3,4}[-. ]?\d{3,4}$/;
+    return regex.test(phone);
+  }
+
   updateUser() {
+
+    if(!this.emailRegex(this.user.email)){
+      this.errorMessage2 = 'Email nije validan';
+      return;
+    }
+    if(!this.phoneRegex(this.user.number)){
+      this.errorMessage2 = 'Broj telefona nije validan';
+      return
+    }
+
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('picture', this.selectedFile, this.selectedFile.name);

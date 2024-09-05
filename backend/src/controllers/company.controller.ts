@@ -2,6 +2,7 @@ import * as express from 'express';
 import Job from '../models/job';
 import sharp from 'sharp';
 import path from 'path';
+import Company from '../models/company';
 
 const mongoose = require('mongoose');
 
@@ -54,8 +55,12 @@ export class CompanyController {
     }
 
     getCompany(req: express.Request, res: express.Response) {
-        let company = req.body;
-        Job.findOne({ 'name': company }).then(company => {
+        let name = req.body.company;
+        Company.findOne({ 'name': name }).then(company => {
+            if (!company) {
+                res.json({ message: 'Firma nije pronadjena' });
+                return;
+            }
             res.json({ message: 'Firma uspesno nadjena', company: company });
         }).catch(err => {
             console.log(err);

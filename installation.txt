@@ -7,3 +7,4 @@ npm i --save-dev @types/multer
 
 front:
 npm install bootstrap
+npm install chart.js --save

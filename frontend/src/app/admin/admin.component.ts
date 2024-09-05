@@ -198,7 +198,27 @@ export class AdminComponent {
     this.errorCard = '';
   }
 
+  emailRegex(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+  }
+
+  phoneRegex(phone: string): boolean {
+    const regex = /^\+?[0-9]{1,3}?[-. ]?\(?\d{2,4}\)?[-. ]?\d{3,4}[-. ]?\d{3,4}$/;
+    return regex.test(phone);
+  }
+
   updateUser() {
+
+    if(!this.emailRegex(this.selectedUser.email)){
+      this.errorMessage2 = 'Email nije validan';
+      return;
+    }
+
+    if(!this.phoneRegex(this.selectedUser.number)){
+      this.errorMessage2 = 'Broj telefona nije validan';
+      return;
+    }
 
     this.adminService.updateUser(this.selectedUser).subscribe((response) => {
       if (response.message == 'Azuriranje uspesno') {

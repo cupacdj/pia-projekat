@@ -6,30 +6,30 @@
 }
 
 .navbar-brand {
-  color: #fff; /* Bela boja za naziv aplikacije */
+  color: #fff;
   font-weight: bold;
   font-size: 24px;
 
 }
 
 .navbar-brand:hover {
-  color: #dcdcdc; /* Svetlija nijansa bele boje pri prelasku mišem */
+  color: #dcdcdc;
 }
 
 .navbar-nav .nav-item .nav-link {
-  color: #fff; /* Bela boja za linkove u meniju */
+  color: #fff;
   margin-right: 15px;
 }
 
 .navbar-nav .nav-item .nav-link:hover {
-  color: #dcdcdc; /* Svetlija nijansa bele boje pri prelasku mišem */
+  color: #dcdcdc;
 }
 
 .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.1); /* Svetla nijansa za border toggle dugmeta */
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 
 .collapse.navbar-collapse {
-  justify-content: flex-end; /* Linkovi su poravnati desno */
+  justify-content: flex-end;
 }

@@ -37,6 +37,7 @@
       <label for="email" class="required">Email: </label>
       <input id="email" [(ngModel)]="email" name="email" class="form-control" required>
       <br>
+      <label for="picture" >Profilna slika: </label>
       <span class="picture-upload">
         <input id="picture" name="picture" type="file" (change)="onFileSelected($event)" class="form-control-file">
         <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon img-fluid mt-2">

@@ -80,10 +80,31 @@ export class RegisterComponent {
     this.errorMessage = '';
   }
 
+  emailRegex(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+  }
+
+  phoneRegex(phone: string): boolean {
+    const regex = /^\+?[0-9]{1,3}?[-. ]?\(?\d{2,4}\)?[-. ]?\d{3,4}[-. ]?\d{3,4}$/;
+    return regex.test(phone);
+  }
+
+
   register() {
 
     if (!this.username || !this.password || !this.name || !this.lastname || !this.gender || !this.address || !this.number || !this.email || !this.creditCard) {
       this.errorMessage = 'Morate popuniti sva polja označena zvezdicom (osim slike).';
+      return;
+    }
+
+    if(!this.emailRegex(this.email)){
+      this.errorMessage = 'Email nije u dobrom formatu!';
+      return;
+    }
+
+    if(!this.phoneRegex(this.number)){
+      this.errorMessage = 'Broj telefona nije u dobrom formatu!';
       return;
     }
 
@@ -105,7 +126,6 @@ export class RegisterComponent {
     formData.append('type', 'vlasnik');
     formData.append('company', '');
 
-    // Dodavanje fajla ako je odabran
     if (this.selectedFile) {
       formData.append('picture', this.selectedFile, this.selectedFile.name);
     }

@@ -54,7 +54,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     OwnerSchedulingComponent,
     OwnerMaintenanceComponent,
     DekoraterMaintenanceComponent,
-    StatisticsComponent
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,

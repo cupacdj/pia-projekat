@@ -29,7 +29,7 @@ export class CompanyService {
   }
 
   getCompany(company: string) {
-    return this.http.post<{message: string, company: Company}>(`${this.url}/get-company`, company);
+    return this.http.post<{message: string, company: Company}>(`${this.url}/get-company`, {company});
   }
 
   uploadJobPhoto(formData: FormData) {

@@ -23,12 +23,13 @@ export class DekoraterMaintenanceComponent {
       alert('Niste ulogovani!');
       this.router.navigate(['/login']);
     }
-    this.loadMaintenanceRequests();
     this.userService.getUser(localStorage.getItem('ulogovan')).subscribe((response) => {
       this.loggedUser = response.user;
-    })
-  }
 
+
+      this.loadMaintenanceRequests();
+    });
+  }
 
   maintenanceRequests: Job[] = [];
   selectedRequest: Job = null;
@@ -36,12 +37,14 @@ export class DekoraterMaintenanceComponent {
   completionTime: Time = null;
 
   loadMaintenanceRequests() {
+    if (!this.loggedUser || !this.loggedUser.company) {
+      return;
+    }
+
     this.companyService.getJobs().subscribe((jobs: Job[]) => {
       this.maintenanceRequests = jobs.filter(job => job.maintenance === 'cekanje' && job.company === this.loggedUser.company);
     });
   }
-
-
 
   openConfirmModal(request: Job) {
     this.selectedRequest = request;
@@ -51,7 +54,7 @@ export class DekoraterMaintenanceComponent {
     this.selectedRequest = null;
     this.completionDate = null;
     this.completionTime = null;
-    this.message  = '';
+    this.message = '';
   }
 
   message: string = '';
@@ -60,7 +63,6 @@ export class DekoraterMaintenanceComponent {
 
   isDateInVacationPeriod(selectedDate: Date): boolean {
     if (!this.company) return false;
-    //const selectedDate = new Date();
 
     const vacationFrom = new Date(this.company.vacationPeriod.from);
     const vacationTo = new Date(this.company.vacationPeriod.to);
@@ -72,19 +74,22 @@ export class DekoraterMaintenanceComponent {
     if (this.completionDate && this.completionTime) {
       this.companyService.getCompany(request.company).subscribe((response) => {
         if (response.message === 'Firma uspesno nadjena') {
-          this.company = response.company
+          this.company = response.company;
         } else {
           console.log(response.message);
         }
-      })
+      });
+
       const currentDate = new Date();
       if (this.isDateInVacationPeriod(currentDate)) {
         this.errorMessage = 'Firma je tad u periodu godisnjeg odmora';
         return;
       }
+
       request.maintenance = 'u procesu';
-      request.maintenanceCompletionDate = this.completionDate
-      request.maintenanceCompletionTime = this.completionTime
+      request.maintenanceCompletionDate = this.completionDate;
+      request.maintenanceCompletionTime = this.completionTime;
+
       this.companyService.updateJob(request).subscribe((res) => {
         this.loadMaintenanceRequests();
         this.closeModal();
@@ -101,9 +106,4 @@ export class DekoraterMaintenanceComponent {
       this.message = "Zahtev je odbijen";
     });
   }
-
-
-
-
-
 }
