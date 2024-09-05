@@ -166,7 +166,6 @@ export class StatisticsComponent {
   loadHistogram() {
     const ctx = document.getElementById('histogramChart') as HTMLCanvasElement;
     const data = this.getJobsPerDay();
-    console.log(data);
     new Chart(ctx, {
       type: 'bar',
       data: {

@@ -1,7 +1,11 @@
 .btn-lg {
   padding: 15px 30px;
   font-size: 1.25rem;
-  background-color: rgb(83, 83, 190)
+  background-color: rgb(149, 149, 235);
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  border: none;
 }
 
 .mt-4 {
@@ -15,6 +19,8 @@
 
 .btn-group .btn {
   min-width: 150px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-group {
@@ -26,4 +32,16 @@
     margin-bottom: 10px;
     width: 100%;
   }
+}
+
+.btn-lg:hover {
+  background-color: rgb(110, 110, 235);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-lg:active {
+  background-color: rgb(80, 80, 220);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
 }

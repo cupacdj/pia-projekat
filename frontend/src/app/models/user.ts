@@ -14,4 +14,5 @@ export default class User {
     profilePicture: string= "";
     company: string= "";
     scheduler: Date[] = [];
+    canTakeJob: string= ""; //blokiran, aktivan
 }

@@ -24,27 +24,32 @@ export class DekoraterComponent {
       alert('Niste ulogovani!');
       this.router.navigate(['/login']);
     }
+
+
     this.userService.getUser(localStorage.getItem('ulogovan')).subscribe((response) => {
       this.loggedUser = response.user;
+      localStorage.setItem('tip', this.loggedUser.type);
     });
+
+
 
     this.companyService.getJobs().subscribe((jobs) => {
       this.myJobs = jobs.filter(job => job.decorator == localStorage.getItem('ulogovan'));
+      this.myJobs.forEach(job => {
+        let now = new Date();
+        let finishedDate = new Date(job.finishedDate);
+        if (now.getTime() > finishedDate.getTime() + 86400000) {
+          this.loggedUser.canTakeJob = 'blokiran';
+          this.adminService.updateUser(this.loggedUser).subscribe((response) => {
+            alert('Niste uneli sliku na vreme. Vas nalog je blokiran za dalje prihvatanje posla.');
+          });
+        }
     });
-    this.myJobs.forEach(job => {
-      let now = new Date();
-      let finishedDate = new Date(job.finishedDate);
-      if (now.getTime() > finishedDate.getTime() + 86400000) {
-        this.adminService.deactivateUser(this.loggedUser).subscribe((response) => {
-          alert('Niste uneli sliku na vreme. Vas nalog je deaktiviran.');
-          localStorage.removeItem('ulogovan');
-          this.router.navigate(['/login']);
-        });
-      }
+
     })
 
 
-    this.router.navigate(['/dekorater-profil']);
+    this.router.navigate(['/dekorater-profile']);
   }
 
 

@@ -23,7 +23,8 @@
           <label for="male" class="form-check-label">M</label>
         </div>
         <div class="form-check form-check-inline">
-          <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" class="form-check-input" required>
+          <input type="radio" id="female" name="gender" [(ngModel)]="gender" value="Z" class="form-check-input"
+            required>
           <label for="female" class="form-check-label">Z</label>
         </div>
       </div>
@@ -37,7 +38,7 @@
       <label for="email" class="required">Email: </label>
       <input id="email" [(ngModel)]="email" name="email" class="form-control" required>
       <br>
-      <label for="picture" >Profilna slika: </label>
+      <label for="picture">Profilna slika: </label>
       <span class="picture-upload">
         <input id="picture" name="picture" type="file" (change)="onFileSelected($event)" class="form-control-file">
         <img *ngIf="picture" [src]="picture" alt="Profile picture" class="picture-icon img-fluid mt-2">
@@ -49,6 +50,9 @@
         <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()"
           class="form-control" required>
       </div>
+      <br>
+      <div class="g-recaptcha" [attr.data-sitekey]="siteKey" #captchaRef></div>
+      <div *ngIf="captchaError" class="text-danger">Molimo vas da potvrdite da niste robot</div>
       <br>
       <button type="submit" class="btn btn-primary btn-block">Registracija</button>
     </form>

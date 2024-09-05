@@ -22,6 +22,20 @@ export class PasswordChangeComponent {
     return regex.test(password);
   }
 
+  goBack() {
+    let tip = localStorage.getItem('tip');
+    console.log(tip);
+    if (tip == 'admin') {
+      this.router.navigate(['/admin']);
+    } else if (tip == 'dekorater') {
+      this.router.navigate(['/dekorater']);
+    } else if (tip == 'vlasnik') {
+      this.router.navigate(['/vlasnik']);
+    }
+
+
+  }
+
   changePassword() {
     if (!this.oldPassword || !this.newPassword || !this.repeatNewPassword) {
       this.errorMessage = 'Morate popuniti sva polja!';

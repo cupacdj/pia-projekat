@@ -20,6 +20,7 @@ export class AdminComponent {
       this.router.navigate(['/login/admin']);
     }
     this.selectedUser = null;
+    localStorage.setItem('tip', 'admin');
   }
 
   users: User[] = [];

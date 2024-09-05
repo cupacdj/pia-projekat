@@ -68,8 +68,12 @@ export class DekoraterSchedulingComponent {
   errorMessage: string = '';
 
   submit(job: Job): void {
+    if(this.loggedUser.canTakeJob === 'blokiran'){
+      this.errorMessage = 'Niste uneli sliku na vreme. Vas nalog je blokiran za dalje prihvatanje posla.';
+      return;
+    }
     if (job.productionDate == null) {
-      this.message = 'Morate uneti datum pocetka rada!';
+      this.errorMessage = 'Morate uneti datum pocetka rada!';
       return;
     }
 

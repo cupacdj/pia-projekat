@@ -3,6 +3,8 @@ import User from '../models/user';
 import * as argon2 from "argon2";
 import sharp from 'sharp';
 import path from 'path';
+
+const axios = require('axios');
 export class UserController {
 
     login = (req: express.Request, res: express.Response) => {
@@ -38,58 +40,74 @@ export class UserController {
 
 
     registerUser = (req: express.Request, res: express.Response) => {
-        const { username, password, name, lastname, gender, address, number, email, creditCard, type, company } = req.body;
+        const { username, password, name, lastname, gender, address, number, email, creditCard, type, company, captchaToken } = req.body;
         const file = req.file;
 
-        User.findOne({ 'username': username }).then(existingUser => {
-            if (existingUser)
-                return res.json({ message: 'Korisničko ime je zauzeto.' });
+        const secretKey = '6LdoeDcqAAAAAJDfORztAVN_SkAennCKu1G4keoS';
+        const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
+        axios.post(verificationURL)
+            .then((response: any) => {
+                if (response.data.success) {
+                    console.log('Captcha verifikacija uspela');
+                    User.findOne({ 'username': username }).then(existingUser => {
+                        if (existingUser)
+                            return res.json({ message: 'Korisničko ime je zauzeto.' });
 
-            User.findOne({ 'email': email }).then(existingEmail => {
-                if (existingEmail)
-                    return res.json({ message: 'Nalog sa ovim email-om već postoji.' });
-                let picturePath = '';
-                if (req.body.gender == 'M')
-                    picturePath = '/defaultM.png';
-                else
-                    picturePath = '/defaultF.png';
-                if (file) {
-                    sharp(file.buffer)
-                        .metadata()
-                        .then(metadata => {
-                            if (metadata && metadata.width && metadata.height && (metadata.width < 100 || metadata.height < 100 || metadata.width > 300 || metadata.height > 300)) {
-                                return res.json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
+                        User.findOne({ 'email': email }).then(existingEmail => {
+                            if (existingEmail)
+                                return res.json({ message: 'Nalog sa ovim email-om već postoji.' });
+                            let picturePath = '';
+                            if (req.body.gender == 'M')
+                                picturePath = '/defaultM.png';
+                            else
+                                picturePath = '/defaultF.png';
+                            if (file) {
+                                sharp(file.buffer)
+                                    .metadata()
+                                    .then(metadata => {
+                                        if (metadata && metadata.width && metadata.height && (metadata.width < 100 || metadata.height < 100 || metadata.width > 300 || metadata.height > 300)) {
+                                            return res.json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
+                                        }
+
+                                        const filename = Date.now() + path.extname(file.originalname);
+                                        picturePath = `/${filename}`;
+
+                                        sharp(file.buffer)
+                                            .toFile('uploads' + picturePath)
+                                            .then(() => {
+                                                this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                                res.json({ message: 'Problem prilikom čuvanja slike.' });
+                                            });
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        res.json({ message: 'Problem prilikom obrade slike.' });
+                                    });
+                            } else {
+                                // Ako nema slike, koristimo podrazumevanu i nastavljamo sa čuvanjem korisnika
+                                this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
                             }
-
-                            const filename = Date.now() + path.extname(file.originalname);
-                            picturePath = `/${filename}`;
-
-                            sharp(file.buffer)
-                                .toFile('uploads' + picturePath)
-                                .then(() => {
-                                    this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                    res.json({ message: 'Problem prilikom čuvanja slike.' });
-                                });
-                        })
-                        .catch(err => {
+                        }).catch(err => {
                             console.log(err);
-                            res.json({ message: 'Problem prilikom obrade slike.' });
+                            res.json({ message: 'Problem prilikom registracije(email)!' });
                         });
-                } else {
-                    // Ako nema slike, koristimo podrazumevanu i nastavljamo sa čuvanjem korisnika
-                    this.saveUser(username, password, name, lastname, gender, address, number, email, type, creditCard, company, picturePath, res);
+                    }).catch(err => {
+                        console.log(err);
+                        res.json({ message: 'Problem prilikom registracije(username)!' });
+                    });
                 }
-            }).catch(err => {
-                console.log(err);
-                res.json({ message: 'Problem prilikom registracije(email)!' });
-            });
-        }).catch(err => {
-            console.log(err);
-            res.json({ message: 'Problem prilikom registracije(username)!' });
-        });
+                else {
+                    console.log('Captcha verifikacija nije uspela');
+                    return res.json({ message: 'Captcha verifikacija nije uspela.' });
+                }
+            }).catch((error: any) => {
+                console.log(error);
+                res.json({ message: 'Problem prilikom verifikacije captcha!' });
+            })
+
     };
 
     private saveUser(username: string, password: string, name: string, lastname: string, gender: string, address: string, number: string, email: string, type: string, creditCard: string, company: string, picture: string, res: express.Response) {
@@ -200,37 +218,37 @@ export class UserController {
         });
     }
 
-        // User.findOne({ 'username': updatedUser.username }).then(existingUser => {
-        //     if (!existingUser) {
-        //         return res.json({ message: 'Korisnik ne postoji!' });
-        //     }
+    // User.findOne({ 'username': updatedUser.username }).then(existingUser => {
+    //     if (!existingUser) {
+    //         return res.json({ message: 'Korisnik ne postoji!' });
+    //     }
 
-        //     User.deleteOne({ 'username': updatedUser.username }).then(() => {
-        //         let newUser = new User(updatedUser);
-        //         newUser.status = 'approved';
-        //         if (updatedUser.type == 'dekorater') {
-        //             if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
-        //                 newUser.scheduler = [];
-        //             } else {
-        //                 newUser.scheduler = updatedUser.scheduler;
-        //             }
-        //         }
-        //         newUser.save().then(() => {
-        //             res.json({ message: 'Azuriranje uspesno' });
-        //         }).catch(err => {
-        //             console.log(err);
-        //             res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
-        //         });
+    //     User.deleteOne({ 'username': updatedUser.username }).then(() => {
+    //         let newUser = new User(updatedUser);
+    //         newUser.status = 'approved';
+    //         if (updatedUser.type == 'dekorater') {
+    //             if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
+    //                 newUser.scheduler = [];
+    //             } else {
+    //                 newUser.scheduler = updatedUser.scheduler;
+    //             }
+    //         }
+    //         newUser.save().then(() => {
+    //             res.json({ message: 'Azuriranje uspesno' });
+    //         }).catch(err => {
+    //             console.log(err);
+    //             res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
+    //         });
 
-        //     }).catch(err => {
-        //         console.log(err);
-        //         res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
-        //     });
+    //     }).catch(err => {
+    //         console.log(err);
+    //         res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
+    //     });
 
-        // }).catch(err => {
-        //     console.log(err);
-        //     res.json({ message: 'Problem prilikom pretrage korisnika!' });
-        // });
+    // }).catch(err => {
+    //     console.log(err);
+    //     res.json({ message: 'Problem prilikom pretrage korisnika!' });
+    // });
 
     updateUserPicture = (req: express.Request, res: express.Response) => {
         const updatedUser = req.body;

@@ -11,7 +11,7 @@ export class OwnerMenuComponent {
 
   constructor(private router: Router) {}
 
-  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '', scheduler: [] };
+  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '', scheduler: [], canTakeJob: '' };
 
   ngOnInit(): void {
     if (!localStorage.getItem('ulogovan')) {

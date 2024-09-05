@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,15 @@ export class RegisterComponent {
   constructor(private userServis: UserService,
     private ruter: Router) { }
 
+  siteKey: string = '6LdoeDcqAAAAAESqnN4XnfM_54w6TafCevlN2pjt';
+  captchaError: boolean = false;
+
+  @ViewChild('captchaRef') captchaRef: ElementRef;
+
   ngOnInit(): void {
+    (window as any).grecaptcha.ready(() => {
+      console.log('reCAPTCHA je spremna');
+    });
   }
 
   username: string;
@@ -90,20 +98,32 @@ export class RegisterComponent {
     return regex.test(phone);
   }
 
+  captchaToken: string = '';
 
   register() {
+    (window as any).grecaptcha.execute(this.siteKey, { action: 'register' }).then((token: string) => {
+      this.captchaToken = token;
+
+      this.submitForm();
+    }).catch((error: any) => {
+      console.error('reCAPTCHA error:', error);
+    });
+  }
+
+
+  submitForm() {
 
     if (!this.username || !this.password || !this.name || !this.lastname || !this.gender || !this.address || !this.number || !this.email || !this.creditCard) {
       this.errorMessage = 'Morate popuniti sva polja označena zvezdicom (osim slike).';
       return;
     }
 
-    if(!this.emailRegex(this.email)){
+    if (!this.emailRegex(this.email)) {
       this.errorMessage = 'Email nije u dobrom formatu!';
       return;
     }
 
-    if(!this.phoneRegex(this.number)){
+    if (!this.phoneRegex(this.number)) {
       this.errorMessage = 'Broj telefona nije u dobrom formatu!';
       return;
     }
@@ -112,6 +132,13 @@ export class RegisterComponent {
       this.errorMessage = 'Lozinka nije u dobrom formatu!';
       return;
     }
+
+    //const captchaResponse = (window as any).grecaptcha.getResponse();
+
+    // if (!captchaResponse) {
+    //   this.captchaError = true;
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append('username', this.username);
@@ -125,6 +152,7 @@ export class RegisterComponent {
     formData.append('creditCard', this.creditCard);
     formData.append('type', 'vlasnik');
     formData.append('company', '');
+    formData.append('captchaToken', this.captchaToken);
 
     if (this.selectedFile) {
       formData.append('picture', this.selectedFile, this.selectedFile.name);

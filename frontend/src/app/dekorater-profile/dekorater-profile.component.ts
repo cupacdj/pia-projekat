@@ -12,7 +12,7 @@ export class DekoraterProfileComponent {
 
   constructor(private router: Router, private userService: UserService ) { }
 
-  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '',scheduler: [] };
+  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '',scheduler: [], canTakeJob: '' };
 
   usernameFind: string;
   messageGet: string;

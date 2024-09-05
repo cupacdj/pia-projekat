@@ -44,6 +44,9 @@ let User = new Schema({
     }, 
     scheduler: {
         type: [Date], default: []
+    },
+    canTakeJob: {
+        type: String, default: '' // 'blokiran', 'aktivan'
     }
 })
 

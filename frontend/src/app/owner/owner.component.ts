@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import User from '../models/user';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-owner',
@@ -9,17 +10,24 @@ import User from '../models/user';
 })
 export class OwnerComponent implements OnInit {
 
-  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '', scheduler: [] };
+  user: User = { username: '', password: '', name: '', lastname: '', address: '', number: '', email: '', creditCard: '', picture: '', gender: '', profilePicture: '', type: '', status: '', company: '', scheduler: [], canTakeJob: '' };
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private userService: UserService) { }
 
-  ngOnInit(){
+  ngOnInit() {
     if (!localStorage.getItem('ulogovan')) {
       alert('Niste ulogovani!');
       this.router.navigate(['/login']);
     }
-    this.router.navigate(['/owner-profile']);
+    this.userService.getUser(localStorage.getItem('ulogovan')).subscribe(
+      (response: { user: User }) => {
+        this.user = response.user;
+        localStorage.setItem('tip', this.user.type);
+        this.router.navigate(['/owner-profile']);
+      }
+    );
+
   }
 
 }
