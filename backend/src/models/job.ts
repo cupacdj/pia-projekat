@@ -103,9 +103,6 @@ let Job = new Schema({
     },
     photo: {
         type: String, default: ''
-    },
-    photoDate: {
-        type: Date, default: null
     }
   });
 

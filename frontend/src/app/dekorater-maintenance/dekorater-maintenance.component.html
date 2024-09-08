@@ -5,7 +5,7 @@
   <h2 class="text-center">Zahtevi za održavanje vodene površine</h2>
 
   <div *ngIf="maintenanceRequests.length > 0; else noRequests">
-    <table class="table table-hover table-bordered">
+    <table table class="table table-hover table-bordered">
       <thead class="thead-dark">
         <tr>
           <th class="text-center">Naziv firme</th>
@@ -18,8 +18,8 @@
           <td>{{ request.company }}</td>
           <td>{{ request.maintenanceDate | date }}</td>
           <td class="text-center">
-            <button class="btn btn-success btn-sm" (click)="openConfirmModal(request)">Potvrdi</button>
-            <button class="btn btn-danger btn-sm" (click)="rejectRequest(request)">Odbij</button>
+            <button class="green-button btn-sm" (click)="openConfirmModal(request)">Potvrdi</button>
+            <button class="red-button btn-sm" (click)="rejectRequest(request)">Odbij</button>
           </td>
         </tr>
       </tbody>
@@ -30,7 +30,6 @@
     <p class="text-center">Nema trenutnih zahteva za održavanje.</p>
   </ng-template>
 </div>
-
 
 <div *ngIf="selectedRequest" class="modal fade show d-block">
   <div class="modal-dialog">
@@ -52,16 +51,15 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Zatvori</button>
-        <button type="button" class="btn btn-primary" (click)="confirmRequest(selectedRequest)">Potvrdi</button>
+        <button type="button" class="blue-button" (click)="closeModal()">Zatvori</button>
+        <button type="button" class="green-button" (click)="confirmRequest(selectedRequest)">Potvrdi</button>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="errorMessage" class="error">
+
+<div *ngIf="errorMessage" class="alert alert-danger">
   {{ errorMessage }}
 </div>
 
-<p class="error" style="text-align: center; color: green;">{{ message }}</p>
-
-<app-footer></app-footer>
+<p class="text-center" style="color: green;">{{ message }}</p>

@@ -69,39 +69,7 @@ export class AdminController {
             console.log(err);
             res.json({ message: 'Problem prilikom azuriranja korisnika!' });
         });
-        // User.findOne({ 'username': updatedUser.username }).then(existingUser => {
-        //     if (!existingUser) {
-        //         return res.json({ message: 'Korisnik ne postoji!' });
-        //     }
-
-        //     User.deleteOne({ 'username': updatedUser.username }).then(() => {
-        //         let newUser = new User(updatedUser);
-
-        //         newUser.status = 'approved';
-        //         if (updatedUser.type == 'dekorater') {
-        //             if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
-        //                 newUser.scheduler = [];
-        //             } else {
-        //                 newUser.scheduler = updatedUser.scheduler;
-        //             }
-        //         }
-
-        //         newUser.save().then(() => {
-        //             res.json({ message: 'Azuriranje uspesno' });
-        //         }).catch(err => {
-        //             console.log(err);
-        //             res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
-        //         });
-
-        //     }).catch(err => {
-        //         console.log(err);
-        //         res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
-        //     });
-
-        // }).catch(err => {
-        //     console.log(err);
-        //     res.json({ message: 'Problem prilikom pretrage korisnika!' });
-        // });
+        
     }
 
     getPendingUsers = (req: express.Request, res: express.Response) => {

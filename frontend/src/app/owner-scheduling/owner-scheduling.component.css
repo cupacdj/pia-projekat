@@ -22,11 +22,6 @@
   resize: none;
 }
 
-.btn-success {
-  width: 100%;
-  padding: 10px;
-  font-size: 1.1rem;
-}
 
 .modal.fade.show.d-block {
   background-color: rgba(0, 0, 0, 0.5);

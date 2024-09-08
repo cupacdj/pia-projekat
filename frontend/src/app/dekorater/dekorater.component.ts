@@ -38,7 +38,7 @@ export class DekoraterComponent {
       this.myJobs.forEach(job => {
         let now = new Date();
         let finishedDate = new Date(job.finishedDate);
-        if (now.getTime() > finishedDate.getTime() + 86400000) {
+        if ((now.getTime() > finishedDate.getTime() + 86400000) && job.photo == '') {
           this.loggedUser.canTakeJob = 'blokiran';
           this.adminService.updateUser(this.loggedUser).subscribe((response) => {
             alert('Niste uneli sliku na vreme. Vas nalog je blokiran za dalje prihvatanje posla.');

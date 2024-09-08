@@ -28,7 +28,6 @@ import { OwnerSchedulingComponent } from './owner-scheduling/owner-scheduling.co
 import { OwnerMaintenanceComponent } from './owner-maintenance/owner-maintenance.component';
 import { DekoraterMaintenanceComponent } from './dekorater-maintenance/dekorater-maintenance.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +53,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     OwnerSchedulingComponent,
     OwnerMaintenanceComponent,
     DekoraterMaintenanceComponent,
-    StatisticsComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

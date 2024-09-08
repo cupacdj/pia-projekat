@@ -218,37 +218,6 @@ export class UserController {
         });
     }
 
-    // User.findOne({ 'username': updatedUser.username }).then(existingUser => {
-    //     if (!existingUser) {
-    //         return res.json({ message: 'Korisnik ne postoji!' });
-    //     }
-
-    //     User.deleteOne({ 'username': updatedUser.username }).then(() => {
-    //         let newUser = new User(updatedUser);
-    //         newUser.status = 'approved';
-    //         if (updatedUser.type == 'dekorater') {
-    //             if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
-    //                 newUser.scheduler = [];
-    //             } else {
-    //                 newUser.scheduler = updatedUser.scheduler;
-    //             }
-    //         }
-    //         newUser.save().then(() => {
-    //             res.json({ message: 'Azuriranje uspesno' });
-    //         }).catch(err => {
-    //             console.log(err);
-    //             res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
-    //         });
-
-    //     }).catch(err => {
-    //         console.log(err);
-    //         res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
-    //     });
-
-    // }).catch(err => {
-    //     console.log(err);
-    //     res.json({ message: 'Problem prilikom pretrage korisnika!' });
-    // });
 
     updateUserPicture = (req: express.Request, res: express.Response) => {
         const updatedUser = req.body;
@@ -295,55 +264,4 @@ export class UserController {
     }
 }
 
-//     User.findOne({ 'username': updatedUser.username }).then(existingUser => {
-//         if (!existingUser) {
-//             return res.json({ message: 'Korisnik ne postoji!' });
-//         }
-
-//         sharp(file.buffer).metadata().then(metadata => {
-//             if (metadata && metadata.width && metadata.height && (metadata.width < 100 || metadata.height < 100 || metadata.width > 300 || metadata.height > 300)) {
-//                 return res.json({ message: 'Slika mora biti između 100x100 i 300x300 piksela.' });
-//             }
-//             const filename = Date.now() + path.extname(file.originalname);
-//             picturePath = `/${filename}`;
-
-
-//             sharp(file.buffer).toFile('uploads' + picturePath).catch(err => {
-//                 console.log(err);
-//                 res.json({ message: 'Problem prilikom čuvanja slike.' });
-
-//             });
-//             User.deleteOne({ 'username': updatedUser.username }).then(() => {
-//                 let newUser = new User(updatedUser);
-
-//                 newUser.picture = picturePath;
-//                 newUser.status = 'approved';
-//                 if (updatedUser.type == 'dekorater') {
-//                     if (updatedUser.scheduling == '' || updatedUser.scheduling == null || updatedUser.scheduling == 'undefined') {
-//                         newUser.scheduler = [];
-//                     } else {
-//                         newUser.scheduler = updatedUser.scheduler;
-//                     }
-//                 }
-
-//                 newUser.save().then(() => {
-//                     res.json({ message: 'Azuriranje uspesno' });
-//                 }).catch(err => {
-//                     console.log(err);
-//                     res.json({ message: 'Problem prilikom snimanja novog korisnika!' });
-//                 });
-
-//             }).catch(err => {
-//                 console.log(err);
-//                 res.json({ message: 'Problem prilikom brisanja starog korisnika!' });
-//             });
-//         }).catch(err => {
-//             console.log(err);
-//             res.json({ message: 'Problem prilikom obrade slike.' });
-//         });
-//     }).catch(err => {
-//         console.log(err);
-//         res.json({ message: 'Problem prilikom pretrage korisnika!' });
-//     });
-// }
 

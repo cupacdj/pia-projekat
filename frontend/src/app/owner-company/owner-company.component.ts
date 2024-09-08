@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import User from '../models/user';
 import Company from '../models/company';
@@ -7,6 +7,7 @@ import { CompanyService } from '../services/company.service';
 import Job from '../models/job';
 import { Time } from "@angular/common";
 import { LayoutData } from '../models/layout-data';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -18,7 +19,9 @@ import { LayoutData } from '../models/layout-data';
 
 export class OwnerCompanyComponent {
 
-  constructor(private router: Router, private adminService: AdminService, private companyService: CompanyService) { }
+  constructor(private router: Router, private adminService: AdminService, private companyService: CompanyService,
+    public sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     if (!localStorage.getItem('ulogovan')) {
@@ -306,7 +309,6 @@ export class OwnerCompanyComponent {
       maintenanceCompletionDate: null,
       maintenanceCompletionTime: null,
       photo: '',
-      photoDate: null
     }
     console.log(this.job);
     this.companyService.createJob(this.job).subscribe((response) => {
@@ -330,13 +332,83 @@ export class OwnerCompanyComponent {
         try {
           const layoutData = JSON.parse(e.target.result);
           this.step2Data.layoutData = layoutData;
-          this.draw(layoutData);
+
+          if (this.checkOverlap(layoutData.objects)) {
+            this.errorForm = "Postoji preklapanje objekata u izgledu bašte.";
+          } else {
+            this.errorForm = '';
+            this.draw(layoutData);
+          }
+
         } catch (error) {
           this.errorForm = "Invalid JSON file. " + error;
         }
       };
       reader.readAsText(selectedFile);
     }
+  }
+
+  checkOverlap(objects: any[]): boolean {
+    for (let i = 0; i < objects.length; i++) {
+      for (let j = i + 1; j < objects.length; j++) {
+        const obj1 = objects[i];
+        const obj2 = objects[j];
+
+        if (obj1.type === 'rectangle' && obj2.type === 'rectangle') {
+          if (this.rectanglesOverlap(obj1, obj2)) {
+            return true;
+          }
+        }
+
+        if (obj1.type === 'circle' && obj2.type === 'circle') {
+          if (this.circlesOverlap(obj1, obj2)) {
+            return true;
+          }
+        }
+
+        if (obj1.type === 'rectangle' && obj2.type === 'circle') {
+          if (this.rectCircleOverlap(obj1, obj2)) {
+            return true;
+          }
+        }
+
+        if (obj1.type === 'circle' && obj2.type === 'rectangle') {
+          if (this.rectCircleOverlap(obj2, obj1)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  rectanglesOverlap(rect1: any, rect2: any): boolean {
+    return !(rect1.x + rect1.width <= rect2.x ||
+      rect1.x >= rect2.x + rect2.width ||
+      rect1.y + rect1.height <= rect2.y ||
+      rect1.y >= rect2.y + rect2.height);
+  }
+
+  circlesOverlap(circle1: any, circle2: any): boolean {
+    const dx = circle1.x - circle2.x;
+    const dy = circle1.y - circle2.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < (circle1.radius + circle2.radius);
+  }
+
+  rectCircleOverlap(rect: any, circle: any): boolean {
+    const distX = Math.abs(circle.x - rect.x - rect.width / 2);
+    const distY = Math.abs(circle.y - rect.y - rect.height / 2);
+
+    if (distX > (rect.width / 2 + circle.radius)) { return false; }
+    if (distY > (rect.height / 2 + circle.radius)) { return false; }
+
+    if (distX <= (rect.width / 2)) { return true; }
+    if (distY <= (rect.height / 2)) { return true; }
+
+    const dx = distX - rect.width / 2;
+    const dy = distY - rect.height / 2;
+    return (dx * dx + dy * dy) <= (circle.radius * circle.radius);
   }
 
   draw(layoutData: any) {
@@ -367,5 +439,4 @@ export class OwnerCompanyComponent {
       this.jobs = jobs.filter(job => job.status === 'zavrsen' && job.company == this.selectedCompany.name).sort((a, b) => new Date(b.appointmentDate).getTime() - new Date(a.appointmentDate).getTime());
     });
   }
-
 }

@@ -1,3 +1,35 @@
-.navbar-light.bg-light {
-  background-color: rgb(46, 190, 238);
+.navbar {
+  background-color: #007bff;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box
+}
+
+.navbar-brand {
+  color: #fff;
+  font-weight: bold;
+  font-size: 24px;
+
+}
+
+.navbar-brand:hover {
+  color: #dcdcdc;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #fff;
+  margin-right: 15px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #dcdcdc;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.collapse.navbar-collapse {
+  justify-content: flex-end;
 }

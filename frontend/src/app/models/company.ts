@@ -7,4 +7,5 @@ export default class Company {
     contact: string = "";
     services: {name: string, price: number}[] = [];
     vacationPeriod: { from: Date | null, to: Date | null } = { from: null, to: null }
+    location: string = "";
 }

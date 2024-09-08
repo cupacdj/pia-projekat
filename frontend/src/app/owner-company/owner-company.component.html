@@ -4,9 +4,12 @@
 <div class="container mt-5" *ngIf="!showDetails">
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group position-relative" (click)="onInputFocus('name')" (document:click)="onDocumentClick($event)">
-        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme" (input)="filterCompanies()" (focus)="onInputFocus('name')">
-        <div *ngIf="showNameDropdown && filteredCompanyNames.length > 0" class="dropdown-menu show" style="width: 100%;">
+      <div class="form-group position-relative" (click)="onInputFocus('name')"
+        (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchName" class="form-control" placeholder="Pretrazi po nazivu firme"
+          (input)="filterCompanies()" (focus)="onInputFocus('name')">
+        <div *ngIf="showNameDropdown && filteredCompanyNames.length > 0" class="dropdown-menu show"
+          style="width: 100%;">
           <button *ngFor="let name of filteredCompanyNames" class="dropdown-item" (click)="selectCompanyByName(name)">
             {{ name }}
           </button>
@@ -14,10 +17,14 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group position-relative" (click)="onInputFocus('address')" (document:click)="onDocumentClick($event)">
-        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme" (input)="filterCompanies()" (focus)="onInputFocus('address')">
-        <div *ngIf="showAddressDropdown && filteredCompanyAddresses.length > 0" class="dropdown-menu show" style="width: 100%;">
-          <button *ngFor="let address of filteredCompanyAddresses" class="dropdown-item" (click)="selectCompanyByAddress(address)">
+      <div class="form-group position-relative" (click)="onInputFocus('address')"
+        (document:click)="onDocumentClick($event)">
+        <input type="text" [(ngModel)]="searchAddress" class="form-control" placeholder="Pretrazi po adresi firme"
+          (input)="filterCompanies()" (focus)="onInputFocus('address')">
+        <div *ngIf="showAddressDropdown && filteredCompanyAddresses.length > 0" class="dropdown-menu show"
+          style="width: 100%;">
+          <button *ngFor="let address of filteredCompanyAddresses" class="dropdown-item"
+            (click)="selectCompanyByAddress(address)">
             {{ address }}
           </button>
         </div>
@@ -50,7 +57,8 @@
               <div class="d-flex justify-content-center align-items-center">
                 <span class="mr-2">{{ averageGradeForCompany(company) }}</span>
                 <ng-container *ngFor="let star of getStars(averageGradeForCompany(company))">
-                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5" [class.fa-star-o]="star === 0"></i>
+                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5"
+                    [class.fa-star-o]="star === 0"></i>
                 </ng-container>
               </div>
             </td>
@@ -71,7 +79,8 @@
               <div class="d-flex justify-content-center align-items-center">
                 <span class="mr-2">{{ averageGradeForCompany(company) }}</span>
                 <ng-container *ngFor="let star of getStars(averageGradeForCompany(company))">
-                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5" [class.fa-star-o]="star === 0"></i>
+                  <i class="fa" [class.fa-star]="star === 1" [class.fa-star-half-alt]="star === 0.5"
+                    [class.fa-star-o]="star === 0"></i>
                 </ng-container>
               </div>
             </td>
@@ -80,7 +89,6 @@
       </table>
     </div>
   </div>
-
 </div>
 
 <div class="container mt-5" *ngIf="showDetails">
@@ -92,156 +100,158 @@
       <p><strong>Adresa:</strong> {{ selectedCompany?.address }}</p>
       <p><strong>Kontakt osoba:</strong> {{ selectedCompany?.contact }}</p>
 
-      <h3>Usluge</h3>
+      <h3>Usluge:</h3>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let service of selectedCompany?.services">
           {{ service.name }} - {{ service.price | currency:'RSD ':'symbol':'1.2-2' }}
         </li>
       </ul>
 
-      <h3 class="mt-4">Telefon</h3>
+      <h3 class="mt-4">Telefon:</h3>
       <p>{{ selectedCompany?.contact }}</p>
-    </div>
-    <div class="card-footer text-right">
-      <button class="btn btn-secondary" (click)="back()">Nazad</button>
+
+      <h3 class="mt-4">Lokacija:</h3>
+      <div style="width: 100%; height: 400px;">
+        <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(selectedCompany?.location)" width="100%" height="100%"
+          frameborder="0" style="border:0;" allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+
+      <div class="card-footer text-right">
+        <button class="blue-button" (click)="back()">Nazad</button>
+      </div>
     </div>
   </div>
-</div>
 
+  <div class="container mt-5">
+    <div *ngIf="currentStep === 1">
+      <h3 class="mb-4 text-center">Zakazivanje Uređivanja Bašte</h3>
+      <h4 class="mb-3">Korak 1: Unos Datuma i Vremena</h4>
 
-<div class="container mt-5">
+      <div class="form-group">
+        <label for="date">Datum:</label>
+        <input id="date" [(ngModel)]="step1Data.date" type="date" class="form-control" required>
+      </div>
 
-  <div *ngIf="currentStep === 1">
+      <div class="form-group">
+        <label for="time">Vreme:</label>
+        <input id="time" [(ngModel)]="step1Data.time" type="time" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="area">Kvadratura bašte (m²):</label>
+        <input id="area" [(ngModel)]="step1Data.area" type="number" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Tip bašte:</label>
+        <div class="form-check">
+          <input id="private" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio" class="form-check-input"
+            value="privatno" required>
+          <label for="private" class="form-check-label">Privatna</label>
+        </div>
+        <div class="form-check">
+          <input id="restaurant" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio"
+            class="form-check-input" value="restoran" required>
+          <label for="restaurant" class="form-check-label">Bašta restorana</label>
+        </div>
+      </div>
+
+      <div *ngIf="errorForm" class="alert alert-danger">
+        {{ errorForm }}
+      </div>
+
+      <button class="blue-button btn-block" (click)="nextStep()">Dalje</button>
+    </div>
+  </div>
+
+  <div *ngIf="currentStep === 2" class="container mt-5">
     <h3 class="mb-4 text-center">Zakazivanje Uređivanja Bašte</h3>
-    <h4 class="mb-3">Korak 1: Unos Datuma i Vremena</h4>
+    <h3>Korak 2: Detalji Uređenja Bašte</h3>
 
-    <div class="form-group">
-      <label for="date">Datum:</label>
-      <input id="date" [(ngModel)]="step1Data.date" type="date" class="form-control" required>
-    </div>
+    <div *ngIf="step1Data.gardenType === 'privatno'">
+      <h4>Privatna Bašta</h4>
 
-    <div class="form-group">
-      <label for="time">Vreme:</label>
-      <input id="time" [(ngModel)]="step1Data.time" type="time" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-      <label for="area">Kvadratura bašte (m²):</label>
-      <input id="area" [(ngModel)]="step1Data.area" type="number" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-      <label>Tip bašte:</label>
-      <div class="form-check">
-        <input id="private" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio" class="form-check-input"
-          value="privatno" required>
-        <label for="private" class="form-check-label">Privatna</label>
+      <div class="form-group">
+        <label for="poolArea">Kvadratura pod bazenom (m²):</label>
+        <input id="poolArea" [(ngModel)]="step2Data.poolArea" type="number" class="form-control">
       </div>
-      <div class="form-check">
-        <input id="restaurant" name="gardenType" [(ngModel)]="step1Data.gardenType" type="radio"
-          class="form-check-input" value="restoran" required>
-        <label for="restaurant" class="form-check-label">Bašta restorana</label>
+
+      <div class="form-group">
+        <label for="greenArea">Kvadratura pod zelenilom (m²):</label>
+        <input id="greenArea" [(ngModel)]="step2Data.greenArea" type="number" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="furnitureArea">Kvadratura pod ležaljkama i stolovima (m²):</label>
+        <input id="furnitureArea" [(ngModel)]="step2Data.furnitureArea" type="number" class="form-control">
       </div>
     </div>
 
-    <div *ngIf="errorForm" class="alert alert-danger">
-      {{ errorForm }}
+    <div *ngIf="step1Data.gardenType === 'restoran'">
+      <h4>Bašta Restorana</h4>
+
+      <div class="form-group">
+        <label for="fountainArea">Kvadratura pod fontanom (m²):</label>
+        <input id="fountainArea" [(ngModel)]="step2Data.fountainArea" type="number" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="greenArea">Kvadratura pod zelenilom (m²):</label>
+        <input id="greenArea" [(ngModel)]="step2Data.greenArea" type="number" class="form-control">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="tables">Broj stolova:</label>
+          <input id="tables" [(ngModel)]="step2Data.tables" type="number" class="form-control" required>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="chairs">Broj stolica:</label>
+          <input id="chairs" [(ngModel)]="step2Data.chairs" type="number" class="form-control" required>
+        </div>
+      </div>
     </div>
 
-    <button class="btn btn-primary btn-block" (click)="nextStep()">Dalje</button>
+    <div class="form-group">
+      <label for="additionalRequests">Dodatni Zahtevi:</label>
+      <textarea id="additionalRequests" [(ngModel)]="step2Data.additionalRequests" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Opcije:</label>
+      <div *ngFor="let service of selectedCompany?.services" class="d-flex align-items-center mb-2">
+        <div class="mr-3">
+          {{ service.name }} - {{ service.price | currency:'RSD':'symbol':'1.0-0' }}
+        </div>
+        <button type="button" class="btn btn-sm blue-button" (click)="toggleService(service.name)">
+          {{ isServiceSelected(service.name) ? 'Ukloni' : 'Dodaj' }}
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="mb-4 text-center">Postavite JSON fajl za izgled bašte</h3>
+      <div class="custom-file mb-3">
+        <input type="file" id="gardenLayout" (change)="onFileSelected($event)" class="custom-file-input">
+        <label class="custom-file-label" for="gardenLayout">Izaberite fajl</label>
+      </div>
+      <div class="d-flex justify-content-center">
+        <canvas id="gardenCanvas" width="700" height="500" class="border" style="border: 1px solid #000;"></canvas>
+      </div>
+    </div>
+
+    <div *ngIf="errorForm" class="alert alert-danger">{{ errorForm }}</div>
+
+    <div class="d-flex justify-content-between">
+      <button class="blue-button" (click)="previousStep()">Nazad</button>
+      <button class="blue-button" (click)="submit()">Završi</button>
+    </div>
   </div>
+
+  <div *ngIf="currentStep === 3" class="container mt-5 text-center">
+    <h2 class="text-success">Zakazivanje uspešno!</h2>
+  </div>
+  <br>
 </div>
-
-<div *ngIf="currentStep === 2" class="container mt-5">
-  <h3 class="mb-4 text-center">Zakazivanje Uređivanja Bašte</h3>
-  <h3>Korak 2: Detalji Uređenja Bašte</h3>
-
-  <div *ngIf="step1Data.gardenType === 'privatno'">
-    <h4>Privatna Bašta</h4>
-
-    <div class="form-group">
-      <label for="poolArea">Kvadratura pod bazenom (m²):</label>
-      <input id="poolArea" [(ngModel)]="step2Data.poolArea" type="number" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="greenArea">Kvadratura pod zelenilom (m²):</label>
-      <input id="greenArea" [(ngModel)]="step2Data.greenArea" type="number" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="furnitureArea">Kvadratura pod ležaljkama i stolovima (m²):</label>
-      <input id="furnitureArea" [(ngModel)]="step2Data.furnitureArea" type="number" class="form-control">
-    </div>
-  </div>
-
-  <div *ngIf="step1Data.gardenType === 'restoran'">
-    <h4>Bašta Restorana</h4>
-
-    <div class="form-group">
-      <label for="fountainArea">Kvadratura pod fontanom (m²):</label>
-      <input id="fountainArea" [(ngModel)]="step2Data.fountainArea" type="number" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="greenArea">Kvadratura pod zelenilom (m²):</label>
-      <input id="greenArea" [(ngModel)]="step2Data.greenArea" type="number" class="form-control">
-    </div>
-
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="tables">Broj stolova:</label>
-        <input id="tables" [(ngModel)]="step2Data.tables" type="number" class="form-control" required>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="chairs">Broj stolica:</label>
-        <input id="chairs" [(ngModel)]="step2Data.chairs" type="number" class="form-control" required>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="additionalRequests">Dodatni Zahtevi:</label>
-    <textarea id="additionalRequests" [(ngModel)]="step2Data.additionalRequests" class="form-control"></textarea>
-  </div>
-
-  <div class="form-group">
-    <label>Opcije:</label>
-    <div *ngFor="let service of selectedCompany?.services" class="d-flex align-items-center mb-2">
-      <div class="mr-3">
-        {{ service.name }} - {{ service.price | currency:'RSD':'symbol':'1.0-0' }}
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-primary" (click)="toggleService(service.name)">
-        {{ isServiceSelected(service.name) ? 'Ukloni' : 'Dodaj' }}
-      </button>
-    </div>
-  </div>
-  <div>
-    <h3 class="mb-4 text-center">Postavite JSON fajl za izgled baste</h3>
-    <br>
-    <div class="custom-file mb-3">
-      <input type="file" id="gardenLayout" (change)="onFileSelected($event)" class="custom-file-input">
-      <label class="custom-file-label" for="gardenLayout">Izaberite fajl</label>
-    </div>
-    <div class="d-flex justify-content-center">
-      <canvas id="gardenCanvas" width="700" height="500" class="border" style="border: 1px solid #000;"></canvas>
-    </div>
-  </div>
-
-  <div *ngIf="errorForm" class="alert alert-danger">
-    {{ errorForm }}
-  </div>
-
-  <div class="d-flex justify-content-between">
-    <button class="btn btn-secondary" (click)="previousStep()">Nazad</button>
-    <button class="btn btn-primary" (click)="submit()">Završi</button>
-  </div>
-</div>
-
-<div *ngIf="currentStep === 3" class="container mt-5 text-center">
-  <h2 class="text-success">Zakazivanje uspešno!</h2>
-</div>
-<br>
-
-<app-footer></app-footer>

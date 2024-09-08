@@ -3,39 +3,40 @@
   <h2>Administracija</h2>
 
   <div class="btn-group" role="group">
-    <button class="btn btn-primary" (click)="showUserList()">Spiskovi</button>
-    <button class="btn btn-primary" (click)="showRegistrationRequests()">Zahtevi za registraciju</button>
-    <button class="btn btn-primary" (click)="addDecorater()">Dodaj dekoratera</button>
-    <button class="btn btn-primary" (click)="addCompany()">Dodaj firmu</button>
+    <button class="blue-button" (click)="showUserList()">Spiskovi</button>
+    <button class="blue-button" (click)="showRegistrationRequests()">Zahtevi za registraciju</button>
+    <button class="blue-button" (click)="addDecorater()">Dodaj dekoratera</button>
+    <button class="blue-button" (click)="addCompany()">Dodaj firmu</button>
+    <button class="blue-button" (click)="loadDecoraters()">Blokirani dekorateri</button>
   </div>
 
   <div *ngIf="show">
     <ul class="nav nav-tabs mt-3">
       <li class="nav-item">
-        <button class="btn btn-primary" (click)="loadUsers('vlasnik')">Vlasnici</button>
+        <button class="blue-button" (click)="loadUsers('vlasnik')">Vlasnici</button>
       </li>
       <li class="nav-item">
-        <button class="btn btn-primary" (click)="loadUsers('dekorater')">Dekorateri</button>
+        <button class="blue-button" (click)="loadUsers('dekorater')">Dekorateri</button>
       </li>
       <li class="nav-item">
-        <button class="btn btn-primary" (click)="loadCompanies()">Firme</button>
+        <button class="blue-button" (click)="loadCompanies()">Firme</button>
       </li>
     </ul>
 
     <div *ngIf="showCompanies">
       <h3>Firme</h3>
       <table class="table table-striped mt-3" *ngIf="companies.length > 0">
-        <thead>
+        <thead class="thead-dark">
           <tr>
-            <th scope="col"></th>
-            <th scope="col">Naziv firme</th>
-            <th scope="col">Adresa</th>
-            <th scope="col">Kontakt osoba</th>
+            <th></th>
+            <th>Naziv firme</th>
+            <th>Adresa</th>
+            <th>Kontakt osoba</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let company of companies; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
+            <th>{{ i + 1 }}</th>
             <td>{{ company.name }}</td>
             <td>{{ company.address }}</td>
             <td>{{ company.contact }}</td>
@@ -47,30 +48,27 @@
 
     <div *ngIf="showUsers">
       <table class="table table-striped mt-3" *ngIf="users.length > 0">
-        <thead>
+        <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ime: </th>
-            <th scope="col">Prezime: </th>
-            <th scope="col">Kontakt telefon: </th>
-            <th scope="col">Email: </th>
-            <!-- <th scope="col">Slika: </th> -->
-            <th scope="col">Akcije</th>
+            <th>#</th>
+            <th>Ime: </th>
+            <th>Prezime: </th>
+            <th>Kontakt telefon: </th>
+            <th>Email: </th>
+            <th>Akcije</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let user of users; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
+            <th>{{ i + 1 }}</th>
             <td>{{ user.name }}</td>
             <td>{{ user.lastname }}</td>
             <td>{{ user.number }}</td>
             <td>{{ user.email }}</td>
             <td>
-              <button class="btn btn-warning btn-sm" (click)="editUser(user)">Ažuriraj</button>
-              <button *ngIf="user.status == 'approved'" class="btn btn-danger btn-sm"
-                (click)="deactivateUser(user)">Deaktiviraj</button>
-              <button *ngIf="user.status == 'denied'" class="btn btn-success btn-sm"
-                (click)="activateUser(user)">Aktiviraj</button>
+              <button class="blue-button" (click)="editUser(user)">Ažuriraj</button>
+              <button *ngIf="user.status == 'approved'" class="red-button" (click)="deactivateUser(user)">Deaktiviraj</button>
+              <button *ngIf="user.status == 'denied'" class="green-button" (click)="activateUser(user)">Aktiviraj</button>
             </td>
           </tr>
         </tbody>
@@ -82,33 +80,32 @@
   <div *ngIf="showRegReq">
     <h3>Zahtevi za registraciju</h3>
     <table class="table table-striped mt-3" *ngIf="usersReq.length > 0">
-      <thead>
+      <thead class="thead-dark">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Ime: </th>
-          <th scope="col">Prezime: </th>
-          <th scope="col">Kontakt telefon: </th>
-          <th scope="col">Email: </th>
-          <th scope="col">Akcije</th>
+          <th>#</th>
+          <th>Ime: </th>
+          <th>Prezime: </th>
+          <th>Kontakt telefon: </th>
+          <th>Email: </th>
+          <th>Akcije</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of usersReq; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
+          <th>{{ i + 1 }}</th>
           <td>{{ user.name }}</td>
           <td>{{ user.lastname }}</td>
           <td>{{ user.number }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <button class="btn btn-success btn-sm" (click)="approveUser(user)">Prihvati</button>
-            <button class="btn btn-danger btn-sm" (click)="denyUser(user)">Odbij</button>
+            <button class="green-button" (click)="approveUser(user)">Prihvati</button>
+            <button class="red-button" (click)="denyUser(user)">Odbij</button>
           </td>
         </tr>
       </tbody>
     </table>
     <div>{{message2}}</div>
   </div>
-
 
   <div class="modal fade show d-block" tabindex="-1" role="dialog" *ngIf="selectedUser">
     <div class="modal-dialog" role="document">
@@ -121,58 +118,48 @@
         </div>
         <div class="modal-body">
           <form (submit)="updateUser()">
-            <label for="name" class="required">Ime: </label>
-            <input id="name" [(ngModel)]="selectedUser.name" name="name" required>
-            <br>
-            <label for="lastname" class="required">Prezime: </label>
-            <input id="lastname" [(ngModel)]="selectedUser.lastname" name="lastname" required>
-            <br>
-            <label class="required">Pol: </label>
-            <div class="radio-group">
-              <input type="radio" id="male" name="gender" [(ngModel)]="selectedUser.gender" value="M" required>
-              <label for="male">M</label>
-              <input type="radio" id="female" name="gender" [(ngModel)]="selectedUser.gender" value="Z" required>
-              <label for="female">Z</label>
-            </div>
-            <br>
-            <label for="address" class="required">Adresa: </label>
-            <input id="address" [(ngModel)]="selectedUser.address" name="address" required>
-            <br>
-            <label for="number" class="required">Kontakt telefon: </label>
-            <input id="number" [(ngModel)]="selectedUser.number" name="number" required>
-            <br>
-            <label for="email" class="required">Email: </label>
-            <input id="email" [(ngModel)]="selectedUser.email" name="email" required>
-            <br>
-            <label for="picture">Profilna slika: </label>
-            <input id="picture" name="picture" type="file" (change)="onFileSelected($event)">
-            <td>
-              <button (click)="getProfilePicture(selectedUser.picture, selectedUser)">Prikazi profilnu sliku</button>
-              <img [src]="selectedUser.profilePicture" class="profile-picture">
-            </td>
-            <br>
-            <label for="creditCard" class="required">Broj kreditne kartice: </label>
-            <div class="credit-card-container">
-              <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
-              <input id="creditCard" [(ngModel)]="selectedUser.creditCard" name="creditCard"
-                (input)="onCreditCardInput()" required>
-            </div>
-            <br>
-            <div *ngIf="errorCard" class="alert alert-danger">
-              {{ errorCard }}
-            </div>
-            <button type="submit">Azuriranje profila</button>
+            <button class="blue-button" type="submit">Ažuriranje profila</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="showDecoraters">
+    <br>
+    <h3>Blokirani dekorateri</h3>
+    <table class="table table-striped mt-3">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Ime: </th>
+          <th>Prezime: </th>
+          <th>Kontakt telefon: </th>
+          <th>Email: </th>
+          <th>Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let decorater of blockedUsers; let i = index">
+          <th>{{ i + 1 }}</th>
+          <td>{{ decorater.name }}</td>
+          <td>{{ decorater.lastname }}</td>
+          <td>{{ decorater.number }}</td>
+          <td>{{ decorater.email }}</td>
+          <td>
+            <button class="green-button" (click)="unblock(decorater)">Odblokiraj</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>{{messageBlock}}</div>
+  </div>
+
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
   <div *ngIf="errorMessage2" class="error">
     {{ errorMessage2 }}
   </div>
-
 </div>
-<app-footer></app-footer>
+

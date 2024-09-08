@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 body {
   background-color: #eff9ff;
@@ -6,4 +6,61 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.red-button {
+  background-color: rgb(224, 72, 72);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.red-button:hover {
+  background-color: darkred;
+}
+
+.green-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.green-button:hover {
+  background-color: darkgreen;
+}
+
+.blue-button {
+  background-color: rgb(67, 142, 255);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.blue-button:hover {
+  background-color: darkblue;
+}
+
+.gray-button {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.gray-button:hover {
+  background-color: #5a6268;
+  opacity: 0.9;
 }

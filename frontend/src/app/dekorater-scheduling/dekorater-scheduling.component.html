@@ -12,7 +12,7 @@
             <th class="text-center">Datum zakazivanja</th>
             <th class="text-center">Trazene usluge</th>
             <th class="text-center">Datum potvrde</th>
-            <th class="text-center">Otkazi</th>
+            <th class="text-center"></th>
           </tr>
         </thead>
         <tbody>
@@ -27,12 +27,8 @@
               <input id="date" [(ngModel)]="job.productionDate" type="date" class="form-control" required>
             </td>
             <td>
-              <button class="btn btn-danger" (click)="cancel(job)">
-                Otkaži
-              </button>
-              <button class="btn btn-primary" (click)="submit(job)">
-                Potvrdi
-              </button>
+              <button class="red-button" (click)="cancel(job)">Otkaži</button>
+              <button class="blue-button" (click)="submit(job)">Potvrdi</button>
             </td>
           </tr>
         </tbody>
@@ -40,12 +36,11 @@
     </div>
   </div>
 </div>
-<div *ngIf="errorMessage" class="error">
-  {{ errorMessage }}
-</div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 <div>
   <p class="error" style="text-align: center; color: red;">{{ message }}</p>
 </div>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-lg-12 mb-4">
@@ -73,9 +68,8 @@
               <input id="date" [(ngModel)]="job.finishedDate" type="date" class="form-control" required>
             </td>
             <td>
-              <button class="btn btn-primary" (click)="finish(job)">
-                Zavrsi
-              </button>
+              <button class="blue-button" (click)="finish(job)">Zavrsi</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -83,6 +77,7 @@
   </div>
 </div>
 
+<!-- Modal for canceling job -->
 <div *ngIf="selectedJob">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -99,8 +94,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Zatvori</button>
-        <button type="button" class="btn btn-danger" (click)="cancelJob()">Otkazi Posao</button>
+        <button type="button" class="blue-button" (click)="close()">Zatvori</button>
+        <button type="button" class="red-button" (click)="cancelJob()">Otkazi Posao</button>
       </div>
     </div>
   </div>
@@ -135,7 +130,7 @@
                 <img [src]="job.photo" class="profile-picture ml-3 rounded" alt="Slika"
                   style="width: 100px; height: 100px; object-fit: cover;">
               </div>
-              <button class="btn btn-primary" (click)="uploadPhoto(job)">Priloži sliku</button>
+              <button class="blue-button" (click)="uploadPhoto(job)">Priloži sliku</button>
             </td>
           </tr>
         </tbody>
@@ -143,11 +138,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="messagePhoto" class="alert alert-success">
-  {{ messagePhoto }}
-</div>
-<div *ngIf="errorPhoto" class="alert alert-danger">
-  {{ errorPhoto }}
-</div>
 
-<app-footer></app-footer>
+<div *ngIf="messagePhoto" class="alert alert-success">{{ messagePhoto }}</div>
+<div *ngIf="errorPhoto" class="alert alert-danger">{{ errorPhoto }}</div>

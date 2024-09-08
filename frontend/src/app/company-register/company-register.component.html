@@ -1,7 +1,7 @@
 <app-header-login></app-header-login>
 <div class="container mt-4">
   <h2>Administracija</h2>
-  <button class="btn btn-primary" (click)="back()">Nazad</button>
+  <button class="blue-button" (click)="back()">Nazad</button>
 
   <div class="mt-4">
     <h5>Dodavanje firme</h5>
@@ -22,6 +22,11 @@
       </div>
 
       <div class="form-group">
+        <label for="location">Lokacija:</label>
+        <input id="location" [(ngModel)]="location" name="location" class="form-control" required>
+      </div>
+
+      <div class="form-group">
         <label for="decorators">Slobodni Dekorateri:</label>
 
         <div *ngFor="let decorator of availableDecorators; let i = index" class="form-row mb-2">
@@ -29,14 +34,14 @@
             <span>{{ decorator.name }}</span>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-primary" (click)="addDecorator(decorator)" [disabled]="isDecoratorSelected(decorator)">Dodaj</button>
+            <button type="button" class="blue-button" (click)="addDecorator(decorator)" [disabled]="isDecoratorSelected(decorator)">Dodaj</button>
           </div>
         </div>
         <label for="selectedDecorators" class="mt-3">Izabrani Dekorateri:</label>
         <ul class="list-group">
           <li *ngFor="let decorator of decorators; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
             {{ decorator.name }}
-            <button type="button" class="btn btn-danger btn-sm" (click)="removeDecorator(i)">Ukloni</button>
+            <button type="button" class="red-button btn-sm" (click)="removeDecorator(i)">Ukloni</button>
           </li>
         </ul>
 
@@ -53,7 +58,7 @@
             <input [(ngModel)]="newServicePrice" name="newServicePrice" class="form-control" placeholder="Cena usluge" type="number" required>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-secondary" (click)="addService()">Dodaj uslugu</button>
+            <button type="button" class="green-button" (click)="addService()">Dodaj uslugu</button>
           </div>
         </div>
 
@@ -65,7 +70,7 @@
             <input [(ngModel)]="service.price" name="servicePrice{{i}}" class="form-control" placeholder="Cena" type="number" readonly>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-danger" (click)="removeService(i)">Ukloni</button>
+            <button type="button" class="red-button" (click)="removeService(i)">Ukloni</button>
           </div>
         </div>
       </div>
@@ -81,9 +86,8 @@
           </div>
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary">Sačuvaj</button>
-      <button type="button" class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
+      <button type="submit" class="blue-button">Sačuvaj</button>
+      <button type="button" class="green-button mt-2" (click)="clearForm()">Očisti formu</button>
     </form>
   </div>
 
@@ -92,4 +96,3 @@
     {{ errorMessage }}
   </div>
 </div>
-<app-footer></app-footer>

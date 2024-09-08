@@ -42,6 +42,7 @@ export class CompanyRegisterComponent {
   decoratorsNames: string[] = [];
   services: {name: string, price: number}[] = [];
   vacationPeriod: { from: Date | null, to: Date | null } = { from: null, to: null }
+  location: string;
 
   newServiceName: string;
   newServicePrice: number;
@@ -96,6 +97,7 @@ export class CompanyRegisterComponent {
     this.company.decorators = this.decoratorsNames;
     this.company.services = this.services;
     this.company.vacationPeriod = this.vacationPeriod;
+    this.company.location = this.location;
 
     this.adminService.addCompany(this.company).subscribe((response) => {
       if (response.message == 'Firma je uspesno dodata!') {

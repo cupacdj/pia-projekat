@@ -83,7 +83,7 @@ export class CompanyController {
 
                 });
                 const now = new Date();
-                Job.updateOne({ '_id': id }, { $set: { 'photo': picturePath, 'photoDate': now } }).then(result => {
+                Job.updateOne({ '_id': id }, { $set: { 'photo': picturePath} }).then(result => {
 
                     if (result.modifiedCount === 0) {
                         return res.json({ message: 'Problem prilikom dodavanja slike.1' });

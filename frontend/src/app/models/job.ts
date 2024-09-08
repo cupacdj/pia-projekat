@@ -31,5 +31,4 @@ export default class Job {
   maintenanceCompletionDate: Date = null;
   maintenanceCompletionTime: Time = null;
   photo: string = "";
-  photoDate: Date = null;
 }

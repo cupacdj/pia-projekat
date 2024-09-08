@@ -1,10 +1,9 @@
 <app-header-login></app-header-login>
 <div class="container mt-4">
   <h2>Administracija</h2>
-  <button class="btn btn-primary" (click)="back()">Nazad</button>
+  <button class="blue-button" (click)="back()">Nazad</button>
 
-
-  <div  class="mt-4">
+  <div class="mt-4">
     <h5>Dodavanje dekoratera</h5>
     <form (submit)="addDecorator()">
       <div class="form-group">
@@ -68,13 +67,13 @@
       <div class="form-group">
         <label for="creditCard" class="required">Broj kreditne kartice:</label>
         <div class="credit-card-container">
-          <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" alt="Card Type Icon" class="card-icon">
+          <img *ngIf="cardTypeIcon" [src]="cardTypeIcon" class="card-icon">
           <input id="creditCard" [(ngModel)]="creditCard" name="creditCard" (input)="onCreditCardInput()" class="form-control" required>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success">Dodaj dekoratera</button>
-      <button type="button" class="btn btn-secondary mt-2" (click)="clearForm()">Očisti formu</button>
+      <button type="submit" class="green-button">Dodaj dekoratera</button>
+      <button type="button" class="blue-button mt-2" (click)="clearForm()">Očisti formu</button>
     </form>
   </div>
 
@@ -83,4 +82,3 @@
     {{ errorMessage }}
   </div>
 </div>
-<app-footer></app-footer>

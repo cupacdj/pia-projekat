@@ -12,7 +12,7 @@ import { UserService } from '../services/user.service';
 })
 export class AdminComponent {
 
-  constructor( private router: Router, private adminService: AdminService, private userService: UserService) { }
+  constructor(private router: Router, private adminService: AdminService, private userService: UserService) { }
 
   ngOnInit(): void {
     if (!localStorage.getItem('admin')) {
@@ -21,6 +21,7 @@ export class AdminComponent {
     }
     this.selectedUser = null;
     localStorage.setItem('tip', 'admin');
+
   }
 
   users: User[] = [];
@@ -32,16 +33,49 @@ export class AdminComponent {
   showRegReq = false;
   showCompanies = false;
   show = false;
+  showDecoraters = false;
+
+  blockedUsers: User[] = [];
 
   usersReq: User[] = [];
 
+  loadDecoraters() {
+    this.showDecoraters = true;
+    this.showCompanies = false;
+    this.showUsers = false;
+    this.showRegReq = false;
+    this.show = false;
+    this.adminService.getUsers().subscribe(
+      (user) => {
+        if(!user) {
+          this.errorMessage = "Neuspesno ucitavanje korisnika!";
+          return;
+        }
+        this.blockedUsers = user.filter((user) => user.canTakeJob == 'blokiran');
+      });
+  }
+
+  messageBlock: string;
+
+  unblock(decorater: User) {
+    decorater.canTakeJob = 'aktivan';
+    this.adminService.updateUser(decorater).subscribe((response) => {
+      if (response.message == 'Korisnik je uspesno azuriran') {
+        this.loadDecoraters();
+        this.messageBlock = 'Dekorater je uspesno odblokiran.';
+      }
+    });
+  }
+
   showUserList() {
+    this.showDecoraters = false;
     this.show = true;
     this.showRegReq = false;
     this.loadUsers('vlasnik');
   }
 
   showRegistrationRequests() {
+    this.showDecoraters = false;
     this.showUsers = false;
     this.showRegReq = true;
     this.showCompanies = false;
@@ -51,11 +85,12 @@ export class AdminComponent {
   }
 
   loadUsers(type: string) {
+    this.showDecoraters = false;
     this.showCompanies = false;
     this.showUsers = true;
     this.adminService.getUsers().subscribe(
       (user) => {
-        if(!user) {
+        if (!user) {
           this.errorMessage = "Neuspesno ucitavanje korisnika!";
           return;
         }
@@ -71,13 +106,14 @@ export class AdminComponent {
 
   message3: string;
 
-  loadCompanies(){
+  loadCompanies() {
+    this.showDecoraters = false;
     this.showUsers = false;
     this.showRegReq = false;
     this.showCompanies = true;
     this.adminService.getCompanies().subscribe(
       (data) => {
-        if(!data) {
+        if (!data) {
           this.message3 = "Neuspesno ucitavanje firmi!";
           return;
         }
@@ -96,9 +132,9 @@ export class AdminComponent {
 
   message: string;
 
-  deactivateUser(user: User){
+  deactivateUser(user: User) {
     this.adminService.deactivateUser(user).subscribe((response) => {
-      if(response.message == "Korisnik deaktiviran"){
+      if (response.message == "Korisnik deaktiviran") {
         this.message = "Korisnik deaktiviran";
         this.loadUsers('vlasnik');
 
@@ -106,9 +142,9 @@ export class AdminComponent {
     })
   }
 
-  activateUser(user: User){
+  activateUser(user: User) {
     this.adminService.activateUser(user).subscribe((response) => {
-      if(response.message == "Korisnik aktiviran"){
+      if (response.message == "Korisnik aktiviran") {
         this.message = "Korisnik aktiviran";
         this.loadUsers('vlasnik');
       }
@@ -139,9 +175,9 @@ export class AdminComponent {
 
   username: string = this.selectedUser.username;
   password: string = this.selectedUser.password;
-  name: string  = this.selectedUser.name;
+  name: string = this.selectedUser.name;
   lastname: string = this.selectedUser.lastname;
-  gender: string  = this.selectedUser.gender;
+  gender: string = this.selectedUser.gender;
   address: string = this.selectedUser.address;
   number: string = this.selectedUser.number;
   email: string = this.selectedUser.email;
@@ -211,12 +247,12 @@ export class AdminComponent {
 
   updateUser() {
 
-    if(!this.emailRegex(this.selectedUser.email)){
+    if (!this.emailRegex(this.selectedUser.email)) {
       this.errorMessage2 = 'Email nije validan';
       return;
     }
 
-    if(!this.phoneRegex(this.selectedUser.number)){
+    if (!this.phoneRegex(this.selectedUser.number)) {
       this.errorMessage2 = 'Broj telefona nije validan';
       return;
     }
@@ -235,18 +271,18 @@ export class AdminComponent {
 
   profilePicture: string = null;
 
-  getProfilePicture(picture: string, user: User){
+  getProfilePicture(picture: string, user: User) {
     this.adminService.getProfilePicture(picture, user).subscribe((response) => {
       user.profilePicture = URL.createObjectURL(response);
     });
   }
 
 
-  addDecorater(){
+  addDecorater() {
     this.router.navigate(['/dekorater-register']);
   }
 
-  addCompany(){
+  addCompany() {
     this.router.navigate(['/company-register']);
   }
 

@@ -39,7 +39,7 @@ export class DekoraterSchedulingComponent {
 
   getJobs(): void {
     this.companyService.getJobs().subscribe((jobs: Job[]) => {
-      this.pendingJobs = jobs.filter(job => job.status === 'cekanje' && job.company == this.loggedUser.company).sort((a, b) => new Date(b.appointmentDate).getTime() - new Date(a.appointmentDate).getTime());;
+      this.pendingJobs = jobs.filter((job => ((job.status === 'odbijen' && job.decorator != this.loggedUser.username) || job.status === 'cekanje') && job.company === this.loggedUser.company)).sort((a, b) => new Date(b.appointmentDate).getTime() - new Date(a.appointmentDate).getTime());
       this.inProgressJobs = jobs.filter(job => job.status === 'prihvacen' && job.company == this.loggedUser.company).sort((a, b) => new Date(b.appointmentDate).getTime() - new Date(a.appointmentDate).getTime());
       this.jobsWithoutPhoto = jobs.filter(job => job.status === 'zavrsen' && !job.photo && job.decorator == this.loggedUser.username);
     });

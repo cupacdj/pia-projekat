@@ -138,14 +138,14 @@
     },
     {
       "type": "circle",
-      "x": 295,
+      "x": 310,
       "y": 190,
       "radius": 15,
       "color": "brown"
     },
     {
       "type": "circle",
-      "x": 375,
+      "x": 390,
       "y": 190,
       "radius": 15,
       "color": "brown"

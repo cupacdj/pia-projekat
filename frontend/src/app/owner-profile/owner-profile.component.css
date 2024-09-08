@@ -41,3 +41,25 @@
   object-fit: cover;
   border: #333;
 }
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-control-file {
+  padding: 5px;
+}
+
+.alert {
+  margin-top: 20px;
+}

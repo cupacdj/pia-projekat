@@ -25,6 +25,9 @@ let Company = new Schema({
     vacationPeriod: {
       from: { type: Date, default: null },
       to: { type: Date, default: null }
+    },
+    location: {
+      type: String, default: ''
     }
   });
 
