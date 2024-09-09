@@ -10,8 +10,34 @@ export class CompanyController {
 
     createJob(req: express.Request, res: express.Response) {
         let job = new Job(req.body);
-        console.log(job.layoutData)
-        job.save().then(() => {
+        const newj = new Job({
+            _id: new mongoose.Types.ObjectId(),
+            owner: job.owner,
+            decorator: job.decorator,
+            company: job.company,
+            appointmentDate: job.appointmentDate,
+            appointmentTime: job.appointmentTime,
+            productionDate: job.productionDate,
+            finishedDate: job.finishedDate,
+            area: job.area,
+            gardenType: job.gardenType,
+            poolArea: job.poolArea,
+            greenArea: job.greenArea,
+            furnitureArea: job.furnitureArea,
+            fountainArea: job.fountainArea,
+            tables: job.tables,
+            chairs: job.chairs,
+            additionalRequests: job.additionalRequests,
+            selectedServices: job.selectedServices,
+            layoutData: job.layoutData,
+            status: job.status,
+            rejectionComment: job.rejectionComment,
+            photo: job.photo,
+            maintenance: job.maintenance,
+            maintenanceDate: job.maintenanceCompletionDate,
+            maintenanceTime: job.maintenanceCompletionTime,
+        })
+        newj.save().then(() => {
             res.json({ message: 'Posao je uspesno zakazan.' });
         }).catch(err => {
             console.log(err);
@@ -32,8 +58,9 @@ export class CompanyController {
 
     updateJob(req: express.Request, res: express.Response) {
         let job = new Job(req.body);
-
-        Job.replaceOne({ _id: job._id }, job).then(result => {
+        const id = new mongoose.Types.ObjectId(req.body._id);
+        job._id = id;
+        Job.replaceOne({ '_id': id }, job).then(result => {
             if (result.modifiedCount === 0) {
                 return res.json({ message: 'Doslo je do greske prilikom azuriranja posla' });
             }
@@ -43,7 +70,9 @@ export class CompanyController {
 
     cancelJob(req: express.Request, res: express.Response) {
         let job = new Job(req.body);
-        Job.updateOne({ _id: job._id }, { $set: { 'status': 'odbijen', 'rejectionComment': 'Otkazan od strane vlasnika' } }).then(result => {
+        const id = new mongoose.Types.ObjectId(req.body._id);
+        job._id = id;
+        Job.updateOne({ '_id': id }, { $set: { 'status': 'odbijen', 'rejectionComment': 'Otkazan od strane vlasnika' } }).then(result => {
             if (result.modifiedCount === 0) {
                 return res.json({ message: 'Problem kod otkazivanja posla' });
             }
